@@ -1,5 +1,7 @@
 module MerchCalendar
-  class << self
+
+  # @api private
+  class DateCalculator
 
     def end_of_year(year)
       year_end = Date.new (year + 1), 1, -1
@@ -22,11 +24,11 @@ module MerchCalendar
     # THIS IS THE MERCH MONTH
     # 1 = feb
     # 
-    def start_of_month(year, month)
+    def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
-      start = start_of_year(year) + ((month - 1) / 3).to_i * 91
+      start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
 
-      case month
+      case merch_month
       when 2,5,8,11
         # 28 = 4 weeks
         start = start + 28
@@ -39,11 +41,11 @@ module MerchCalendar
       start
     end
 
-    def end_of_month(year, month)
-      if month == 12
+    def end_of_month(year, merch_month)
+      if merch_month == 12
         end_of_year(year)
       else
-        start_of_month(year, month + 1) - 1
+        start_of_month(year, merch_month + 1) - 1
       end
     end
 
@@ -80,11 +82,27 @@ module MerchCalendar
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
 
+    def merch_to_julian(merch_month)
+      if merch_month == 12
+        1
+      else
+        merch_month + 1
+      end
+    end
+
+    def julian_to_merch(julian_month)
+      if julian_month == 1
+        12
+      else
+        julian_month - 1
+      end
+    end
+
     # Merch Year
     # Julian month
     # Returns an array of each merch week
-    def weeks_for_month(year, month)
-      merch_month = julian_to_merch(month)
+    def weeks_for_month(year, julian_month)
+      merch_month = julian_to_merch(julian_month)
 
       start_date = start_of_month(year, merch_month)
 
@@ -93,13 +111,8 @@ module MerchCalendar
       (1..weeks).map do |week_num|
         week_start = start_date + ((week_num - 1) * 7)
         week_end = week_start + 6
-        MerchWeek.new(week_start, {
-          start_of_week: week_start, 
-          end_of_week: week_end, 
-          week: week_num
-          })
+        MerchWeek.new(week_start, { start_of_week: week_start, end_of_week: week_end, week: week_num })
       end
-
     end
 
 

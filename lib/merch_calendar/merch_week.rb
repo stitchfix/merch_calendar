@@ -37,7 +37,6 @@ module MerchCalendar
 
       @start_of_month = options[:start_of_month]
       @end_of_month = options[:end_of_month]
-      
     end
 
     # what week it is within the year from 1-53 
@@ -51,7 +50,7 @@ module MerchCalendar
       # TODO: This is very inefficient, but less complex than strategic guessing
       # maybe switch to a binary search or something
       @merch_month ||= (1..12).detect do |num|
-        MerchCalendar.end_of_month(start_of_year.year, num) >= date && date >= MerchCalendar.start_of_month(start_of_year.year, num)
+        date_calc.end_of_month(start_of_year.year, num) >= date && date >= date_calc.start_of_month(start_of_year.year, num)
       end
     end
 
@@ -60,7 +59,7 @@ module MerchCalendar
     end
 
     def month
-      @month ||= MerchCalendar.merch_to_julian(merch_month)
+      @month ||= date_calc.merch_to_julian(merch_month)
     end
 
     # Q1 --aug-oct (7,8,9)
@@ -99,15 +98,15 @@ module MerchCalendar
     end
 
     def end_of_year
-      @end_of_year ||= MerchCalendar.end_of_year(year)
+      @end_of_year ||= date_calc.end_of_year(year)
     end
 
     def start_of_month
-      @start_of_month ||= MerchCalendar.start_of_month(year, merch_month)
+      @start_of_month ||= date_calc.start_of_month(year, merch_month)
     end
 
     def end_of_month
-      @end_of_month ||= MerchCalendar.end_of_month(year, merch_month)
+      @end_of_month ||= date_calc.end_of_month(year, merch_month)
     end
 
     def season
@@ -118,11 +117,15 @@ module MerchCalendar
     private
 
     def year_start_date
-      start_date = MerchCalendar.start_of_year(date.year)
+      start_date = date_calc.start_of_year(date.year)
       if start_date > date
-        start_date = MerchCalendar.start_of_year(date.year - 1)
+        start_date = date_calc.start_of_year(date.year - 1)
       end
       start_date
+    end
+
+    def date_calc
+      @date_calc ||= DateCalculator.new
     end
 
   end

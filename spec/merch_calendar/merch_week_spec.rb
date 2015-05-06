@@ -51,6 +51,21 @@ module MerchCalendar
       end
     end
 
+    it "#end_of_week" do
+      mw = MerchWeek.find(2014,1,1)
+
+      expect(mw.end_of_week).to eq (mw.start_of_week + 6)
+    end
+
+    describe "#end_of_month" do
+      it "for a 4 week month" do
+        # mw = MerchWeek.find(2012, )
+      end
+
+      it "for a 5 week month"
+      it "for a 4 to 5 week month in a leap year"
+    end
+
 
     context "logic" do
       [
