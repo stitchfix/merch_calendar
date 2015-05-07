@@ -2,9 +2,20 @@
 
 This gem allows for finding merch weeks for a given date, along with manipulating the retail calendar.
 
+## Installation
+
+```bash
+$ gem install merch_calendar
+```
+
+Add the following line to your `Gemfile`:
+```ruby
+gem "merch_calendar"
+```
+
 
 ## Configuration
-**THIS IS NOT UTILIZED RIGHT NOW**
+**NOTE: THIS IS NOT UTILIZED RIGHT NOW**
 ```ruby
 MerchCalendar.configure do |config|
   # The month that Q1 begins. The default is 8 (August)
@@ -15,6 +26,7 @@ end
 ## Usage
 
 For converting a date into a `MerchWeek` object.
+
 ```ruby
 merch_week = MerchCalendar::MerchWeek.from_date("2014-01-01")
 puts merch_week.year # 2013 (the merch year associated with this date)
@@ -34,6 +46,12 @@ puts merch_week.end_of_quarter # <Date>
 
 puts merch_week.start_of_year # <Date>
 puts merch_week.end_of_year # <Date>
+
+# Formatting
+puts merch_week.to_s # "Dec W5"
+puts merch_week.to_s(:short) # "Dec W5"
+puts merch_week.to_s(:long) # "2013:48 Dec W5"
+puts merch_week.to_s(:elasticsearch) # "2013-12w05"
 ```
 
 This can also be used on the `MerchCalendar` module. All `start_` and `end_` methods can be called, along with a few additional ones.
@@ -53,11 +71,17 @@ MerchCalendar.start_of_month(2014, merch_month: 4)
 Other useful methods:
 
 ```ruby
-MerchCalendar.weeks_in_year(2015) # 52 or 53 (depending on leap year)
+# 52 or 53 (depending on leap year)
+MerchCalendar.weeks_in_year(2015)
 
-MerchCalendar.weeks_for_month(2014, 1) # returns an array of MerchWeek objects for each week within the provided month
+# returns an array of MerchWeek objects for each week within the provided month
+MerchCalendar.weeks_for_month(2014, 1)
 ```
 
 
 ## Roadmap
+* More detailed Yardoc
 * Support for 4-4-5 calendars
+
+## License
+MerchCalendar is released under the [MIT License](http://www.opensource.org/licenses/MIT).

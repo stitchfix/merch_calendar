@@ -1,6 +1,8 @@
 module MerchCalendar
   class MerchWeek
 
+    MONTHS = %w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec).freeze
+
     attr_reader :date
 
     class << self
@@ -40,7 +42,7 @@ module MerchCalendar
       @end_of_month = options[:end_of_month]
     end
 
-    # what week it is within the year from 1-53 
+    # what week it is within the year from 1-53
     def year_week
       @year_week ||= (((date-start_of_year)+1)/7.0).ceil
     end
@@ -111,8 +113,23 @@ module MerchCalendar
     end
 
     def season
-      # ["Nov", "Dec", "Oct", "Jan", "Aug", "Sep"] = Fall/Winter
-      # ["Feb", "Apr", "May", "Jun", "Jul", "Mar"] = spring/summer
+      case merch_month
+      when 1,2,3,4,5,6
+        "Spring/Summer"
+      when 7,8,9,10,11,12
+        "Fall/Winter"
+      end
+    end
+
+    def to_s(format = :short)
+      case format
+      when :elasticsearch
+        sprintf("%04d-%02dw%02d", year, month, week)
+      when :long
+        "#{year}:#{year_week} #{self.to_s(:short)}"
+      else
+        "#{MONTHS[month - 1]} W#{week}"
+      end
     end
 
     private
