@@ -37,7 +37,7 @@ module MerchCalendar
     end
 
 
-    
+
     # Converts a merch month to the correct julian month
     def merch_to_julian(month)
       date_calc.merch_to_julian(month)
@@ -48,10 +48,9 @@ module MerchCalendar
     end
 
     # Merch Year
-    # Julian month
     # Returns an array of each merch week
-    def weeks_for_month(year, julian_month)
-      merch_month = julian_to_merch(julian_month)
+    def weeks_for_month(year, month_param)
+      merch_month = get_merch_month_param(month_param)
 
       start_date = date_calc.start_of_month(year, merch_month)
 
