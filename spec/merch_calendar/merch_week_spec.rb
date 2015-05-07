@@ -59,11 +59,22 @@ module MerchCalendar
 
     describe "#end_of_month" do
       it "for a 4 week month" do
-        # mw = MerchWeek.find(2012, )
+        mw = MerchWeek.find(2014, 2, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
       end
 
-      it "for a 5 week month"
-      it "for a 4 to 5 week month in a leap year"
+      it "for a 5 week month" do
+        mw = MerchWeek.find(2014, 3, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+      end
+
+      it "for a 4 to 5 week month in a leap year" do
+        mw = MerchWeek.find(2011, 1, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
+
+        mw = MerchWeek.find(2012, 1, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+      end
     end
 
 

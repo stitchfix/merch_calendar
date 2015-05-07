@@ -1,4 +1,5 @@
 module MerchCalendar
+  # THIS IS NOT BEING USED YET
   class Configuration
 
     # The JULIAN month of the quarter start

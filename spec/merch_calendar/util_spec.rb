@@ -1,33 +1,105 @@
 require 'spec_helper'
 
-describe 'Util' do
-  describe ".julian_to_merch" do
-    it { expect(MerchCalendar.julian_to_merch(1)).to eq 12 }
-    it { expect(MerchCalendar.julian_to_merch(2)).to eq 1 }
-    it { expect(MerchCalendar.julian_to_merch(3)).to eq 2 }
-    it { expect(MerchCalendar.julian_to_merch(4)).to eq 3 }
-    it { expect(MerchCalendar.julian_to_merch(5)).to eq 4 }
-    it { expect(MerchCalendar.julian_to_merch(6)).to eq 5 }
-    it { expect(MerchCalendar.julian_to_merch(7)).to eq 6 }
-    it { expect(MerchCalendar.julian_to_merch(8)).to eq 7 }
-    it { expect(MerchCalendar.julian_to_merch(9)).to eq 8 }
-    it { expect(MerchCalendar.julian_to_merch(10)).to eq 9 }
-    it { expect(MerchCalendar.julian_to_merch(11)).to eq 10 }
-    it { expect(MerchCalendar.julian_to_merch(12)).to eq 11 }
+describe MerchCalendar::Util do
+
+  describe "#weeks_for_month" do
+    context "correct number of weeks" do
+      it "returns 4 weeks for a 4-week month" do
+        weeks = MerchCalendar.weeks_for_month(2014, 4)
+        expect(weeks.size).to eq 4
+      end
+      
+      it "returns 5 weeks for a 5-week month" do
+        weeks = MerchCalendar.weeks_for_month(2014, 3)
+        expect(weeks.size).to eq 5
+      end
+
+      it "returns 5 weeks for a 4-week end month if leap year" do
+        weeks = MerchCalendar.weeks_for_month(2012, 1)
+        expect(weeks.size).to eq 5
+
+        weeks = MerchCalendar.weeks_for_month(2014, 1)
+        expect(weeks.size).to eq 4
+      end
+    end
+
+    context "gives correct weeks" do
+      let!(:weeks) { MerchCalendar.weeks_for_month(2014,1) }
+      
+      it "misc checks" do
+        expect(weeks.size).to eq 4
+      end
+
+      it "#week" do
+        expect(weeks[0].week).to eq 1
+        expect(weeks[1].week).to eq 2
+        expect(weeks[2].week).to eq 3
+        expect(weeks[3].week).to eq 4
+      end
+
+      it "#date" do
+        expect(weeks[0].date).to eq Date.new(2015,1,4)
+        expect(weeks[1].date).to eq Date.new(2015,1,11)
+        expect(weeks[2].date).to eq Date.new(2015,1,18)
+        expect(weeks[3].date).to eq Date.new(2015,1,25)
+      end
+
+      it "#start_of_week" do
+        expect(weeks[0].start_of_week).to eq Date.new(2015,1,4)
+        expect(weeks[1].start_of_week).to eq Date.new(2015,1,11)
+        expect(weeks[2].start_of_week).to eq Date.new(2015,1,18)
+        expect(weeks[3].start_of_week).to eq Date.new(2015,1,25)
+      end
+      
+      it "#start_of_year" do
+        expect(weeks.map(&:start_of_year)).to all( eq Date.new(2014,2,2) )
+      end
+
+      it "#end_of_year" do
+        expect(weeks.map(&:end_of_year)).to all( eq Date.new(2015,1,31) )
+      end
+
+      it "#month" do
+        expect(weeks.map(&:month)).to all( eq 1 )
+      end
+
+    end
   end
 
-  describe ".merch_to_julian" do
-    it { expect(MerchCalendar.merch_to_julian(12)).to eq 1 }
-    it { expect(MerchCalendar.merch_to_julian(1)).to eq 2 }
-    it { expect(MerchCalendar.merch_to_julian(2)).to eq 3 }
-    it { expect(MerchCalendar.merch_to_julian(3)).to eq 4 }
-    it { expect(MerchCalendar.merch_to_julian(4)).to eq 5 }
-    it { expect(MerchCalendar.merch_to_julian(5)).to eq 6 }
-    it { expect(MerchCalendar.merch_to_julian(6)).to eq 7 }
-    it { expect(MerchCalendar.merch_to_julian(7)).to eq 8 }
-    it { expect(MerchCalendar.merch_to_julian(8)).to eq 9 }
-    it { expect(MerchCalendar.merch_to_julian(9)).to eq 10 }
-    it { expect(MerchCalendar.merch_to_julian(10)).to eq 11 }
-    it { expect(MerchCalendar.merch_to_julian(11)).to eq 12 }
+  describe '#get_merch_month_param' do
+    let(:date_calc) { MerchCalendar::DateCalculator.new }
+    before(:each) do
+      allow(MerchCalendar).to receive(:date_calc).and_return(date_calc)
+    end
+
+    context "valid calls" do
+      before(:each) do
+        expect(date_calc).to receive(:start_of_month).with(2014, 1)
+      end      
+      it "assumes an integer is a julian month" do
+        MerchCalendar.start_of_month(2014, 2)
+      end
+
+      context "when passed a hash" do
+        it "accepts :month as julian month" do
+          MerchCalendar.start_of_month(2014, month: 2)
+        end
+
+        it "accepts :julian_month as julian month" do
+          MerchCalendar.start_of_month(2014, julian_month: 2)
+        end
+
+        it "accepts :merch_month as merch month" do
+          MerchCalendar.start_of_month(2014, merch_month: 1)
+        end
+      end
+    end
+
+    context "errors" do
+      before(:each) do
+        expect(date_calc).to_not receive(:start_of_month)
+      end
+      it { expect { MerchCalendar.start_of_month(2014, :april) }.to raise_error(ArgumentError) }
+    end
   end
 end

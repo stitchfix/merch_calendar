@@ -4,16 +4,17 @@ module MerchCalendar
     attr_reader :date
 
     class << self
-      def from_date(date)
-        MerchWeek.new Date.parse("#{date}")
+
+      def from_date(julian_date)
+        MerchWeek.new Date.parse("#{julian_date}")
       end
 
       # JULIAN MONTH
-      def find(year, month, week_number=nil)
+      def find(year, julian_month, week_number=nil)
         if week_number.nil?
-          MerchCalendar.weeks_for_month(year, month)
+          MerchCalendar.weeks_for_month(year, julian_month)
         else
-          MerchCalendar.weeks_for_month(year, month)[week_number-1]
+          MerchCalendar.weeks_for_month(year, julian_month)[week_number-1]
         end
       end
 
