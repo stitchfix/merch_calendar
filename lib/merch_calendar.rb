@@ -1,6 +1,7 @@
 
+#
 module MerchCalendar
-  
+
 end
 
 require_relative 'merch_calendar/version'
