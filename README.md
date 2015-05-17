@@ -15,8 +15,8 @@ gem "merch_calendar"
 
 
 ## Configuration
-**NOTE: THIS IS NOT UTILIZED RIGHT NOW**
 ```ruby
+# NOTE: Configuration will be added soon, but is currently NOT available.
 MerchCalendar.configure do |config|
   # The month that Q1 begins. The default is 8 (August)
   config.quarter_start_month = 8
