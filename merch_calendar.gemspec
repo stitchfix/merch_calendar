@@ -6,10 +6,10 @@ Gem::Specification.new do |s|
   s.name        = "merch_calendar"
   s.version     = MerchCalendar::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Stitch Fix Engineering']
-  s.email       = ['eng@stitchfix.com']
+  s.authors     = ['Mitch Dempsey']
+  s.email       = ['mitch@stitchfix.com']
   s.licenses    = ['MIT']
-  s.homepage    = "http://www.stitchfix.com"
+  s.homepage    = "https://github.com/stitchfix/merch_calendar"
   s.summary     = "Utility for manipulating dates within a 4-5-4 retail calendar"
   s.description = "Utility for manipulating dates within a 4-5-4 retail calendar"
 

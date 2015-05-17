@@ -4,7 +4,7 @@
 [![Code Climate](https://codeclimate.com/github/stitchfix/merch_calendar/badges/gpa.svg)](https://codeclimate.com/github/stitchfix/merch_calendar)
 [![Coverage Status](https://coveralls.io/repos/stitchfix/merch_calendar/badge.svg)](https://coveralls.io/r/stitchfix/merch_calendar)
 
-This gem allows for finding merch weeks for a given date, along with manipulating the retail calendar.
+This gem allows for finding retail/merchandising weeks for a given date, along with manipulating the retail calendar. This gem is used at [StitchFix](http://www.stitchfix.com/).
 
 ## Installation
 
