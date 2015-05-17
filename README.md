@@ -1,5 +1,6 @@
 # Merch Calendar
 
+[![Gem Version](https://badge.fury.io/rb/merch_calendar.svg)](http://badge.fury.io/rb/merch_calendar)
 [![Build Status](https://travis-ci.org/stitchfix/merch_calendar.svg)](https://travis-ci.org/stitchfix/merch_calendar)
 [![Code Climate](https://codeclimate.com/github/stitchfix/merch_calendar/badges/gpa.svg)](https://codeclimate.com/github/stitchfix/merch_calendar)
 [![Coverage Status](https://coveralls.io/repos/stitchfix/merch_calendar/badge.svg)](https://coveralls.io/r/stitchfix/merch_calendar)
