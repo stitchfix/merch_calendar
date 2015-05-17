@@ -1,5 +1,9 @@
 # Merch Calendar
 
+[![Build Status](https://travis-ci.org/stitchfix/merch_calendar.svg)](https://travis-ci.org/stitchfix/merch_calendar)
+[![Code Climate](https://codeclimate.com/github/stitchfix/merch_calendar/badges/gpa.svg)](https://codeclimate.com/github/stitchfix/merch_calendar)
+[![Test Coverage](https://codeclimate.com/github/stitchfix/merch_calendar/badges/coverage.svg)](https://codeclimate.com/github/stitchfix/merch_calendar/coverage)
+
 This gem allows for finding merch weeks for a given date, along with manipulating the retail calendar.
 
 ## Installation
@@ -78,9 +82,11 @@ MerchCalendar.weeks_in_year(2015)
 MerchCalendar.weeks_for_month(2014, 1)
 ```
 
+## Documentation
+You can view the documentation for this gem on [RubyDoc.info](http://www.rubydoc.info/github/stitchfix/merch_calendar/master).
+
 
 ## Roadmap
-* More detailed Yardoc
 * Support for 4-4-5 calendars
 
 ## License
