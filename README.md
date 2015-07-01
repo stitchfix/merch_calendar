@@ -73,6 +73,44 @@ MerchCalendar.start_of_month(2014, julian_month: 5)
 MerchCalendar.start_of_month(2014, merch_month: 4)
 ```
 
+#### Confusing things to look out for:
+
+Merch calendars have the first month in February, and the last (12th) month is in January of the following year. In the code block above, each method is *asking* a very different question. This will definitely cause confusion, so here are some explanations.
+
+```ruby
+# This is asking "In the Merch year of 2014, where is the month of January?"
+# January is the last (12th) month of a merch year, so this date will be in the NEXT
+# julian calendar year
+MerchCalendar.start_of_month(2014, 1)
+MerchCalendar.start_of_month(2014, month: 1)
+MerchCalendar.start_of_month(2014, julian_month: 1)
+# => 2015-01-04
+#    ^^^^ - NEXT year
+
+# This is asking "When is the start of the FIRST month of the merch year 2014"
+MerchCalendar.start_of_month(2014, merch_month: 1)
+# => 2014-02-02
+
+```
+
+This table should describe the progression of dates:
+
+| N  | `start_of_month(2014, N)` | `start_of_month(2014, merch_month: N)` |
+| ------------- | ------------- | ------------- |
+| 1  | **2015-01-04**  | 2014-02-02 |
+| 2  | 2014-02-02  | 2014-03-02 |
+| 3  | 2014-03-02  | 2014-04-06 |
+| 4  | 2014-04-06  | 2014-05-04 |
+| 5  | 2014-05-04  | 2014-06-01 |
+| 6  | 2014-06-01  | 2014-07-06 |
+| 7  | 2014-07-06  | 2014-08-03 |
+| 8  | 2014-08-03  | 2014-08-31 |
+| 9  | 2014-08-31  | 2014-10-05 |
+| 10  | 2014-10-05  | 2014-11-02 |
+| 11  | 2014-11-02  | 2014-11-30 |
+| 12  | 2014-11-30  | **2015-01-04** |
+
+
 Other useful methods:
 
 ```ruby
