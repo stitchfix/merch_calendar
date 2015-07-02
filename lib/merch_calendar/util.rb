@@ -87,6 +87,16 @@ module MerchCalendar
     end
 
 
+    # An array of merch dates in start_date to end_date
+    #
+    # @param start_date [Date] the start date
+    # @param end_date [Date] the end date
+    #
+    # @return [Array<Date>] array of merch months
+    def merch_months_in(start_date, end_date)
+      date_calc.merch_months_in(start_date, end_date)
+    end
+
 
     # Converts a merch month to the correct julian month
     #
