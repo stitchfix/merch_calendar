@@ -19,7 +19,9 @@ describe MerchCalendar do
 
 
   it "#start_of_month" do
-    expect(described_class.start_of_month(2014,1)).to be_a Date
+    start_of_month = described_class.start_of_month(2014,1)
+    expect(start_of_month).to be_a Date
+    expect(start_of_month.year).to eq 2014
   end
 
   it "#end_of_month" do
