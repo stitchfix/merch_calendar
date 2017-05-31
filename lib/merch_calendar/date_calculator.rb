@@ -1,3 +1,5 @@
+require "date"
+
 module MerchCalendar
 
   # @api private
@@ -47,6 +49,17 @@ module MerchCalendar
       else
         start_of_month(year, merch_month + 1) - 1
       end
+    end
+
+    def start_of_week(year, month, merch_week)
+      weeks = MerchCalendar.weeks_for_month(year, month)
+
+      week = weeks.find { |week| week.week == merch_week }
+      week.start_of_week
+    end
+
+    def end_of_week(year, month, merch_week)
+      start_of_week(year, month, merch_week) + 6
     end
 
     # Return the starting date for a particular quarter

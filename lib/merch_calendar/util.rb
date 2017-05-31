@@ -3,6 +3,28 @@ module MerchCalendar
   # Utility methods for the merch calendar
   module Util
 
+    # The start date of the week
+    #
+    # @param year [Fixnum] the merch year
+    # @param month [Fixnum] an integer specifying the julian month.
+    # @param month [Fixnum] an integer specifying the merch week.
+    #
+    # @return [Date] the starting date of the specified week
+    def start_of_week(year, month, week)
+      date_calc.start_of_week(year, month, week)
+    end
+
+    # The end date of the week
+    #
+    # @param year [Fixnum] the merch year
+    # @param month [Fixnum] an integer specifying the julian month.
+    # @param month [Fixnum] an integer specifying the merch week.
+    #
+    # @return [Date] the ending date of the specified week
+    def end_of_week(year, month, week)
+      date_calc.end_of_week(year, month, week)
+    end
+
     # The start date of the month
     #
     # @example
