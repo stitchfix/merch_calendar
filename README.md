@@ -119,6 +119,14 @@ MerchCalendar.weeks_in_year(2015)
 
 # returns an array of MerchWeek objects for each week within the provided month
 MerchCalendar.weeks_for_month(2014, 1)
+
+# get the start date of a given merch week
+MerchCalendar.start_of_week(2017, 4, 1)
+# => #<Date: 2017-04-02 ((2457846j,0s,0n),+0s,2299161j)>
+
+# get the end date of a given merch week
+MerchCalendar.end_of_week(2017, 4, 1)
+# => #<Date: 2017-04-08 ((2457852j,0s,0n),+0s,2299161j)>
 ```
 
 ## Documentation
