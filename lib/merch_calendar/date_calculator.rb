@@ -51,15 +51,16 @@ module MerchCalendar
       end
     end
 
+    # Returns the date that corresponds to the first day in the merch week
     def start_of_week(year, month, merch_week)
-      weeks = MerchCalendar.weeks_for_month(year, month)
-
-      week = weeks.find { |week| week.week == merch_week }
+      week = MerchCalendar::MerchWeek.find(year, month, merch_week) 
       week.start_of_week
     end
 
+    # Returns the date that corresponds to the last day in the merch week
     def end_of_week(year, month, merch_week)
-      start_of_week(year, month, merch_week) + 6
+      week = MerchCalendar::MerchWeek.find(year, month, merch_week) 
+      week.end_of_week
     end
 
     # Return the starting date for a particular quarter
