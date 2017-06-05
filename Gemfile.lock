@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    merch_calendar (0.0.5.rc1)
+    merch_calendar (0.0.5)
 
 GEM
   remote: https://www.rubygems.org/
