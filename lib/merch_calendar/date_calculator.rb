@@ -1,12 +1,10 @@
 require "date"
 
 module MerchCalendar
-
-  # @api private
   class DateCalculator
 
     def end_of_year(year)
-      year_end = Date.new (year + 1), 1, -1
+      year_end = Date.new((year + 1), 1, -1)
       wday = (year_end.wday + 1) % 7
 
       if wday > 3
@@ -67,13 +65,13 @@ module MerchCalendar
     def start_of_quarter(year, quarter)
       case quarter
       when 1
-        start_of_month(year, 7)
-      when 2
-        start_of_month(year, 10)
-      when 3
         start_of_month(year, 1)
-      when 4
+      when 2
         start_of_month(year, 4)
+      when 3
+        start_of_month(year, 7)
+      when 4
+        start_of_month(year, 10)
       end
     end
 
@@ -81,13 +79,13 @@ module MerchCalendar
     def end_of_quarter(year, quarter)
       case quarter
       when 1
-        end_of_month(year, 9)
-      when 2
-        end_of_month(year, 12)
-      when 3
         end_of_month(year, 3)
-      when 4
+      when 2
         end_of_month(year, 6)
+      when 3
+        end_of_month(year, 9)
+      when 4
+        end_of_month(year, 12)
       end
     end
 

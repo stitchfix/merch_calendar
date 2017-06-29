@@ -1,9 +1,6 @@
 require 'spec_helper'
 
-describe MerchCalendar::DateCalculator do
-
-  subject { described_class.new }
-
+RSpec.describe MerchCalendar::DateCalculator do
   describe "#julian_to_merch" do
     it { expect(subject.julian_to_merch(1)).to eq 12 }
     it { expect(subject.julian_to_merch(2)).to eq 1 }
@@ -44,9 +41,15 @@ describe MerchCalendar::DateCalculator do
     end
   end
 
-  it "#start_of_quarter"
+  it "#start_of_quarter" do
+    expect(subject.start_of_quarter(2017, 1)).to eq Date.new(2017, 1, 29)
+    expect(subject.start_of_quarter(2018, 1)).to eq Date.new(2018, 2, 4)
+  end
 
-  it "#end_of_quarter"
+  it "#end_of_quarter" do
+    expect(subject.end_of_quarter(2017, 1)).to eq Date.new(2017, 4, 29)
+    expect(subject.end_of_quarter(2018, 1)).to eq Date.new(2018, 5, 5)
+  end
 
   describe "#merch_months_in" do
     it "returns merch date for start_date if start_date is the same as end_date" do
