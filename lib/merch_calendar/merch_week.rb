@@ -103,7 +103,7 @@ module MerchCalendar
     #
     # @return [Fixnum]
     def month
-      @month ||= retail_calendar.merch_to_julian(merch_month)
+      @month ||= MerchCalendar.merch_to_julian(merch_month)
     end
 
     # The specific quarter this week falls in

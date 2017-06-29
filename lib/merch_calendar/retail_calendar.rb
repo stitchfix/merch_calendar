@@ -2,10 +2,6 @@ require "date"
 
 module MerchCalendar
   class RetailCalendar
-    def initialze(first_month_of_year = 2)
-      @first_month_of_year = first_month_of_year
-    end
-
     def end_of_year(year)
       year_end = Date.new((year + 1), 1, -1)
       wday = (year_end.wday + 1) % 7
@@ -93,22 +89,6 @@ module MerchCalendar
     # Return the number of weeks in a particular year
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
-    end
-
-    def merch_to_julian(merch_month)
-      if merch_month == 12
-        1
-      else
-        merch_month + 1
-      end
-    end
-
-    def julian_to_merch(julian_month)
-      if julian_month == 1
-        12
-      else
-        julian_month - 1
-      end
     end
 
     def merch_months_in(start_date, end_date)
