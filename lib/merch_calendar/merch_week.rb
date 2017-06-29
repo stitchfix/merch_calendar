@@ -88,7 +88,7 @@ module MerchCalendar
       # TODO: This is very inefficient, but less complex than strategic guessing
       # maybe switch to a binary search or something
       @merch_month ||= (1..12).detect do |num|
-        date_calc.end_of_month(start_of_year.year, num) >= date && date >= date_calc.start_of_month(start_of_year.year, num)
+        retail_calendar.end_of_month(start_of_year.year, num) >= date && date >= retail_calendar.start_of_month(start_of_year.year, num)
       end
     end
 
@@ -103,7 +103,7 @@ module MerchCalendar
     #
     # @return [Fixnum]
     def month
-      @month ||= date_calc.merch_to_julian(merch_month)
+      @month ||= retail_calendar.merch_to_julian(merch_month)
     end
 
     # The specific quarter this week falls in
@@ -155,21 +155,21 @@ module MerchCalendar
     #
     # @return [Date]
     def end_of_year
-      @end_of_year ||= date_calc.end_of_year(year)
+      @end_of_year ||= retail_calendar.end_of_year(year)
     end
 
     # The start date of the merch month
     #
     # @return [Date]
     def start_of_month
-      @start_of_month ||= date_calc.start_of_month(year, merch_month)
+      @start_of_month ||= retail_calendar.start_of_month(year, merch_month)
     end
 
     # The end date of the merch month
     #
     # @return [Date]
     def end_of_month
-      @end_of_month ||= date_calc.end_of_month(year, merch_month)
+      @end_of_month ||= retail_calendar.end_of_month(year, merch_month)
     end
 
     # The merch season this date falls under.
@@ -209,15 +209,15 @@ module MerchCalendar
     private
 
     def year_start_date
-      start_date = date_calc.start_of_year(date.year)
+      start_date = retail_calendar.start_of_year(date.year)
       if start_date > date
-        start_date = date_calc.start_of_year(date.year - 1)
+        start_date = retail_calendar.start_of_year(date.year - 1)
       end
       start_date
     end
 
-    def date_calc
-      @date_calc ||= DateCalculator.new
+    def retail_calendar
+      @retail_calendar ||= RetailCalendar.new
     end
 
   end

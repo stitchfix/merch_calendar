@@ -11,7 +11,7 @@ module MerchCalendar
     #
     # @return [Date] the starting date of the specified week
     def start_of_week(year, month, week)
-      date_calc.start_of_week(year, month, week)
+      retail_calendar.start_of_week(year, month, week)
     end
 
     # The end date of the week
@@ -22,7 +22,7 @@ module MerchCalendar
     #
     # @return [Date] the ending date of the specified week
     def end_of_week(year, month, week)
-      date_calc.end_of_week(year, month, week)
+      retail_calendar.end_of_week(year, month, week)
     end
 
     # The start date of the month
@@ -43,7 +43,7 @@ module MerchCalendar
     # @return [Date] the starting date of the specified month
     def start_of_month(year, month_param)
       merch_month = get_merch_month_param(month_param)
-      date_calc.start_of_month(year, merch_month)
+      retail_calendar.start_of_month(year, merch_month)
     end
 
     # The end date of the month
@@ -56,7 +56,7 @@ module MerchCalendar
     # @return [Date]
     def end_of_month(year, month_param)
       merch_month = get_merch_month_param(month_param)
-      date_calc.end_of_month(year, merch_month)
+      retail_calendar.end_of_month(year, merch_month)
     end
 
     # The start date of the year
@@ -65,7 +65,7 @@ module MerchCalendar
     #
     # @return [Date] the starting date of the specified year
     def start_of_year(year)
-      date_calc.start_of_year(year)
+      retail_calendar.start_of_year(year)
     end
 
     # The end date of the year
@@ -74,7 +74,7 @@ module MerchCalendar
     #
     # @return [Date] the ending date of the specified year
     def end_of_year(year)
-      date_calc.end_of_year(year)
+      retail_calendar.end_of_year(year)
     end
 
 
@@ -85,7 +85,7 @@ module MerchCalendar
     #
     # @return [Date] the starting date of the specified quarter
     def start_of_quarter(year, quarter)
-      date_calc.start_of_quarter(year, quarter)
+      retail_calendar.start_of_quarter(year, quarter)
     end
 
     # The end date of the quarter
@@ -95,7 +95,7 @@ module MerchCalendar
     #
     # @return [Date] the ending date of the specified quarter
     def end_of_quarter(year, quarter)
-      date_calc.end_of_quarter(year, quarter)
+      retail_calendar.end_of_quarter(year, quarter)
     end
 
 
@@ -105,7 +105,7 @@ module MerchCalendar
     #
     # @return [Fixnum] number of weeks
     def weeks_in_year(year)
-      date_calc.weeks_in_year(year)
+      retail_calendar.weeks_in_year(year)
     end
 
 
@@ -116,7 +116,7 @@ module MerchCalendar
     #
     # @return [Array<Date>] array of merch months
     def merch_months_in(start_date, end_date)
-      date_calc.merch_months_in(start_date, end_date)
+      retail_calendar.merch_months_in(start_date, end_date)
     end
 
 
@@ -125,7 +125,7 @@ module MerchCalendar
     # @param month [Fixnum] the merch month to convert
     # @return [Fixnum] the julian month
     def merch_to_julian(month)
-      date_calc.merch_to_julian(month)
+      retail_calendar.merch_to_julian(month)
     end
 
     # Converts a julian month to a merch month
@@ -133,7 +133,7 @@ module MerchCalendar
     # @param month [Fixnum] the julian month to convert
     # @return [Fixnum] the merch month
     def julian_to_merch(month)
-      date_calc.julian_to_merch(month)
+      retail_calendar.julian_to_merch(month)
     end
 
     # An array of merch weeks in a given month
@@ -147,9 +147,9 @@ module MerchCalendar
     def weeks_for_month(year, month_param)
       merch_month = get_merch_month_param(month_param)
 
-      start_date = date_calc.start_of_month(year, merch_month)
+      start_date = retail_calendar.start_of_month(year, merch_month)
 
-      weeks = (date_calc.end_of_month(year, merch_month) - start_date + 1) / 7
+      weeks = (retail_calendar.end_of_month(year, merch_month) - start_date + 1) / 7
 
       (1..weeks).map do |week_num|
         week_start = start_date + ((week_num - 1) * 7)
@@ -161,22 +161,22 @@ module MerchCalendar
 
     private
 
-    def date_calc
-      @date_calc ||= DateCalculator.new
+    def retail_calendar
+      @retail_calendar ||= RetailCalendar.new
     end
 
     # Reads the provided parameter and converts the value
     # to a MERCH MONTH
     def get_merch_month_param(param)
       if param.is_a? Fixnum
-        return date_calc.julian_to_merch(param)
+        return retail_calendar.julian_to_merch(param)
       elsif param.is_a? Hash
         julian_month = param.delete(:julian_month) || param.delete(:month)
         merch_month = param.delete(:merch_month)
         if merch_month
           return merch_month
         elsif julian_month
-          return date_calc.julian_to_merch(julian_month)
+          return retail_calendar.julian_to_merch(julian_month)
         end
       end
       raise ArgumentError

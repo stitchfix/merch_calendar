@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe MerchCalendar::DateCalculator do
+RSpec.describe MerchCalendar::RetailCalendar do
   describe "#julian_to_merch" do
     it { expect(subject.julian_to_merch(1)).to eq 12 }
     it { expect(subject.julian_to_merch(2)).to eq 1 }
@@ -41,14 +41,32 @@ RSpec.describe MerchCalendar::DateCalculator do
     end
   end
 
-  it "#start_of_quarter" do
-    expect(subject.start_of_quarter(2017, 1)).to eq Date.new(2017, 1, 29)
-    expect(subject.start_of_quarter(2018, 1)).to eq Date.new(2018, 2, 4)
+  describe "#start_of_week" do
+    it "returns the correct date" do
+      expect(subject.start_of_week(2017, 1, 1)).to eq Date.new(2017, 1, 29)
+      expect(subject.start_of_week(2018, 1, 1)).to eq Date.new(2018, 2, 4)
+    end
   end
 
-  it "#end_of_quarter" do
-    expect(subject.end_of_quarter(2017, 1)).to eq Date.new(2017, 4, 29)
-    expect(subject.end_of_quarter(2018, 1)).to eq Date.new(2018, 5, 5)
+  describe "#end_of_week" do
+    it "returns the correct date" do
+      expect(subject.end_of_week(2017, 1, 1)).to eq Date.new(2017, 2, 4)
+      expect(subject.end_of_week(2018, 1, 1)).to eq Date.new(2018, 2, 10)
+    end
+  end
+
+  describe "#start_of_quarter" do
+    it "returns the correct date" do
+      expect(subject.start_of_quarter(2017, 1)).to eq Date.new(2017, 1, 29)
+      expect(subject.start_of_quarter(2018, 1)).to eq Date.new(2018, 2, 4)
+    end
+  end
+
+  describe "#end_of_quarter" do
+    it "returns the correct date" do
+      expect(subject.end_of_quarter(2017, 1)).to eq Date.new(2017, 4, 29)
+      expect(subject.end_of_quarter(2018, 1)).to eq Date.new(2018, 5, 5)
+    end
   end
 
   describe "#merch_months_in" do
