@@ -7,22 +7,22 @@ module MerchCalendar
     #
     # @param year [Fixnum] the merch year
     # @param month [Fixnum] an integer specifying the julian month.
-    # @param month [Fixnum] an integer specifying the merch week.
+    # @param week [Fixnum] an integer specifying the merch week.
     #
     # @return [Date] the starting date of the specified week
     def start_of_week(year, month, week)
-      retail_calendar.start_of_week(year, month, week)
+      retail_calendar.start_of_week(year, julian_to_merch(month), week)
     end
 
     # The end date of the week
     #
     # @param year [Fixnum] the merch year
     # @param month [Fixnum] an integer specifying the julian month.
-    # @param month [Fixnum] an integer specifying the merch week.
+    # @param week [Fixnum] an integer specifying the merch week.
     #
     # @return [Date] the ending date of the specified week
     def end_of_week(year, month, week)
-      retail_calendar.end_of_week(year, month, week)
+      retail_calendar.end_of_week(year, julian_to_merch(month), week)
     end
 
     # The start date of the month
@@ -122,19 +122,29 @@ module MerchCalendar
 
     # Converts a merch month to the correct julian month
     #
-    # @param month [Fixnum] the merch month to convert
+    # @param merch_month [Fixnum] the merch month to convert
     # @return [Fixnum] the julian month
-    def merch_to_julian(month)
-      retail_calendar.merch_to_julian(month)
+    def merch_to_julian(merch_month)
+      if merch_month == 12
+        1
+      else
+        merch_month + 1
+      end
     end
+
 
     # Converts a julian month to a merch month
     #
-    # @param month [Fixnum] the julian month to convert
+    # @param julian_month [Fixnum] the julian month to convert
     # @return [Fixnum] the merch month
-    def julian_to_merch(month)
-      retail_calendar.julian_to_merch(month)
+    def julian_to_merch(julian_month)
+      if julian_month == 1
+        12
+      else
+        julian_month - 1
+      end
     end
+
 
     # An array of merch weeks in a given month
     #
@@ -169,16 +179,18 @@ module MerchCalendar
     # to a MERCH MONTH
     def get_merch_month_param(param)
       if param.is_a? Fixnum
-        return retail_calendar.julian_to_merch(param)
+        return julian_to_merch(param)
       elsif param.is_a? Hash
         julian_month = param.delete(:julian_month) || param.delete(:month)
         merch_month = param.delete(:merch_month)
+
         if merch_month
           return merch_month
         elsif julian_month
-          return retail_calendar.julian_to_merch(julian_month)
+          return julian_to_merch(julian_month)
         end
       end
+
       raise ArgumentError
     end
 
