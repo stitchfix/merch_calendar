@@ -4,10 +4,12 @@ RSpec.describe MerchCalendar::RetailCalendar do
   describe "#weeks_in_year" do
     it "returns 53 for a leap year" do
       expect(subject.weeks_in_year(2012)).to eq 53
+      expect(subject.weeks_in_year(2017)).to eq 53
     end
 
     it "returns 52 for a normal year" do
       expect(subject.weeks_in_year(2013)).to eq 52
+      expect(subject.weeks_in_year(2018)).to eq 52
     end
   end
 
@@ -23,6 +25,17 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.end_of_week(2017, 1, 1)).to eq Date.new(2017, 2, 4)
       expect(subject.end_of_week(2018, 1, 1)).to eq Date.new(2018, 2, 10)
     end
+
+    it "returns the correct date for 2017-12-w5" do
+      expect(subject.end_of_week(2017, 12, 5)).to eq Date.new(2018, 2, 3)
+    end
+  end
+
+  describe "#start_of_month" do
+    it "returns the correct date" do
+      expect(subject.start_of_month(2017, 1)).to eq Date.new(2017, 1, 29)
+      expect(subject.start_of_month(2018, 1)).to eq Date.new(2018, 2, 4)
+    end
   end
 
   describe "#start_of_quarter" do
@@ -36,6 +49,31 @@ RSpec.describe MerchCalendar::RetailCalendar do
     it "returns the correct date" do
       expect(subject.end_of_quarter(2017, 1)).to eq Date.new(2017, 4, 29)
       expect(subject.end_of_quarter(2018, 1)).to eq Date.new(2018, 5, 5)
+    end
+  end
+
+  describe "#start_of_year" do
+    it "returns the correct date" do
+      expect(subject.start_of_year(2017)).to eq Date.new(2017, 1, 29)
+      expect(subject.start_of_year(2018)).to eq Date.new(2018, 2, 4)
+    end
+  end
+
+  describe "#end_of_year" do
+    it "returns the correct date for 2016" do
+      expect(subject.end_of_year(2016)).to eq Date.new(2017, 1, 28)
+    end
+
+    it "returns the correct date for 2017 (a leap year)" do
+      expect(subject.end_of_year(2017)).to eq Date.new(2018, 2, 3)
+    end
+
+    it "returns the correct date for 2018" do
+      expect(subject.end_of_year(2018)).to eq Date.new(2019, 2, 2)
+    end
+
+    it "returns the correct date for 2019" do
+      expect(subject.end_of_year(2019)).to eq Date.new(2020, 2, 1)
     end
   end
 
