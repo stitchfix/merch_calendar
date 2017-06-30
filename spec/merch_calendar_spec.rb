@@ -60,40 +60,86 @@ RSpec.describe MerchCalendar do
     end
   end
 
-  it "#start_of_month" do
-    expect(described_class.start_of_month(2014,1)).to be_a Date
+  describe "#start_of_month" do
+    it "returns the correct date for 2017-1" do
+      expect(described_class.start_of_month(2017, 1)).to eq Date.new(2017, 12, 31)
+    end
+
+    it "returns the correct date for 2017-5" do
+      expect(described_class.start_of_month(2017, 5)).to eq Date.new(2017, 4, 30)
+    end
+
+    it "returns the correct date for 2018-1" do
+      expect(described_class.start_of_month(2018, 1)).to eq Date.new(2019, 1, 6)
+    end
   end
 
-  it "#end_of_month" do
-    expect(described_class.end_of_month(2014,1)).to be_a Date
+  describe "#end_of_month" do
+    it "returns the correct date for 2017-1" do
+      expect(described_class.end_of_month(2017, 1)).to eq Date.new(2018, 2, 3)
+    end
+
+    it "returns the correct date for 2017-5" do
+      expect(described_class.end_of_month(2017, 5)).to eq Date.new(2017, 5, 27)
+    end
+
+    it "returns the correct date for 2018-1" do
+      expect(described_class.end_of_month(2018, 1)).to eq Date.new(2019, 2, 2)
+    end
   end
 
-  it "#start_of_year" do
-    expect(described_class.start_of_year(2014)).to be_a Date
+  describe "#start_of_year" do
+    it "returns the correct date for 2014" do
+      expect(described_class.start_of_year(2014)).to eq Date.new(2014, 2, 2)
+    end
+
+    it "returns the correct date for 2017" do
+      expect(described_class.start_of_year(2017)).to eq Date.new(2017, 1, 29)
+    end
   end
 
-  it "#end_of_year" do
-    expect(described_class.end_of_year(2014)).to be_a Date
+  describe "#end_of_year" do
+    it "returns the correct date for 2014" do
+      expect(described_class.end_of_year(2014)).to eq Date.new(2015, 1, 31)
+    end
+
+    it "returns the correct date for 2017" do
+      expect(described_class.end_of_year(2017)).to eq Date.new(2018, 2, 3)
+    end
   end
 
-  it "#start_of_quarter" do
-    expect(described_class.start_of_quarter(2014,1)).to be_a Date
+  describe "#start_of_quarter" do
+    it "returns the correct date for 2014-Q1" do
+      expect(described_class.start_of_quarter(2014,1)).to eq Date.new(2014, 8, 3)
+    end
   end
 
-  it "#end_of_quarter" do
-    expect(described_class.end_of_quarter(2014,1)).to be_a Date
+  describe "#end_of_quarter" do
+    it "returns the correct date for 2014-Q1" do
+      expect(described_class.end_of_quarter(2014,1)).to eq Date.new(2014, 11, 1)
+    end
   end
 
-  it "#weeks_in_year" do
-    expect(described_class.weeks_in_year(2014)).to be_a Fixnum
+  describe "#weeks_in_year" do
+    it "returns the right number of weeks for 2014" do
+      expect(described_class.weeks_in_year(2014)).to eq 52
+    end
+
+    it "returns the right number of weeks for 2017" do
+      expect(described_class.weeks_in_year(2017)).to eq 53
+    end
   end
 
-  it "#merch_to_julian" do
-    expect(described_class.merch_to_julian(1)).to be_a Fixnum
+  describe "#merch_to_julian" do
+    it "returns the right julian month" do
+      expect(described_class.merch_to_julian(1)).to eq 2
+    end
   end
 
-  it "#julian_to_merch" do
-    expect(described_class.julian_to_merch(1)).to be_a Fixnum
+  describe "#julian_to_merch" do
+    it "returns the right merch month" do
+      expect(described_class.julian_to_merch(1)).to eq 12
+    end
   end
 
 end

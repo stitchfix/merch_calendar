@@ -1,3 +1,6 @@
+require "merch_calendar/retail_calendar"
+require "merch_calendar/fiscal_year_calendar"
+
 module MerchCalendar
 
   # Utility methods for the merch calendar
@@ -85,7 +88,7 @@ module MerchCalendar
     #
     # @return [Date] the starting date of the specified quarter
     def start_of_quarter(year, quarter)
-      retail_calendar.start_of_quarter(year, quarter)
+      fiscal_year_calendar.start_of_quarter(year + 1, quarter)
     end
 
     # The end date of the quarter
@@ -95,7 +98,7 @@ module MerchCalendar
     #
     # @return [Date] the ending date of the specified quarter
     def end_of_quarter(year, quarter)
-      retail_calendar.end_of_quarter(year, quarter)
+      fiscal_year_calendar.end_of_quarter(year + 1, quarter)
     end
 
 
@@ -175,6 +178,10 @@ module MerchCalendar
       @retail_calendar ||= RetailCalendar.new
     end
 
+    def fiscal_year_calendar
+      @fiscal_year_calendar ||= FiscalYearCalendar.new
+    end
+
     # Reads the provided parameter and converts the value
     # to a MERCH MONTH
     def get_merch_month_param(param)
@@ -199,6 +206,28 @@ module MerchCalendar
   # Load the utils into the MerchCalendar namespace
   class << self
     include Util
+    extend Gem::Deprecate
+
+    [
+      :start_of_week, 
+      :end_of_week,
+      :start_of_month, 
+      :end_of_month,
+      :start_of_year, 
+      :end_of_year,
+      :weeks_in_year,
+      :merch_months_in,
+    ].each do |method|
+      deprecate method, "#{MerchCalendar::RetailCalendar}##{method}", DEPRECATION_DATE.year, DEPRECATION_DATE.month
+    end
+
+    [
+      :start_of_quarter, 
+      :end_of_quarter
+    ].each do |method|
+      deprecate method, "#{MerchCalendar::FiscalYearCalendar}##{method}", DEPRECATION_DATE.year, DEPRECATION_DATE.month
+    end
+
   end
 
 end
