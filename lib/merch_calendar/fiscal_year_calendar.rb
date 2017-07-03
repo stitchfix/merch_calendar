@@ -2,7 +2,20 @@ require "merch_calendar/retail_calendar"
 
 module MerchCalendar
   class FiscalYearCalendar
-    def initialize
+    # @param fy_quarter_offset [Fixnum]
+    #   The number of quarters before or after the start of the traditional NRF retail calendar that the year
+    #   should begin.
+    #     ex) Stitch Fix's fiscal year calendar starts in August of the prior gregorian calendar year.
+    #         February 2017 = Traditional retail month 1, year 2017 
+    #         August 2016 = Offset retail month 1, year 2017 (2 quarters earlier)
+    def initialize(fy_quarter_offset = (-2))
+      @fy_quarter_offset = fy_quarter_offset
+
+      # TODO: support other fiscal year offsets
+      if fy_quarter_offset != -2
+        raise NotImplementedError.new("FY quarter offset of #{fy_quarter_offset} not yet supported")
+      end
+
       @retail_calendar = RetailCalendar.new
     end
 
@@ -51,12 +64,22 @@ module MerchCalendar
 
     def offset_quarter(year, quarter)
       # first quarter in fiscal calendar is Q3 of retail calendar of previous year
-      yr, qt = quarter >= 3 ? [year, quarter - 2] : [year - 1, quarter + 2]
+      yr, qt = if quarter >= 1 + @fy_quarter_offset.abs 
+                 [year, quarter + @fy_quarter_offset]
+               else
+                 [year - 1, quarter - @fy_quarter_offset]
+               end
     end
 
     def offset_month(year, month)
-      # first month in fiscal calendar is the sixth month in the retail calendar
-      yr, mn = month >= 7 ? [year, month - 6] : [year - 1, month + 6]
+      # 3 - number of months in a quarter
+      month_offset = @fy_quarter_offset * 3
+
+      yr, mn = if month >= (month_offset.abs + 1) 
+                 [year, month + month_offset] 
+               else
+                 [year - 1, month - month_offset]
+               end
     end
   end
 end
