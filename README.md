@@ -5,7 +5,8 @@
 [![Code Climate](https://codeclimate.com/github/stitchfix/merch_calendar/badges/gpa.svg)](https://codeclimate.com/github/stitchfix/merch_calendar)
 [![Coverage Status](https://coveralls.io/repos/stitchfix/merch_calendar/badge.svg)](https://coveralls.io/r/stitchfix/merch_calendar)
 
-This gem allows for finding retail/merchandising weeks for a given date, along with manipulating the retail calendar. This gem is used at [StitchFix](http://www.stitchfix.com/).
+This gem allows for finding retail/merchandising weeks for a given date, along with manipulating the retail calendar. 
+This gem is used at [Stitch Fix](http://www.stitchfix.com/).
 
 ## Installation
 
@@ -24,29 +25,27 @@ For converting a date into a `MerchWeek` object.
 
 ```ruby
 merch_week = MerchCalendar::MerchWeek.from_date("2014-01-01")
-puts merch_week.year # 2013 (the merch year associated with this date)
-puts merch_week.month # 12 (the julian month that the date falls in)
-puts merch_week.week # 5 (the week number within the month)
-puts merch_week.year_week # 48 (the week number within the year)
-puts merch_week.quarter # 2
 
-puts merch_week.start_of_week # <Date: 2013-12-29>
-puts merch_week.end_of_week # <Date>
+merch_week.year                 # 2013 (the merch year associated with this date)
+merch_week.month                # 12 (the julian month that the date falls in)
+merch_week.week                 # 5 (the week number within the month)
+merch_week.year_week            # 48 (the week number within the year)
+merch_week.quarter              # 2
 
-puts merch_week.start_of_month # <Date>
-puts merch_week.end_of_month # <Date>
+merch_week.start_of_week        # <Date: 2013-12-29>
+merch_week.end_of_week          # <Date: 2014-01-04>
 
-puts merch_week.start_of_quarter # <Date>
-puts merch_week.end_of_quarter # <Date>
+merch_week.start_of_month       # <Date: 2013-12-01>
+merch_week.end_of_month         # <Date: 2014-01-04>
 
-puts merch_week.start_of_year # <Date>
-puts merch_week.end_of_year # <Date>
+merch_week.start_of_year        # <Date: 2013-02-03>
+merch_week.end_of_year          # <Date: 2014-02-01>
 
 # Formatting
-puts merch_week.to_s # "Dec W5"
-puts merch_week.to_s(:short) # "Dec W5"
-puts merch_week.to_s(:long) # "2013:48 Dec W5"
-puts merch_week.to_s(:elasticsearch) # "2013-12w05"
+merch_week.to_s                 # "Dec W5"
+merch_week.to_s(:short)         # "Dec W5"
+merch_week.to_s(:long)          # "2013:48 Dec W5"
+merch_week.to_s(:elasticsearch) # "2013-12w05"
 ```
 
 
