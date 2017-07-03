@@ -1,3 +1,4 @@
+require "date"
 
 #
 module MerchCalendar
