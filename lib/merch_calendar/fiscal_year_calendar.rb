@@ -80,7 +80,7 @@ module MerchCalendar
     private
 
     # Offsets the quarter based on the fiscal year quarter offset
-    # returns: ofset [year, quarter]
+    # returns: offset [year, quarter]
     def offset_quarter(year, quarter)
       # first quarter in fiscal calendar is Q3 of retail calendar of previous year
       if quarter >= 1 + @fy_quarter_offset.abs 
@@ -91,7 +91,7 @@ module MerchCalendar
     end
 
     # Offsets the month based on the fiscal year quarter offset
-    # returns: ofset [year, month]
+    # returns: offset [year, month]
     def offset_month(year, month)
       # 3 - number of months in a quarter
       month_offset = @fy_quarter_offset * 3
@@ -104,7 +104,7 @@ module MerchCalendar
     end
 
     # Offsets the year based on the fiscal year quarter offset
-    # returns: ofset year
+    # returns: offset year
     def offset_year(year)
       if @fy_quarter_offset < 0
         year -= 1
