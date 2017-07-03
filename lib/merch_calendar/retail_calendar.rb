@@ -2,6 +2,11 @@ require "date"
 
 module MerchCalendar
   class RetailCalendar
+    QUARTER_1 = 1
+    QUARTER_2 = 2
+    QUARTER_3 = 3
+    QUARTER_4 = 4
+
     def end_of_year(year)
       year_end = Date.new((year + 1), 1, -1)
       wday = (year_end.wday + 1) % 7
@@ -61,13 +66,13 @@ module MerchCalendar
     # Return the starting date for a particular quarter
     def start_of_quarter(year, quarter)
       case quarter
-      when 1
+      when QUARTER_1
         start_of_month(year, 1)
-      when 2
+      when QUARTER_2
         start_of_month(year, 4)
-      when 3
+      when QUARTER_3
         start_of_month(year, 7)
-      when 4
+      when QUARTER_4
         start_of_month(year, 10)
       end
     end
@@ -75,13 +80,13 @@ module MerchCalendar
     # Return the ending date for a particular quarter
     def end_of_quarter(year, quarter)
       case quarter
-      when 1
+      when QUARTER_1
         end_of_month(year, 3)
-      when 2
+      when QUARTER_2
         end_of_month(year, 6)
-      when 3
+      when QUARTER_3
         end_of_month(year, 9)
-      when 4
+      when QUARTER_4
         end_of_month(year, 12)
       end
     end
