@@ -103,7 +103,7 @@ retail_calendar.end_of_week(2017, 4, 1)
 ```
 
 ### Offset fiscal year calendars
-Some companies, one of which being Stitch Fix, operate on a fiscal year calendar that is offset of
+Some companies, one of which being Stitch Fix, operate on a fiscal year calendar that is offset from
 the traditional retail calendar.  The `MerchCalendar::FiscalYearCalendar` class allows you to easily
 offset the start of year to match your fiscal calendar.
 
