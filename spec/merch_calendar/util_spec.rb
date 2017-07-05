@@ -67,14 +67,14 @@ describe MerchCalendar::Util do
   end
 
   describe '#get_merch_month_param' do
-    let(:date_calc) { MerchCalendar::DateCalculator.new }
+    let(:retail_calendar) { MerchCalendar::RetailCalendar.new }
     before(:each) do
-      allow(MerchCalendar).to receive(:date_calc).and_return(date_calc)
+      allow(MerchCalendar).to receive(:retail_calendar).and_return(retail_calendar)
     end
 
     context "valid calls" do
       before(:each) do
-        expect(date_calc).to receive(:start_of_month).with(2014, 1)
+        expect(retail_calendar).to receive(:start_of_month).with(2014, 1)
       end      
       it "assumes an integer is a julian month" do
         MerchCalendar.start_of_month(2014, 2)
@@ -97,7 +97,7 @@ describe MerchCalendar::Util do
 
     context "errors" do
       before(:each) do
-        expect(date_calc).to_not receive(:start_of_month)
+        expect(retail_calendar).to_not receive(:start_of_month)
       end
       it { expect { MerchCalendar.start_of_month(2014, :april) }.to raise_error(ArgumentError) }
     end

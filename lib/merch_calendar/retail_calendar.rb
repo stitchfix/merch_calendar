@@ -1,12 +1,14 @@
 require "date"
 
 module MerchCalendar
-
-  # @api private
-  class DateCalculator
+  class RetailCalendar
+    QUARTER_1 = 1
+    QUARTER_2 = 2
+    QUARTER_3 = 3
+    QUARTER_4 = 4
 
     def end_of_year(year)
-      year_end = Date.new (year + 1), 1, -1
+      year_end = Date.new((year + 1), 1, -1)
       wday = (year_end.wday + 1) % 7
 
       if wday > 3
@@ -53,63 +55,45 @@ module MerchCalendar
 
     # Returns the date that corresponds to the first day in the merch week
     def start_of_week(year, month, merch_week)
-      week = MerchCalendar::MerchWeek.find(year, month, merch_week) 
-      week.start_of_week
+      start_of_month(year, month) + ((merch_week - 1) * 7)
     end
 
     # Returns the date that corresponds to the last day in the merch week
     def end_of_week(year, month, merch_week)
-      week = MerchCalendar::MerchWeek.find(year, month, merch_week) 
-      week.end_of_week
+      start_of_month(year, month) + (6 + ((merch_week - 1) * 7))
     end
 
     # Return the starting date for a particular quarter
     def start_of_quarter(year, quarter)
       case quarter
-      when 1
-        start_of_month(year, 7)
-      when 2
-        start_of_month(year, 10)
-      when 3
+      when QUARTER_1
         start_of_month(year, 1)
-      when 4
+      when QUARTER_2
         start_of_month(year, 4)
+      when QUARTER_3
+        start_of_month(year, 7)
+      when QUARTER_4
+        start_of_month(year, 10)
       end
     end
 
     # Return the ending date for a particular quarter
     def end_of_quarter(year, quarter)
       case quarter
-      when 1
-        end_of_month(year, 9)
-      when 2
-        end_of_month(year, 12)
-      when 3
+      when QUARTER_1
         end_of_month(year, 3)
-      when 4
+      when QUARTER_2
         end_of_month(year, 6)
+      when QUARTER_3
+        end_of_month(year, 9)
+      when QUARTER_4
+        end_of_month(year, 12)
       end
     end
 
     # Return the number of weeks in a particular year
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
-    end
-
-    def merch_to_julian(merch_month)
-      if merch_month == 12
-        1
-      else
-        merch_month + 1
-      end
-    end
-
-    def julian_to_merch(julian_month)
-      if julian_month == 1
-        12
-      else
-        julian_month - 1
-      end
     end
 
     def merch_months_in(start_date, end_date)
