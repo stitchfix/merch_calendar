@@ -17,7 +17,7 @@ module MerchCalendar
     #         August 2016 = Offset retail month 1, year 2017 (2 quarters earlier)
     def initialize(fy_quarter_offset = STITCH_FIX_FY_QUARTER_OFFSET)
       @fy_quarter_offset = fy_quarter_offset
-
+      p "fy_quarter_offset #{@fy_quarter_offset}"
       # TODO: support other fiscal year offsets
       if fy_quarter_offset != STITCH_FIX_FY_QUARTER_OFFSET
         raise NotImplementedError.new("FY quarter offset of #{fy_quarter_offset} not yet supported")
@@ -73,8 +73,9 @@ module MerchCalendar
     end
 
     # Returns the number of weeks in the fiscal year
-    def weeks_in_year(year)
-      @retail_calendar.weeks_in_year(offset_year(year))
+    # @param [Fixnum] year - the fiscal year
+    def weeks_in_year(year) # 2013
+      @retail_calendar.weeks_in_year(offset_year(year)) #2012
     end
 
     private
