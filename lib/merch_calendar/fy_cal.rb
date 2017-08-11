@@ -32,8 +32,21 @@ module MerchCalendar
       year_end
     end
     
-    def start_of_month
+    def start_of_month(year, merch_month)
+      # 91 = number of days in a single 4-5-4 set 
+      start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
+
+      case merch_month
+      when 2,5,8,11
+        # 28 = 4 weeks
+        start = start + 28
+      when 3,6,9,12
+        # The 5 week months
+        # 63 = 4 weeks + 5 weeks
+        start = start + 63
+      end
       
+      start
     end
     
     def end_of_month
@@ -48,8 +61,8 @@ module MerchCalendar
       
     end
     
-    def weeks_in_year
-      
+    def weeks_in_year(year)
+      ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
 
   end
