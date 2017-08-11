@@ -8,8 +8,8 @@ module MerchCalendar
       
     end
     
-    def start_of_year
-      
+    def start_of_year(year)
+      end_of_year(year - 1) + 1
     end
     
     def start_of_quarter

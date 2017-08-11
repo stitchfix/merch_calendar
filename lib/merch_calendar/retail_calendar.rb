@@ -22,7 +22,6 @@ module MerchCalendar
     # The day after last years' end date
     def start_of_year(year) # 2013
       end_of_year(year - 1) + 1
-      #2013-02-03
     end
 
     # The starting date of a given month
