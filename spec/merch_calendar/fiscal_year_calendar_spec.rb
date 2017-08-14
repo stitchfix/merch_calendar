@@ -52,7 +52,7 @@ RSpec.describe MerchCalendar::FiscalYearCalendar do
       end
 
       it "returns the correct Date for 2018-6-4 (2018-Jan-wk4)" do
-        expect(subject.end_of_week(2018, 6, 4)).to eq Date.new(2018, 2, 3)
+        expect(subject.end_of_week(2018, 6, 4)).to eq Date.new(2018, 1, 27)
       end
 
       it "returns the correct Date for 2019-10-3 (2019-May-wk3)" do
@@ -130,16 +130,6 @@ RSpec.describe MerchCalendar::FiscalYearCalendar do
       it "returns the correct date for 2019" do
         expect(subject.end_of_year(2019)).to eq Date.new(2019, 8, 3)
       end
-    end
-  end
-
-  context "an alternative offset - 2 quarters after" do
-    subject { described_class.new(2) }
-
-    it "raises a NotImplementedError - this is still TODO" do
-      expect {
-        subject
-      }.to raise_error(NotImplementedError)
     end
   end
 end

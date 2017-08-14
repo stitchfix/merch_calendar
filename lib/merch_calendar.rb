@@ -10,5 +10,3 @@ require_relative 'merch_calendar/util'
 require_relative 'merch_calendar/merch_week'
 require_relative 'merch_calendar/retail_calendar'
 require_relative 'merch_calendar/fiscal_year_calendar'
-
-require_relative 'merch_calendar/fy_cal'

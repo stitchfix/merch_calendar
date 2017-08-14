@@ -8,26 +8,26 @@ module MerchCalendar
     QUARTER_4 = 4
 
     def end_of_year(year)
-      year_end = Date.new((year + 1), 1, -1) # Jan 31st 2013
-      wday = (year_end.wday + 1) % 7 # 5
+      year_end = Date.new((year + 1), 1, -1) # Jan 31st
+      wday = (year_end.wday + 1) % 7 
 
       if wday > 3 ### this rounds up to the next saturday 
         year_end += 7 - wday
-      else# rounding down to the next saturday
+      else # rounding down to the next saturday
         year_end -= wday
       end
       year_end
     end
 
     # The day after last years' end date
-    def start_of_year(year) # 2013
+    def start_of_year(year)
       end_of_year(year - 1) + 1
     end
 
     # The starting date of a given month
     # THIS IS THE MERCH MONTH
     # 1 = feb
-    # 
+
     def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
@@ -92,9 +92,8 @@ module MerchCalendar
     end
 
     # Return the number of weeks in a particular year
-    def weeks_in_year(year) #2012
+    def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
-      #2013-02-03  -  #2012-01-29 / 7
     end
 
     def merch_months_in(start_date, end_date)
