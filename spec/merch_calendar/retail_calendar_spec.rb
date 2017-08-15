@@ -116,4 +116,3 @@ RSpec.describe MerchCalendar::RetailCalendar do
   end
 
 end
-

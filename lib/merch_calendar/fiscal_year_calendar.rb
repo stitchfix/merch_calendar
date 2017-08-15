@@ -2,117 +2,89 @@ require "merch_calendar/retail_calendar"
 
 module MerchCalendar
   class FiscalYearCalendar
-    # Stitch Fix's fiscal year starts two quarters *before* (hence the negative number) the start of the 
-    # merch/retail calendar year.
-    STITCH_FIX_FY_QUARTER_OFFSET = -2
-
     QUARTER_1 = 1
+    QUARTER_2 = 2
+    QUARTER_3 = 3
     QUARTER_4 = 4
 
-    # @param fy_quarter_offset [Fixnum]
-    #   The number of quarters before or after the start of the traditional NRF retail calendar that the year
-    #   should begin.
-    #     ex) Stitch Fix's fiscal year calendar starts in August of the prior gregorian calendar year.
-    #         February 2017 = Traditional retail month 1, year 2017 
-    #         August 2016 = Offset retail month 1, year 2017 (2 quarters earlier)
-    def initialize(fy_quarter_offset = STITCH_FIX_FY_QUARTER_OFFSET)
-      @fy_quarter_offset = fy_quarter_offset
-
-      # TODO: support other fiscal year offsets
-      if fy_quarter_offset != STITCH_FIX_FY_QUARTER_OFFSET
-        raise NotImplementedError.new("FY quarter offset of #{fy_quarter_offset} not yet supported")
-      end
-
-      @retail_calendar = RetailCalendar.new
-    end
-
-    # The date of the first day of the year
     def start_of_year(year)
-      start_of_quarter(year, QUARTER_1)
+      end_of_year(year - 1) + 1
     end
-
-    # The date of the last day of the year
-    def end_of_year(year)
-      end_of_quarter(year, QUARTER_4)
-    end
-
-    # Return the starting date for a particular quarter
+    
     def start_of_quarter(year, quarter)
-      @retail_calendar.start_of_quarter(*offset_quarter(year, quarter))
+      case quarter
+      when QUARTER_1
+        start_of_month(year, 1)
+      when QUARTER_2
+        start_of_month(year, 4)
+      when QUARTER_3
+        start_of_month(year, 7)
+      when QUARTER_4
+        start_of_month(year, 10)
+      end
     end
-
-    # Return the ending date for a particular quarter
+    
     def end_of_quarter(year, quarter)
-      @retail_calendar.end_of_quarter(*offset_quarter(year, quarter))
+      case quarter
+      when QUARTER_1
+        end_of_month(year, 3)
+      when QUARTER_2
+        end_of_month(year, 6)
+      when QUARTER_3
+        end_of_month(year, 9)
+      when QUARTER_4
+        end_of_month(year, 12)
+      end
     end
 
-    # The date of the first day of the merch month
-    # @param [Fixnum] year - the fiscal year
-    # @param [Fixnum] merch_month - the nth month of the offset calendar
-    #   ex) for an offset of +/- 2 quarters, month 1 = August
+    def end_of_year(year)
+      year_end = Date.new((year), 7, -1) # July 31st
+      wday = (year_end.wday + 1) % 7
+
+      if wday > 3
+        year_end += 7 - wday
+      else
+        year_end -= wday
+      end
+      year_end
+    end
+    
     def start_of_month(year, merch_month)
-      @retail_calendar.start_of_month(*offset_month(year, merch_month))
-    end
+      # 91 = number of days in a single 4-5-4 set 
+      start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
 
-    # The date of the last day of the merch month
-    # @param [Fixnum] year - the fiscal year
-    # @param [Fixnum] merch_month - the nth month of the offset calendar
-    #   ex) for an offset of +/- 2 quarters, month 1 = August
+      case merch_month
+      when 2,5,8,11
+        # 28 = 4 weeks
+        start = start + 28
+      when 3,6,9,12
+        # The 5 week months
+        # 63 = 4 weeks + 5 weeks
+        start = start + 63
+      end
+      
+      start
+    end
+    
     def end_of_month(year, merch_month)
-      @retail_calendar.end_of_month(*offset_month(year, merch_month))
+      if merch_month == 12
+        end_of_year(year)
+      else
+        start_of_month(year, merch_month + 1) - 1
+      end
     end
 
-    # Returns the date that corresponds to the first day in the merch week
-    def start_of_week(year, merch_month, merch_week)
-      @retail_calendar.start_of_week(*offset_month(year, merch_month), merch_week)
+    def start_of_week(year, month, merch_week)
+      start_of_month(year, month) + ((merch_week - 1) * 7)
     end
-
-    # Returns the date that corresponds to the last day in the merch week
-    def end_of_week(year, merch_month, merch_week)
-      @retail_calendar.end_of_week(*offset_month(year, merch_month), merch_week)
+    
+    def end_of_week(year, month, merch_week)
+      start_of_month(year, month) + (6 + ((merch_week - 1) * 7))
     end
-
-    # Returns the number of weeks in the fiscal year
+    
     def weeks_in_year(year)
-      @retail_calendar.weeks_in_year(offset_year(year))
+      ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
-
-    private
-
-    # Offsets the quarter based on the fiscal year quarter offset
-    # returns: offset [year, quarter]
-    def offset_quarter(year, quarter)
-      # first quarter in fiscal calendar is Q3 of retail calendar of previous year
-      if quarter >= 1 + @fy_quarter_offset.abs 
-        [year, quarter + @fy_quarter_offset]
-      else
-        [year - 1, quarter - @fy_quarter_offset]
-      end
-    end
-
-    # Offsets the month based on the fiscal year quarter offset
-    # returns: offset [year, month]
-    def offset_month(year, month)
-      # 3 - number of months in a quarter
-      month_offset = @fy_quarter_offset * 3
-
-      if month >= (month_offset.abs + 1) 
-        [year, month + month_offset] 
-      else
-        [year - 1, month - month_offset]
-      end
-    end
-
-    # Offsets the year based on the fiscal year quarter offset
-    # returns: offset year
-    def offset_year(year)
-      if @fy_quarter_offset < 0
-        year -= 1
-      elsif @fy_quarter_offset > 0
-        year += 1
-      else
-        year
-      end
-    end
+    
   end
 end

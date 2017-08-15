@@ -8,12 +8,12 @@ module MerchCalendar
     QUARTER_4 = 4
 
     def end_of_year(year)
-      year_end = Date.new((year + 1), 1, -1)
-      wday = (year_end.wday + 1) % 7
+      year_end = Date.new((year + 1), 1, -1) # Jan 31st
+      wday = (year_end.wday + 1) % 7 
 
-      if wday > 3
+      if wday > 3 ### this rounds up to the next saturday 
         year_end += 7 - wday
-      elsif wday > 0
+      else # rounding down to the next saturday
         year_end -= wday
       end
       year_end
@@ -27,7 +27,7 @@ module MerchCalendar
     # The starting date of a given month
     # THIS IS THE MERCH MONTH
     # 1 = feb
-    # 
+
     def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
