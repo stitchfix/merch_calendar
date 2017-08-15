@@ -11,7 +11,7 @@ module MerchCalendar
       year_end = Date.new((year + 1), 1, -1) # Jan 31st
       wday = (year_end.wday + 1) % 7 
 
-      if wday > 3 ### this rounds up to the next saturday 
+      if wday > 3 # this rounds up to the next saturday 
         year_end += 7 - wday
       else # rounding down to the next saturday
         year_end -= wday
