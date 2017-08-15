@@ -1,5 +1,3 @@
-require "merch_calendar/retail_calendar"
-
 module MerchCalendar
   class FiscalYearCalendar
     QUARTER_1 = 1
