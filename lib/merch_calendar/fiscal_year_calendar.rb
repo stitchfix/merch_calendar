@@ -86,18 +86,5 @@ module MerchCalendar
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
     
-    def merch_months_in(start_date, end_date)
-      merch_months = []
-      prev_date = start_date - 2
-      date = start_date
-      while date <= end_date do
-        date = MerchCalendar.start_of_month(date.year, merch_month: date.month)
-        next if prev_date == date
-        merch_months.push(date)
-        prev_date = date
-        date += 14
-      end
-      merch_months
-    end
   end
 end
