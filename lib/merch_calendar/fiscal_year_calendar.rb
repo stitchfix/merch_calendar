@@ -9,6 +9,7 @@ module MerchCalendar
     
     FOUR_WEEK_MONTHS = [2, 5, 8, 11]
     FIVE_WEEK_MONTHS = [3, 6, 9, 12]
+
     # The date of the first day of the year
     def start_of_year(year)
       end_of_year(year - 1) + 1

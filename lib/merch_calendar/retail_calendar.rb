@@ -6,6 +6,9 @@ module MerchCalendar
     QUARTER_2 = 2
     QUARTER_3 = 3
     QUARTER_4 = 4
+    
+    FOUR_WEEK_MONTHS = [2, 5, 8, 11]
+    FIVE_WEEK_MONTHS = [3, 6, 9, 12]
 
     def end_of_year(year)
       year_end = Date.new((year + 1), 1, -1) # Jan 31st
@@ -33,10 +36,10 @@ module MerchCalendar
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
 
       case merch_month
-      when 2,5,8,11
+      when  *FOUR_WEEK_MONTHS
         # 28 = 4 weeks
         start = start + 28
-      when 3,6,9,12
+      when *FIVE_WEEK_MONTHS
         # The 5 week months
         # 63 = 4 weeks + 5 weeks
         start = start + 63
