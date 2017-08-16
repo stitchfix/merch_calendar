@@ -105,7 +105,7 @@ module MerchCalendar
       prev_date = start_date - 2
       date = start_date
       while date <= end_date do
-        date = FiscalYearCalendar.start_of_month(date.year, merch_month: date.month)
+        date = MerchCalendar.start_of_month(date.year, merch_month: date.month)
         next if prev_date == date
         merch_months.push(date)
         prev_date = date

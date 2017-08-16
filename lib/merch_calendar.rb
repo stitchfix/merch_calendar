@@ -1,6 +1,5 @@
 require "date"
 
-#
 module MerchCalendar
   DEPRECATION_DATE = Date.new(2018, 1, 1)
 end
