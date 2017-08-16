@@ -42,6 +42,9 @@ RSpec.describe MerchCalendar::RetailCalendar do
     it "returns the correct date" do
       expect(subject.start_of_quarter(2017, 1)).to eq Date.new(2017, 1, 29)
       expect(subject.start_of_quarter(2018, 1)).to eq Date.new(2018, 2, 4)
+      expect(subject.start_of_quarter(2019, 2)).to eq Date.new(2019, 5, 5)
+      expect(subject.start_of_quarter(2019, 3)).to eq Date.new(2019, 8, 4)
+      expect(subject.start_of_quarter(2019, 4)).to eq Date.new(2019, 11, 3)
     end
   end
 
@@ -49,6 +52,9 @@ RSpec.describe MerchCalendar::RetailCalendar do
     it "returns the correct date" do
       expect(subject.end_of_quarter(2017, 1)).to eq Date.new(2017, 4, 29)
       expect(subject.end_of_quarter(2018, 1)).to eq Date.new(2018, 5, 5)
+      expect(subject.end_of_quarter(2019, 2)).to eq Date.new(2019, 8, 3)
+      expect(subject.end_of_quarter(2019, 3)).to eq Date.new(2019, 11, 2)
+      expect(subject.end_of_quarter(2019, 4)).to eq Date.new(2020, 2, 1)
     end
   end
 
