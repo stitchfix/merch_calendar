@@ -236,34 +236,20 @@ RSpec.describe MerchCalendar::FiscalYearCalendar do
       expect(merch_months.count).to be 11
     
       expect(merch_months[0].year).to be 2018
+      expect(merch_months[4].year).to be 2019
       expect(merch_months[10].year).to be 2019
-      
-      p "*************** ELEVEN MONTH *****************"
-      p "START DATE: #{start_date.strftime('%Y-%m-%d')}"
-      p "END DATE: #{end_date.strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 1: #{merch_months[0].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 2: #{merch_months[1].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 3: #{merch_months[2].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 4: #{merch_months[3].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 5: #{merch_months[4].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 6: #{merch_months[5].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 7: #{merch_months[6].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 8: #{merch_months[7].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 9: #{merch_months[8].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 10: #{merch_months[9].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 11: #{merch_months[10].strftime('%Y-%m-%d')}"
-    
-      # expect(merch_months[0].strftime('%Y-%m-%d')).to eq  '2014-02-02'
-      # expect(merch_months[1].strftime('%Y-%m-%d')).to eq  '2014-03-02'
-      # expect(merch_months[2].strftime('%Y-%m-%d')).to eq  '2014-04-06'
-      # expect(merch_months[3].strftime('%Y-%m-%d')).to eq  '2014-05-04'
-      # expect(merch_months[4].strftime('%Y-%m-%d')).to eq  '2014-06-01'
-      # expect(merch_months[5].strftime('%Y-%m-%d')).to eq  '2014-07-06'
-      # expect(merch_months[6].strftime('%Y-%m-%d')).to eq  '2014-08-03'
-      # expect(merch_months[7].strftime('%Y-%m-%d')).to eq  '2014-08-31'
-      # expect(merch_months[8].strftime('%Y-%m-%d')).to eq  '2014-10-05'
-      # expect(merch_months[9].strftime('%Y-%m-%d')).to eq  '2014-11-02'
-      # expect(merch_months[10].strftime('%Y-%m-%d')).to eq '2014-11-30'
+
+      expect(merch_months[0].strftime('%Y-%m-%d')).to eq  '2018-09-02'
+      expect(merch_months[1].strftime('%Y-%m-%d')).to eq  '2018-10-07'
+      expect(merch_months[2].strftime('%Y-%m-%d')).to eq  '2018-11-04'
+      expect(merch_months[3].strftime('%Y-%m-%d')).to eq  '2018-12-02'
+      expect(merch_months[4].strftime('%Y-%m-%d')).to eq  '2019-01-06'
+      expect(merch_months[5].strftime('%Y-%m-%d')).to eq  '2019-02-03'
+      expect(merch_months[6].strftime('%Y-%m-%d')).to eq  '2019-03-03'
+      expect(merch_months[7].strftime('%Y-%m-%d')).to eq  '2019-04-07'
+      expect(merch_months[8].strftime('%Y-%m-%d')).to eq  '2019-05-05'
+      expect(merch_months[9].strftime('%Y-%m-%d')).to eq  '2019-06-02'
+      expect(merch_months[10].strftime('%Y-%m-%d')).to eq '2019-07-07'
     end
   end
 end
