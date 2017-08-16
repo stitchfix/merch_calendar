@@ -128,6 +128,10 @@ RSpec.describe MerchCalendar::FiscalYearCalendar do
       expect(subject.start_of_quarter(2019, 1)).to eq Date.new(2018, 7, 29)
     end
     
+    it "returns the correct date for 2019-Q2" do
+      expect(subject.start_of_quarter(2019, 2)).to eq Date.new(2018, 10, 28)
+    end
+    
     it "returns the correct date for 2019-Q3" do
       expect(subject.start_of_quarter(2019, 3)).to eq Date.new(2019, 1, 27)
     end
@@ -148,6 +152,10 @@ RSpec.describe MerchCalendar::FiscalYearCalendar do
 
     it "returns the correct date for 2019-Q1" do
       expect(subject.end_of_quarter(2019, 1)).to eq Date.new(2018, 10, 27)
+    end
+    
+    it "returns the correct date for 2019-Q2" do
+      expect(subject.end_of_quarter(2019, 2)).to eq Date.new(2019, 1, 26)
     end
     
     it "returns the correct date for 2019-Q3" do
