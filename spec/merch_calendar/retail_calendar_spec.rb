@@ -84,11 +84,7 @@ RSpec.describe MerchCalendar::RetailCalendar do
       start_merch_date = MerchCalendar.start_of_month(start_date.year, merch_month: start_date.month)
 
       merch_months = subject.merch_months_in(start_date, end_date)
-      p "*************** ONE MONTH *****************"
-      p "START DATE: #{start_date.strftime('%Y-%m-%d')}"
-      p "END DATE: #{end_date.strftime('%Y-%m-%d')}"
 
-      p "MERCH MONTHS: #{merch_months[0].strftime('%Y-%m-%d')}"
       expect(merch_months.count).to be(1)
       expect(merch_months.first.year).to eq start_merch_date.year
       expect(merch_months.first.month).to eq start_merch_date.month
@@ -105,20 +101,6 @@ RSpec.describe MerchCalendar::RetailCalendar do
       merch_months.each do |merch_month|
         expect(merch_month.year).to be 2014
       end
-      p "*************** ELEVEN MONTH *****************"
-      p "START DATE: #{start_date.strftime('%Y-%m-%d')}"
-      p "END DATE: #{end_date.strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 1: #{merch_months[0].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 2: #{merch_months[1].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 3: #{merch_months[2].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 4: #{merch_months[3].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 5: #{merch_months[4].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 6: #{merch_months[5].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 7: #{merch_months[6].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 8: #{merch_months[7].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 9: #{merch_months[8].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 10: #{merch_months[9].strftime('%Y-%m-%d')}"
-      p "MERCH MONTHS 11: #{merch_months[10].strftime('%Y-%m-%d')}"
 
       expect(merch_months[0].strftime('%Y-%m-%d')).to eq  '2014-02-02'
       expect(merch_months[1].strftime('%Y-%m-%d')).to eq  '2014-03-02'
