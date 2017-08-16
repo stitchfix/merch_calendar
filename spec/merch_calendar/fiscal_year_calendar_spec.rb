@@ -214,13 +214,6 @@ RSpec.describe MerchCalendar::FiscalYearCalendar do
       start_merch_date = MerchCalendar.start_of_month(start_date.year, merch_month: start_date.month)
     
       merch_months = subject.merch_months_in(start_date, end_date)
-      
-      p "*************** ONE MONTH *****************"
-      p "START DATE: #{start_date.strftime('%Y-%m-%d')}"
-      p "END DATE: #{end_date.strftime('%Y-%m-%d')}"
-
-      p "MERCH MONTHS: #{merch_months[0].strftime('%Y-%m-%d')}"
-      
     
       expect(merch_months.count).to be(1)
       expect(merch_months.first.year).to eq start_merch_date.year
