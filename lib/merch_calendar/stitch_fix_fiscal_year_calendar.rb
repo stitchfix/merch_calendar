@@ -1,7 +1,6 @@
-require "date"
-
 module MerchCalendar
-  class RetailCalendar
+  class StitchFixFiscalYearCalendar
+
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3
@@ -10,60 +9,22 @@ module MerchCalendar
     FOUR_WEEK_MONTHS = [2, 5, 8, 11]
     FIVE_WEEK_MONTHS = [3, 6, 9, 12]
 
-    def end_of_year(year)
-      year_end = Date.new((year + 1), 1, -1) # Jan 31st
-      wday = (year_end.wday + 1) % 7 
-
-      if wday > 3 # this rounds up to the next saturday 
-        year_end += 7 - wday
-      else # rounding down to the next saturday
-        year_end -= wday
-      end
-      year_end
-    end
-
-    # The day after last years' end date
+    # The date of the first day of the year
     def start_of_year(year)
       end_of_year(year - 1) + 1
     end
 
-    # The starting date of a given month
-    # THIS IS THE MERCH MONTH
-    # 1 = feb
+   # The date of the last day of the year
+    def end_of_year(year)
+      year_end = Date.new((year), 7, -1)
+      wday = (year_end.wday + 1) % 7
 
-    def start_of_month(year, merch_month)
-      # 91 = number of days in a single 4-5-4 set 
-      start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
-
-      case merch_month
-      when  *FOUR_WEEK_MONTHS
-        # 28 = 4 weeks
-        start = start + 28
-      when *FIVE_WEEK_MONTHS
-        # The 5 week months
-        # 63 = 4 weeks + 5 weeks
-        start = start + 63
-      end
-      
-      start
-    end
-
-    def end_of_month(year, merch_month)
-      if merch_month == 12
-        end_of_year(year)
+      if wday > 3
+        year_end += 7 - wday
       else
-        start_of_month(year, merch_month + 1) - 1
+        year_end -= wday
       end
-    end
-
-    # Returns the date that corresponds to the first day in the merch week
-    def start_of_week(year, month, merch_week)
-      start_of_month(year, month) + ((merch_week - 1) * 7)
-    end
-
-    # Returns the date that corresponds to the last day in the merch week
-    def end_of_week(year, month, merch_week)
-      start_of_month(year, month) + (6 + ((merch_week - 1) * 7))
+      year_end
     end
 
     # Return the starting date for a particular quarter
@@ -94,11 +55,52 @@ module MerchCalendar
       end
     end
 
-    # Return the number of weeks in a particular year
+    # The date of the first day of the merch month
+    # @param [Fixnum] year - the fiscal year
+    # @param [Fixnum] merch_month - the nth month of the offset calendar
+    def start_of_month(year, merch_month)
+      # 91 = number of days in a single 4-5-4 set 
+      start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
+
+      case merch_month
+      when *FOUR_WEEK_MONTHS
+        # 28 = 4 weeks
+        start = start + 28
+      when *FIVE_WEEK_MONTHS
+        # The 5 week months
+        # 63 = 4 weeks + 5 weeks
+        start = start + 63
+      end
+      
+      start
+    end
+
+    # The date of the last day of the merch month
+    # @param [Fixnum] year - the fiscal year
+    # @param [Fixnum] merch_month - the nth month of the offset calendar
+    def end_of_month(year, merch_month)
+      if merch_month == 12
+        end_of_year(year)
+      else
+        start_of_month(year, merch_month + 1) - 1
+      end
+    end
+
+    # Returns the date that corresponds to the first day in the merch week
+    def start_of_week(year, month, merch_week)
+      start_of_month(year, month) + ((merch_week - 1) * 7)
+    end
+
+    # Returns the date that corresponds to the last day in the merch week
+    def end_of_week(year, month, merch_week)
+      start_of_month(year, month) + (6 + ((merch_week - 1) * 7))
+    end
+
+    # Returns the number of weeks in the fiscal year
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
-
+    
     def merch_months_in(start_date, end_date)
       merch_months = []
       prev_date = start_date - 2
@@ -112,5 +114,6 @@ module MerchCalendar
       end
       merch_months
     end
+
   end
 end

@@ -1,5 +1,5 @@
 require "merch_calendar/retail_calendar"
-require "merch_calendar/fiscal_year_calendar"
+require "merch_calendar/stitch_fix_fiscal_year_calendar"
 
 module MerchCalendar
 
@@ -179,7 +179,7 @@ module MerchCalendar
     end
 
     def fiscal_year_calendar
-      @fiscal_year_calendar ||= FiscalYearCalendar.new
+      @fiscal_year_calendar ||= StitchFixFiscalYearCalendar.new
     end
 
     # Reads the provided parameter and converts the value
@@ -225,7 +225,7 @@ module MerchCalendar
       :start_of_quarter, 
       :end_of_quarter
     ].each do |method|
-      deprecate method, "#{MerchCalendar::FiscalYearCalendar}##{method}", DEPRECATION_DATE.year, DEPRECATION_DATE.month
+      deprecate method, "#{MerchCalendar::StitchFixFiscalYearCalendar}##{method}", DEPRECATION_DATE.year, DEPRECATION_DATE.month
     end
 
   end
