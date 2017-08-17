@@ -102,18 +102,17 @@ retail_calendar.end_of_week(2017, 4, 1)
 #=> #<Date: 2017-05-06 ((2457880j,0s,0n),+0s,2299161j)>
 ```
 
-### Offset fiscal year calendars
-Some companies, one of which being Stitch Fix, operate on a fiscal year calendar that is offset from
-the traditional retail calendar.  The `MerchCalendar::StitchFixFiscalYearCalendar` class allows you to easily
-offset the start of year to match your fiscal calendar.
+### Stitch Fix Fiscal Year Calendars
+Some companies, one of which being Stitch Fix, operate on a fiscal year calendar that instead starts in August 
+rather than in February in a the traditional retail calendar.  The `MerchCalendar::StitchFixFiscalYearCalendar` class 
+allows you to easily translate Gregorian dates to a Stitch Fix Fiscal Year date.
 
 ```ruby
 fiscal_calendar = MerchCalendar::StitchFixFiscalYearCalendar.new
 
-# 52 or 53 (depending on leap year)
-fiscal_calendar.weeks_in_year(2017)
-# => 52
 fiscal_calendar.weeks_in_year(2018)
+# => 52
+fiscal_calendar.weeks_in_year(2019)
 # => 53
 
 # get the start date of a given merch week
