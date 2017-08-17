@@ -1,5 +1,5 @@
 module MerchCalendar
-  class FiscalYearCalendar
+  class StitchFixFiscalYearCalendar
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3

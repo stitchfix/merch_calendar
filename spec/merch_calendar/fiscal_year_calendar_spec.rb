@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe MerchCalendar::FiscalYearCalendar do
+RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
   describe "#weeks_in_year" do
     it "returns 53 for a leap year - 2013" do
       expect(subject.weeks_in_year(2013)).to eq 53
