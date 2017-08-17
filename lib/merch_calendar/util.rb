@@ -225,7 +225,7 @@ module MerchCalendar
       :start_of_quarter, 
       :end_of_quarter
     ].each do |method|
-      deprecate method, "#{MerchCalendar::FiscalYearCalendar}##{method}", DEPRECATION_DATE.year, DEPRECATION_DATE.month
+      deprecate method, "#{MerchCalendar::StitchFixFiscalYearCalendar}##{method}", DEPRECATION_DATE.year, DEPRECATION_DATE.month
     end
 
   end
