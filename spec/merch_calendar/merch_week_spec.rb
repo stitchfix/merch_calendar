@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MerchCalendar::MerchWeek do
-
+  let(:fiscal_calendar_options) { { calendar: MerchCalendar::StitchFixFiscalYearCalendar.new } }
   describe ".find" do
     it "returns an array of weeks" do
       weeks = described_class.find(2014,1)
@@ -44,10 +44,11 @@ describe MerchCalendar::MerchWeek do
       
       context "wants to know a date in a Fiscal Calendar" do
         it "allows calendar to be passed and translate date to what it looks like in a FY year" do
-          mw = described_class.from_date( "2019-07-28", { calendar: MerchCalendar::StitchFixFiscalYearCalendar.new } )
+          mw = described_class.from_date( "2019-07-28", fiscal_calendar_options )
+          binding.pry
           expect(mw.date.to_s).to eq "2019-07-28"
           expect(mw.date.month).to eq 7
-          expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar    
+          expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
         end
       end
     end
@@ -62,19 +63,26 @@ describe MerchCalendar::MerchWeek do
 
   describe "#to_s" do
     let(:merch_week) { described_class.from_date("2014-01-01") }
-
+    let(:fiscal_week) { described_class.from_date("2019-08-01", fiscal_calendar_options) }
     it ":short / default format" do
       expect(merch_week.to_s(:short)).to eq "Dec W5"
       expect(merch_week.to_s).to eq "Dec W5"
       expect("#{merch_week}").to eq "Dec W5"
+      
+      expect(fiscal_week.to_s(:short)).to eq "Aug W5"
+      expect(fiscal_week.to_s).to eq "Aug W5"
+      expect("#{fiscal_week}").to eq "Aug W5"
     end
 
     it ":long format" do
       expect(merch_week.to_s(:long)).to eq "2013:48 Dec W5"
+      expect(fiscal_week.to_s(:long)).to eq "2019:53 Aug W5"
+
     end
 
     it ":elasticsearch format" do
       expect(merch_week.to_s(:elasticsearch)).to eq "2013-12w05"
+      expect(fiscal_week.to_s(:elasticsearch)).to eq "2019-12w05"
     end
   end
 
