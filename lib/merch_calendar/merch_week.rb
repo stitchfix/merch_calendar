@@ -9,7 +9,7 @@ module MerchCalendar
     #
     # @!attribute [r] date
     #   @return [Date] the date for this merch week
-    attr_reader :date
+    attr_reader :date, :calendar
 
     class << self
 
@@ -21,8 +21,8 @@ module MerchCalendar
       #   @param [Date] julian_date a +Date+ object
       #
       # @return [MerchWeek]
-      def from_date(julian_date)
-        MerchWeek.new Date.parse("#{julian_date}")
+      def from_date(julian_date, options = {})
+        MerchWeek.new(Date.parse("#{julian_date}"), options)
       end
 
       # Returns an array of merch weeks for a month, or a specific week.
@@ -53,13 +53,13 @@ module MerchCalendar
       end
     end
 
-
-
     # Pass in a date, make sure it is a valid date object
     # @private
     def initialize(date, options = {})
       @date = date
-
+      
+      #defaults to Retail Calendar if no other calendar is defined
+      @calendar = options.fetch(:calendar, RetailCalendar.new)
       # Placeholders. These should be populated by functions if nil
       # week_start: nil, week_end: nil, week_number: nil
       @start_of_year = options[:start_of_year]
@@ -88,7 +88,7 @@ module MerchCalendar
       # TODO: This is very inefficient, but less complex than strategic guessing
       # maybe switch to a binary search or something
       @merch_month ||= (1..12).detect do |num|
-        retail_calendar.end_of_month(start_of_year.year, num) >= date && date >= retail_calendar.start_of_month(start_of_year.year, num)
+        calendar.end_of_month(start_of_year.year, num) >= date && date >= calendar.start_of_month(start_of_year.year, num)
       end
     end
 
@@ -155,21 +155,21 @@ module MerchCalendar
     #
     # @return [Date]
     def end_of_year
-      @end_of_year ||= retail_calendar.end_of_year(year)
+      @end_of_year ||= calendar.end_of_year(year)
     end
 
     # The start date of the merch month
     #
     # @return [Date]
     def start_of_month
-      @start_of_month ||= retail_calendar.start_of_month(year, merch_month)
+      @start_of_month ||= calendar.start_of_month(year, merch_month)
     end
 
     # The end date of the merch month
     #
     # @return [Date]
     def end_of_month
-      @end_of_month ||= retail_calendar.end_of_month(year, merch_month)
+      @end_of_month ||= calendar.end_of_month(year, merch_month)
     end
 
     # The merch season this date falls under.
@@ -209,15 +209,11 @@ module MerchCalendar
     private
 
     def year_start_date
-      start_date = retail_calendar.start_of_year(date.year)
+      start_date = calendar.start_of_year(date.year)
       if start_date > date
-        start_date = retail_calendar.start_of_year(date.year - 1)
+        start_date = calendar.start_of_year(date.year - 1)
       end
       start_date
-    end
-
-    def retail_calendar
-      @retail_calendar ||= RetailCalendar.new
     end
 
   end

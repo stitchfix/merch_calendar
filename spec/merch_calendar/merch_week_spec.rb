@@ -7,6 +7,7 @@ describe MerchCalendar::MerchWeek do
       weeks = described_class.find(2014,1)
       expect(weeks).to be_an Array
       expect(weeks.size).to eq 4
+      binding.pry
     end
 
     it "with year, month, week" do
@@ -39,6 +40,15 @@ describe MerchCalendar::MerchWeek do
       context "throws exception for invalid dates" do
         it { expect{described_class.from_date("2015")}.to raise_error(ArgumentError) }
         it { expect{described_class.from_date("2015-04")}.to raise_error(ArgumentError) }
+      end
+      
+      context "wants to know a date in a Fiscal Calendar" do
+        it "allows calendar to be passed and translate date to what it looks like in a FY year" do
+          mw = described_class.from_date( "2019-07-28", { calendar: MerchCalendar::StitchFixFiscalYearCalendar.new } )
+          expect(mw.date.to_s).to eq "2019-07-28"
+          expect(mw.date.month).to eq 7
+          expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar    
+        end
       end
     end
   end
