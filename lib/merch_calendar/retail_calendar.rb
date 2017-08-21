@@ -112,5 +112,50 @@ module MerchCalendar
       end
       merch_months
     end
+    
+    #this is expecting to submit a gregorian year and a gregorian month 
+    #and for it to return the merch weeks within the month
+    def weeks_for_month(year, month_param)
+      merch_month = get_merch_month_param(month_param)
+      
+      #gets the start_date of the merch_month
+      start_date = start_of_month(year, merch_month)
+      
+      #gets the number of weeks given start_date and given end_date and divided by 7 
+      weeks = (end_of_month(year, merch_month) - start_date + 1) / 7
+      
+      #with each number of weeks it creates a hash that has an array of weeks and their start date and end date of each week
+      (1..weeks).map do |week_num|
+        week_start = start_date + ((week_num - 1) * 7)
+        week_end = week_start + 6
+        MerchWeek.new(week_start, { start_of_week: week_start, end_of_week: week_end, week: week_num, calendar: RetailCalendar.new })
+      end
+    end
+    
+    def get_merch_month_param(param)
+      if param.is_a? Fixnum
+        return julian_to_merch(param)
+      elsif param.is_a? Hash
+        julian_month = param.delete(:julian_month) || param.delete(:month)
+        merch_month = param.delete(:merch_month)
+
+        if merch_month
+          return merch_month
+        elsif julian_month
+          return julian_to_merch(julian_month)
+        end
+      end
+
+      raise ArgumentError
+    end
+    
+    def julian_to_merch(julian_month)
+      if julian_month == 1
+        12
+      else
+        julian_month - 1
+      end
+    end
+
   end
 end

@@ -59,6 +59,7 @@ module MerchCalendar
     # @param [Fixnum] year - the fiscal year
     # @param [Fixnum] merch_month - the nth month of the offset calendar
     def start_of_month(year, merch_month)
+      merch_month = get_merch_month_param(merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
 
@@ -106,13 +107,32 @@ module MerchCalendar
       prev_date = start_date - 2
       date = start_date
       while date <= end_date do
-        date = MerchCalendar.start_of_month(date.year, merch_month: date.month)
+        date = start_of_month(date.year, merch_month: date.month)
         next if prev_date == date
         merch_months.push(date)
         prev_date = date
         date += 14
       end
       merch_months
+    end
+
+    private
+    
+    def get_merch_month_param(param)
+      if param.is_a? Fixnum
+        return julian_to_merch(param)
+      elsif param.is_a? Hash
+        julian_month = param.delete(:julian_month) || param.delete(:month)
+        merch_month = param.delete(:merch_month)
+
+        if merch_month
+          return merch_month
+        elsif julian_month
+          return julian_to_merch(julian_month)
+        end
+      end
+
+      raise ArgumentError
     end
 
   end

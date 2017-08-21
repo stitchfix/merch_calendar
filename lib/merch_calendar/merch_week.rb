@@ -37,7 +37,7 @@ module MerchCalendar
       #   @param julian_month [Fixnum] the month to find merch months for
       #   @param week_number [Fixnum] the specific week number.
       #   @return [MerchWeek] the specific merch week
-      def find(year, julian_month, week_number=nil)
+      def find(year, julian_month, week_number=nil, options={})
         if week_number.nil?
           MerchCalendar.weeks_for_month(year, julian_month)
         else
@@ -92,7 +92,7 @@ module MerchCalendar
       end
     end
 
-    # The merch year
+    # The Merch vs Fiscal year
     #
     # @return [Fixnum]
     def year

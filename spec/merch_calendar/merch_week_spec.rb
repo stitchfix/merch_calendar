@@ -64,6 +64,7 @@ describe MerchCalendar::MerchWeek do
   describe "#to_s" do
     let(:merch_week) { described_class.from_date("2014-01-01") }
     let(:fiscal_week) { described_class.from_date("2019-08-01", fiscal_calendar_options) }
+
     it ":short / default format" do
       expect(merch_week.to_s(:short)).to eq "Dec W5"
       expect(merch_week.to_s).to eq "Dec W5"
@@ -88,7 +89,6 @@ describe MerchCalendar::MerchWeek do
 
   it "#end_of_week" do
     mw = described_class.find(2014,1,1)
-
     expect(mw.end_of_week).to eq (mw.start_of_week + 6)
   end
 

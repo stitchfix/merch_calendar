@@ -219,7 +219,7 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
     it "returns merch date for start_date if start_date is the same as end_date" do
       start_date = Date.new(2018,8,1)
       end_date = start_date
-      start_merch_date = MerchCalendar.start_of_month(start_date.year, merch_month: start_date.month)
+      start_merch_date = subject.start_of_month(start_date.year, merch_month: start_date.month)
     
       merch_months = subject.merch_months_in(start_date, end_date)
     
@@ -239,6 +239,19 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect(merch_months[0].year).to be 2018
       expect(merch_months[4].year).to be 2019
       expect(merch_months[10].year).to be 2019
+      p "Merch Months: #{merch_months[0].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[1].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[2].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[3].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[4].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[5].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[6].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[7].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[8].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[9].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[10].strftime('%Y-%m-%d')}"
+      p "Merch Months: #{merch_months[11].strftime('%Y-%m-%d')}"
+
 
       expect(merch_months[0].strftime('%Y-%m-%d')).to eq  '2018-09-02'
       expect(merch_months[1].strftime('%Y-%m-%d')).to eq  '2018-10-07'
