@@ -102,6 +102,37 @@ module MerchCalendar
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
     
+    # Converts a merch month to the correct julian month
+    #
+    # @param merch_month [Fixnum] the merch month to convert
+    # @return [Fixnum] the julian month
+    def merch_to_julian(merch_month)
+      if merch_month > 12 || merch_month <= 0
+        raise ArgumentError
+      end
+      if merch_month <= 5
+        merch_month + 7
+      else
+        merch_month - 5
+      end
+    end
+
+
+    # Converts a julian month to a fiscal month
+    #
+    # @param julian_month [Fixnum] the julian month to convert
+    # @return [Fixnum] the fiscal month
+    def julian_to_merch(julian_month)
+      if julian_month > 12 || julian_month <= 0
+        raise ArgumentError
+      end
+      if julian_month <= 7
+        julian_month + 5
+      else
+        julian_month - 7
+      end
+    end
+
     def merch_months_in(start_date, end_date)
       merch_months = []
       prev_date = start_date - 2

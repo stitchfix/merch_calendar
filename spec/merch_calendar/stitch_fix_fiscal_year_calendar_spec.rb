@@ -267,40 +267,41 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
     end
   end
 
-  describe "#julian_to_fiscal" do
-    it "converts julian months to fiscal months" do
-      expect(subject.julian_to_fiscal(8)).to eq 1
-      expect(subject.julian_to_fiscal(9)).to eq 2
-      expect(subject.julian_to_fiscal(10)).to eq 3
-      expect(subject.julian_to_fiscal(11)).to eq 4
-      expect(subject.julian_to_fiscal(12)).to eq 5
-      expect(subject.julian_to_fiscal(1)).to eq 6
-      expect(subject.julian_to_fiscal(2)).to eq 7
-      expect(subject.julian_to_fiscal(3)).to eq 8
-      expect(subject.julian_to_fiscal(4)).to eq 9
-      expect(subject.julian_to_fiscal(5)).to eq 10
-      expect(subject.julian_to_fiscal(6)).to eq 11
-      expect(subject.julian_to_fiscal(7)).to eq 12
-      expect { subject.julian_to_fiscal(13) }.to raise_error ArgumentError
-      expect { subject.julian_to_fiscal(0) }.to raise_error ArgumentError
+  describe "#julian_to_merch" do
+    it "converts julian months to merch months" do
+      expect(subject.julian_to_merch(8)).to eq 1
+      expect(subject.julian_to_merch(9)).to eq 2
+      expect(subject.julian_to_merch(10)).to eq 3
+      expect(subject.julian_to_merch(11)).to eq 4
+      expect(subject.julian_to_merch(12)).to eq 5
+      expect(subject.julian_to_merch(1)).to eq 6
+      expect(subject.julian_to_merch(2)).to eq 7
+      expect(subject.julian_to_merch(3)).to eq 8
+      expect(subject.julian_to_merch(4)).to eq 9
+      expect(subject.julian_to_merch(5)).to eq 10
+      expect(subject.julian_to_merch(6)).to eq 11
+      expect(subject.julian_to_merch(7)).to eq 12
+      expect { subject.julian_to_merch(13) }.to raise_error ArgumentError
+      expect { subject.julian_to_merch(0) }.to raise_error ArgumentError
     end
   end
-  describe "#fiscal_to_julian" do
-    it "converts fiscal months to julian months" do
-      expect(subject.fiscal_to_julian(1)).to eq 8
-      expect(subject.fiscal_to_julian(2)).to eq 9
-      expect(subject.fiscal_to_julian(3)).to eq 10
-      expect(subject.fiscal_to_julian(4)).to eq 11
-      expect(subject.fiscal_to_julian(5)).to eq 12
-      expect(subject.fiscal_to_julian(6)).to eq 1
-      expect(subject.fiscal_to_julian(7)).to eq 2
-      expect(subject.fiscal_to_julian(8)).to eq 3
-      expect(subject.fiscal_to_julian(9)).to eq 4
-      expect(subject.fiscal_to_julian(10)).to eq 5
-      expect(subject.fiscal_to_julian(11)).to eq 6
-      expect(subject.fiscal_to_julian(12)).to eq 7
-      expect { subject.fiscal_to_julian(13) }.to raise_error ArgumentError
-      expect { subject.fiscal_to_julian(0) }.to raise_error ArgumentError
+
+  describe "#merch_to_julian" do
+    it "converts merch months to julian months" do
+      expect(subject.merch_to_julian(1)).to eq 8
+      expect(subject.merch_to_julian(2)).to eq 9
+      expect(subject.merch_to_julian(3)).to eq 10
+      expect(subject.merch_to_julian(4)).to eq 11
+      expect(subject.merch_to_julian(5)).to eq 12
+      expect(subject.merch_to_julian(6)).to eq 1
+      expect(subject.merch_to_julian(7)).to eq 2
+      expect(subject.merch_to_julian(8)).to eq 3
+      expect(subject.merch_to_julian(9)).to eq 4
+      expect(subject.merch_to_julian(10)).to eq 5
+      expect(subject.merch_to_julian(11)).to eq 6
+      expect(subject.merch_to_julian(12)).to eq 7
+      expect { subject.merch_to_julian(13) }.to raise_error ArgumentError
+      expect { subject.merch_to_julian(0) }.to raise_error ArgumentError
     end
   end
 end
