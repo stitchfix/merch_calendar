@@ -7,7 +7,6 @@ describe MerchCalendar::MerchWeek do
       weeks = described_class.find(2014,1)
       expect(weeks).to be_an Array
       expect(weeks.size).to eq 4
-      binding.pry
     end
 
     it "with year, month, week" do

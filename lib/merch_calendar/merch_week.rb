@@ -39,7 +39,6 @@ module MerchCalendar
       #   @return [MerchWeek] the specific merch week
       def find(year, julian_month, week_number=nil, options={})
         calendar = options.fetch(:calendar, RetailCalendar.new)
-
         if week_number.nil?
           calendar.weeks_for_month(year, julian_month)
         else
