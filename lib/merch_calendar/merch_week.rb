@@ -38,10 +38,12 @@ module MerchCalendar
       #   @param week_number [Fixnum] the specific week number.
       #   @return [MerchWeek] the specific merch week
       def find(year, julian_month, week_number=nil, options={})
+        calendar = options.fetch(:calendar, RetailCalendar.new)
+
         if week_number.nil?
-          MerchCalendar.weeks_for_month(year, julian_month)
+          calendar.weeks_for_month(year, julian_month)
         else
-          MerchCalendar.weeks_for_month(year, julian_month)[week_number-1]
+          calendar.weeks_for_month(year, julian_month)[week_number-1]
         end
       end
 

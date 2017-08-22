@@ -2,6 +2,8 @@ require "date"
 
 module MerchCalendar
   class RetailCalendar
+    # include MerchCalendar::MyModule
+    
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3
@@ -9,6 +11,10 @@ module MerchCalendar
     
     FOUR_WEEK_MONTHS = [2, 5, 8, 11]
     FIVE_WEEK_MONTHS = [3, 6, 9, 12]
+    
+    def new_method
+      my_method
+    end
 
     def end_of_year(year)
       year_end = Date.new((year + 1), 1, -1) # Jan 31st
