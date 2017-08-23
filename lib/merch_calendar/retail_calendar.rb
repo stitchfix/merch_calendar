@@ -2,8 +2,7 @@ require "date"
 
 module MerchCalendar
   class RetailCalendar
-    # include MerchCalendar::MyModule
-    
+  
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3
@@ -11,10 +10,6 @@ module MerchCalendar
     
     FOUR_WEEK_MONTHS = [2, 5, 8, 11]
     FIVE_WEEK_MONTHS = [3, 6, 9, 12]
-    
-    def new_method
-      my_method
-    end
 
     def end_of_year(year)
       year_end = Date.new((year + 1), 1, -1) # Jan 31st
@@ -34,9 +29,8 @@ module MerchCalendar
     end
 
     # The starting date of a given month
-    # THIS IS THE MERCH MONTH
-    # 1 = feb
-
+    # merch_month = 1
+    # => FEB
     def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
@@ -54,6 +48,9 @@ module MerchCalendar
       start
     end
 
+    # The ending date of a given month
+    # merch_month = 12
+    # => JAN
     def end_of_month(year, merch_month)
       if merch_month == 12
         end_of_year(year)
@@ -104,7 +101,8 @@ module MerchCalendar
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
-
+    
+    # Returns
     def merch_months_in(start_date, end_date)
       merch_months = []
       prev_date = start_date - 2

@@ -103,7 +103,6 @@ RSpec.describe MerchCalendar::RetailCalendar do
 
       merch_months = subject.merch_months_in(start_date, end_date)
       expect(merch_months.count).to be 11
-
       merch_months.each do |merch_month|
         expect(merch_month.year).to be 2014
       end

@@ -217,53 +217,41 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
   
   describe "#merch_months_in" do
     it "returns merch date for start_date if start_date is the same as end_date" do
-      start_date = Date.new(2018,8,1)
+      start_date = Date.new(2020,8,2)
       end_date = start_date
-      start_merch_date = subject.start_of_month(start_date.year, merch_month: start_date.month)
+      start_merch_date = subject.start_of_month(start_date.year, start_date.month)
     
       merch_months = subject.merch_months_in(start_date, end_date)
     
       expect(merch_months.count).to be(1)
-      expect(merch_months.first.year).to eq start_merch_date.year
-      expect(merch_months.first.month).to eq start_merch_date.month
-      expect(merch_months.first.day).to eq start_merch_date.day
+      expect(merch_months[0].strftime('%Y-%m-%d')).to eq '2020-08-02'
     end
     
-    it "returns valid merch dates for 2014" do
+    it "returns valid merch dates for FY 2019" do
       start_date = Date.new(2018, 8, 1)
-      end_date = Date.new(2019, 7, 1)
+      end_date = Date.new(2019, 8, 1)
     
       merch_months = subject.merch_months_in(start_date, end_date)
-      expect(merch_months.count).to be 11
+
+      expect(merch_months.count).to be 13
     
       expect(merch_months[0].year).to be 2018
-      expect(merch_months[4].year).to be 2019
-      expect(merch_months[10].year).to be 2019
-      p "Merch Months: #{merch_months[0].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[1].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[2].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[3].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[4].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[5].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[6].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[7].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[8].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[9].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[10].strftime('%Y-%m-%d')}"
-      p "Merch Months: #{merch_months[11].strftime('%Y-%m-%d')}"
+      expect(merch_months[6].year).to be 2019
+      expect(merch_months[12].year).to be 2019
 
-
-      expect(merch_months[0].strftime('%Y-%m-%d')).to eq  '2018-09-02'
-      expect(merch_months[1].strftime('%Y-%m-%d')).to eq  '2018-10-07'
-      expect(merch_months[2].strftime('%Y-%m-%d')).to eq  '2018-11-04'
-      expect(merch_months[3].strftime('%Y-%m-%d')).to eq  '2018-12-02'
-      expect(merch_months[4].strftime('%Y-%m-%d')).to eq  '2019-01-06'
-      expect(merch_months[5].strftime('%Y-%m-%d')).to eq  '2019-02-03'
-      expect(merch_months[6].strftime('%Y-%m-%d')).to eq  '2019-03-03'
-      expect(merch_months[7].strftime('%Y-%m-%d')).to eq  '2019-04-07'
-      expect(merch_months[8].strftime('%Y-%m-%d')).to eq  '2019-05-05'
-      expect(merch_months[9].strftime('%Y-%m-%d')).to eq  '2019-06-02'
-      expect(merch_months[10].strftime('%Y-%m-%d')).to eq '2019-07-07'
+      expect(merch_months[0].strftime('%Y-%m-%d')).to eq  '2018-07-29'
+      expect(merch_months[1].strftime('%Y-%m-%d')).to eq  '2018-08-26'
+      expect(merch_months[2].strftime('%Y-%m-%d')).to eq  '2018-09-30'
+      expect(merch_months[3].strftime('%Y-%m-%d')).to eq  '2018-10-28'
+      expect(merch_months[4].strftime('%Y-%m-%d')).to eq  '2018-11-25'
+      expect(merch_months[5].strftime('%Y-%m-%d')).to eq  '2018-12-30'
+      expect(merch_months[6].strftime('%Y-%m-%d')).to eq  '2019-01-27'
+      expect(merch_months[7].strftime('%Y-%m-%d')).to eq  '2019-02-24'
+      expect(merch_months[8].strftime('%Y-%m-%d')).to eq  '2019-03-31'
+      expect(merch_months[9].strftime('%Y-%m-%d')).to eq  '2019-04-28'
+      expect(merch_months[10].strftime('%Y-%m-%d')).to eq '2019-05-26'
+      expect(merch_months[11].strftime('%Y-%m-%d')).to eq '2019-06-30'
+      expect(merch_months[12].strftime('%Y-%m-%d')).to eq '2019-08-04'
     end
   end
 
@@ -304,4 +292,13 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect { subject.merch_to_julian(0) }.to raise_error ArgumentError
     end
   end
+  
+  describe "fiscal_year_from_date" do
+    it "converts julian dates to its fiscal yea" do
+      expect(subject.fiscal_year_from_date(Date.new(2018, 8, 1))).to eq 2019
+      expect(subject.fiscal_year_from_date(Date.new(2018, 7, 1))).to eq 2018
+    end
+  end
+  
+  
 end

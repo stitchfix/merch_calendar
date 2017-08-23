@@ -59,7 +59,6 @@ module MerchCalendar
     # @param [Fixnum] year - the fiscal year
     # @param [Fixnum] merch_month - the nth month of the offset calendar
     def start_of_month(year, merch_month)
-      merch_month = get_merch_month_param(merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
 
@@ -117,7 +116,19 @@ module MerchCalendar
       end
     end
 
-
+    # Given any julian date it will return what FiscalYear it belongs to
+    #
+    # @param [Date] the julian date to convert to its Fiscal Year
+    # @return [Fixnum] the fiscal year that the julian date falls into
+    def fiscal_year_from_date(date)
+      fiscal_year = date.year #2018
+      if end_of_year(date.year) > date #july 29th 2018
+        return date.year
+      else
+        return date.year + 1
+      end
+    end
+    
     # Converts a julian month to a fiscal month
     #
     # @param julian_month [Fixnum] the julian month to convert
@@ -132,39 +143,35 @@ module MerchCalendar
         julian_month - 7
       end
     end
-
+    
+    # Given beginning and end dates it will return an array of Fiscal Month's Start date
+    #
+    # @param start_date [Date] the starting date
+    # @param end_date [Date] the ending date
+    # @return [Array] Array of start dates of each Fiscal Month from given dates
     def merch_months_in(start_date, end_date)
+      merch_months_combos = merch_month_combo_from_dates(start_date, end_date)
+      merch_months_combos.map { | merch_month_combo | start_of_month(merch_month_combo[0], merch_month_combo[1]) }
+    end
+
+    private
+
+    def merch_month_combo_from_dates(start_date, end_date)
       merch_months = []
-      prev_date = start_date - 2
-      date = start_date
-      while date <= end_date do
-        date = start_of_month(date.year, merch_month: date.month)
-        next if prev_date == date
-        merch_months.push(date)
-        prev_date = date
-        date += 14
+
+      first_of_start = Date.new(start_date.year, start_date.month, 14)
+      first_of_end = Date.new(end_date.year, end_date.month, 14)
+      date = first_of_start
+        
+      while date <= first_of_end do
+        merch_months.push(date_conversion(date))
+        date = date >> 1
       end
       merch_months
     end
 
-    private
-    
-    def get_merch_month_param(param)
-      if param.is_a? Fixnum
-        return julian_to_merch(param)
-      elsif param.is_a? Hash
-        julian_month = param.delete(:julian_month) || param.delete(:month)
-        merch_month = param.delete(:merch_month)
-
-        if merch_month
-          return merch_month
-        elsif julian_month
-          return julian_to_merch(julian_month)
-        end
-      end
-
-      raise ArgumentError
+    def date_conversion(date)
+      [ fiscal_year_from_date(date), julian_to_merch(date.month) ] #[ 2019, 12]
     end
-
   end
 end
