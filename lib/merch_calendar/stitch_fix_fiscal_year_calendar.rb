@@ -208,7 +208,6 @@ module MerchCalendar
         })
       end
     end
-    ### IMPORTANT ADD MORE GOOD TESTS FOR THIS METHOD ^^^^^^
 
     private
 

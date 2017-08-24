@@ -306,4 +306,24 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect { subject.merch_to_julian(0) }.to raise_error ArgumentError
     end
   end
+
+  describe "#weeks_for_month" do
+    context "correct number of weeks given julian month and fiscal year" do
+      it "returns 4 weeks for a 4-week month Fiscal Year 2019 for Aug" do
+        weeks = subject.weeks_for_month(2019, 8)
+        expect(weeks.size).to eq 4
+      end
+      it "returns 5 weeks for a 5-week month Fiscal Year 2019 for Sept" do
+        weeks = subject.weeks_for_month(2019, 9)
+        expect(weeks.size).to eq 5
+      end
+      it "returns 5 weeks for a 4-week end month if leap year" do
+        weeks = subject.weeks_for_month(2019, 7)
+        expect(weeks.size).to eq 5
+        
+        weeks = subject.weeks_for_month(2020, 8)
+        expect(weeks.size).to eq 4
+      end
+    end
+  end
 end
