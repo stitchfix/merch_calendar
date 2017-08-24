@@ -10,27 +10,36 @@ module MerchCalendar
     
     FOUR_WEEK_MONTHS = [2, 5, 8, 11]
     FIVE_WEEK_MONTHS = [3, 6, 9, 12]
-
+    
+    # The the first date of the retail year
+    #
+    # @param [Fixnum] year - the fiscal year
+    # @return [Date] the first date of the fiscal year
     def end_of_year(year)
-      year_end = Date.new((year + 1), 1, -1) # Jan 31st
+      year_end = Date.new((year + 1), 1, -1)
       wday = (year_end.wday + 1) % 7 
 
-      if wday > 3 # this rounds up to the next saturday 
+      if wday > 3
         year_end += 7 - wday
-      else # rounding down to the next saturday
+      else
         year_end -= wday
       end
       year_end
     end
 
-    # The day after last years' end date
+    # The last date of the retail year
+    #
+    # @param [Fixnum] year - the fiscal year
+    # @return [Date] the last date of the fiscal year
     def start_of_year(year)
       end_of_year(year - 1) + 1
     end
 
-    # The starting date of a given month
-    # merch_month = 1
-    # => FEB
+    # The starting date of the given merch month
+    #
+    # @param [Fixnum] year - the retail year
+    # @param [Fixnum] merch_month - the nth month of the retail calendar
+    # @return [Date] the start date of the merch month
     def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
@@ -48,9 +57,11 @@ module MerchCalendar
       start
     end
 
-    # The ending date of a given month
-    # merch_month = 12
-    # => JAN
+    # The ending date of the given merch month
+    #
+    # @param [Fixnum] year - the retail year
+    # @param [Fixnum] merch_month - the nth month of the fiscal calendar
+    # @return [Date] the end date of the merch month
     def end_of_month(year, merch_month)
       if merch_month == 12
         end_of_year(year)
@@ -60,16 +71,31 @@ module MerchCalendar
     end
 
     # Returns the date that corresponds to the first day in the merch week
+    #
+    # @param [Fixnum] year - the retail year
+    # @param [Fixnum] merch_month - the nth month of the fiscal calendar
+    # @param [Fixnum] merch_week - the nth week of the merch month
+    # @return [Date] the start date of the merch week
+    def start_of_week(year, month, merch_week)
     def start_of_week(year, month, merch_week)
       start_of_month(year, month) + ((merch_week - 1) * 7)
     end
 
     # Returns the date that corresponds to the last day in the merch week
+    #
+    # @param [Fixnum] year - the retail year
+    # @param [Fixnum] merch_month - the nth month of the fiscal calendar
+    # @param [Fixnum] merch_week - the nth week of the merch month
+    # @return [Date] the end date of the merch week
     def end_of_week(year, month, merch_week)
       start_of_month(year, month) + (6 + ((merch_week - 1) * 7))
     end
 
     # Return the starting date for a particular quarter
+    #
+    # @param [Fixnum] year - the retail year
+    # @param [Fixnum] quarter - the quarter of the year, a number from 1 - 4
+    # @return [Date] the start date of the quarter
     def start_of_quarter(year, quarter)
       case quarter
       when QUARTER_1
@@ -84,6 +110,10 @@ module MerchCalendar
     end
 
     # Return the ending date for a particular quarter
+    #
+    # @param [Fixnum] year - the retail year
+    # @param [Fixnum] quarter - the quarter of the year, a number from 1 - 4
+    # @return [Date] the end date of the quarter
     def end_of_quarter(year, quarter)
       case quarter
       when QUARTER_1
@@ -97,13 +127,15 @@ module MerchCalendar
       end
     end
 
-    # Return the number of weeks in a particular year
+    # Returns the number of weeks in the retail year
+    #
+    # @param [Fixnum] year - the retail year
+    # @return [Fixnum] the number of weeks within the retail year
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
-    
-    
-    # Given any julian date it will return what retail Year it belongs to
+
+    # Given any julian date it will return what retail year it belongs to
     #
     # @param [Date] the julian date to convert to its Retail Year
     # @return [Fixnum] the retail year that the julian date falls into
@@ -137,6 +169,9 @@ module MerchCalendar
     # @param julian_month [Fixnum] the julian month to convert
     # @return [Fixnum] the merch month
     def julian_to_merch(julian_month)
+      if julian_month > 12 || julian_month <= 0
+        raise ArgumentError
+      end
       if julian_month == 1
         12
       else
@@ -179,7 +214,12 @@ module MerchCalendar
         week_start = start_date + ((week_num - 1) * 7)
         week_end = week_start + 6
 
-        MerchWeek.new(week_start, { start_of_week: week_start, end_of_week: week_end, week: week_num, calendar: RetailCalendar.new })
+        MerchWeek.new(week_start, { 
+          start_of_week: week_start, 
+          end_of_week: week_end, 
+          week: week_num, 
+          calendar: RetailCalendar.new
+        })
       end
     end
     
@@ -201,14 +241,5 @@ module MerchCalendar
 
       raise ArgumentError
     end
-    
-    def julian_to_merch(julian_month)
-      if julian_month == 1
-        12
-      else
-        julian_month - 1
-      end
-    end
-
   end
 end

@@ -17,7 +17,7 @@ module MerchCalendar
       end_of_year(year - 1) + 1
     end
 
-    # The date of the last day of the year
+    # The date of the last day of the fiscal year
     #
     # @param [Fixnum] year - the fiscal year
     # @return [Date] the last date of the fiscal year
@@ -69,7 +69,7 @@ module MerchCalendar
       end
     end
 
-    # The first date of the merch month
+    # The starting date of the given merch month
     #
     # @param [Fixnum] year - the fiscal year
     # @param [Fixnum] merch_month - the nth month of the fiscal calendar
@@ -91,7 +91,7 @@ module MerchCalendar
       start
     end
 
-    # The last date of the merch month
+    # The ending date of the given merch month
     #
     # @param [Fixnum] year - the fiscal year
     # @param [Fixnum] merch_month - the nth month of the fiscal calendar
@@ -131,7 +131,20 @@ module MerchCalendar
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
-    
+
+    # Given any julian date it will return what Fiscal Year it belongs to
+    #
+    # @param [Date] the julian date to convert to its Fiscal Year
+    # @return [Fixnum] the fiscal year that the julian date falls into
+    def merch_year_from_date(date)
+      if end_of_year(date.year) >= date
+        return date.year
+      else
+        return date.year + 1
+      end
+    end
+    ### IMPORTANT ADD MORE GOOD TESTS FOR THIS METHOD ^^^^^^
+
     # Converts a merch month to the correct julian month
     #
     # @param merch_month [Fixnum] the merch month to convert
@@ -147,23 +160,10 @@ module MerchCalendar
       end
     end
 
-    # Given any julian date it will return what Fiscal Year it belongs to
-    #
-    # @param [Date] the julian date to convert to its Fiscal Year
-    # @return [Fixnum] the fiscal year that the julian date falls into
-    def merch_year_from_date(date)
-      if end_of_year(date.year) >= date
-        return date.year
-      else
-        return date.year + 1
-      end
-    end
-    ### IMPORTANT ADD MORE GOOD TESTS FOR THIS METHOD ^^^^^^
-
     # Converts a julian month to a fiscal month
     #
     # @param julian_month [Fixnum] the julian month to convert
-    # @return [Fixnum] the fiscal month
+    # @return [Fixnum] the merch month
     def julian_to_merch(julian_month)
       if julian_month > 12 || julian_month <= 0
         raise ArgumentError
@@ -200,6 +200,7 @@ module MerchCalendar
       (1..weeks).map do |week_num|
         week_start = start_date + ((week_num - 1) * 7)
         week_end = week_start + 6
+
         MerchWeek.new(week_start, { 
           start_of_week: week_start, 
           end_of_week: week_end, 
