@@ -108,14 +108,14 @@ module MerchCalendar
     # @param [Date] the julian date to convert to its Retail Year
     # @return [Fixnum] the retail year that the julian date falls into
     def merch_year_from_date(date) #Jan 22 2017
-      if date.month != 1
+      date_end_of_year = end_of_year(date.year)
+      date_start_of_year = start_of_year(date.year) 
+      return date.year - 1 if date < date_start_of_year
+
+      if date >= date_start_of_year && date <= date_end_of_year
         date.year
       else
-        if start_of_year(date.year) <= date #jan 30 2017 <= #Jan 22 2017
-          date.year
-        else
-          date.year - 1
-        end
+        date.year + 1
       end
     end
     ### IMPORTANT COVER TESTS PLEASE!!!

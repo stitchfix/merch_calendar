@@ -120,5 +120,20 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(merch_months[10].strftime('%Y-%m-%d')).to eq '2014-11-30'
     end
   end
+  
+  describe "#merch_year_from_date" do
+    let(:date) { Date.new(2014,2,1) }
+    let(:date_one) { Date.new(2014, 2, 2) }
+    let(:date_two) { Date.new(2014, 1, 31) }
+    let(:date_three) { Date.new(2013, 12, 2) }
+
+    it "returns the correct merch calendar year" do
+      expect(subject.merch_year_from_date(date)).to eq 2013
+      expect(subject.merch_year_from_date(date_one)).to eq 2014
+      expect(subject.merch_year_from_date(date_two)).to eq 2013
+      expect(subject.merch_year_from_date(date_three)).to eq 2013
+
+    end
+  end
 
 end
