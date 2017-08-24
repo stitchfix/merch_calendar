@@ -88,11 +88,9 @@ module MerchCalendar
     def merch_month
       # TODO: This is very inefficient, but less complex than strategic guessing
       # maybe switch to a binary search or something
-      binding.pry
-      
+      merch_year = calendar.merch_year_from_date(date)
       @merch_month ||= (1..12).detect do |num|
-        calendar.end_of_month(start_of_year.year, num) >= date && date >= calendar.start_of_month(start_of_year.year, num)
-        binding.pry
+        calendar.end_of_month(merch_year, num) >= date && date >= calendar.start_of_month(merch_year, num)
       end
     end
 
@@ -100,14 +98,13 @@ module MerchCalendar
     #
     # @return [Fixnum]
     def year
-      start_of_year.year
+      @year ||= calendar.merch_year_from_date(date)
     end
 
     # The julian month that this merch week falls in
     #
     # @return [Fixnum]
     def month
-      binding.pry
       @month ||= calendar.merch_to_julian(merch_month)
     end
 
@@ -153,7 +150,7 @@ module MerchCalendar
     #
     # @return [Date]
     def start_of_year
-      @start_of_year ||= year_start_date
+      @start_of_year ||= calendar.start_of_year(year)
     end
 
     # The end date of the corresponding merch year
@@ -212,14 +209,6 @@ module MerchCalendar
     end
 
     private
-
-    def year_start_date
-      start_date = calendar.start_of_year(date.year)
-      if start_date > date
-        start_date = calendar.start_of_year(date.year - 1)
-      end
-      start_date
-    end
 
   end
 end

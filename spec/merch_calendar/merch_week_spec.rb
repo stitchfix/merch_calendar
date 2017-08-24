@@ -65,24 +65,24 @@ describe MerchCalendar::MerchWeek do
     let(:fiscal_week) { described_class.from_date("2019-08-01", fiscal_calendar_options) }
 
     it ":short / default format" do
-      # expect(merch_week.to_s(:short)).to eq "Dec W5"
-      # expect(merch_week.to_s).to eq "Dec W5"
-      # expect("#{merch_week}").to eq "Dec W5"
+      expect(merch_week.to_s(:short)).to eq "Dec W5"
+      expect(merch_week.to_s).to eq "Dec W5"
+      expect("#{merch_week}").to eq "Dec W5"
       
-      expect(fiscal_week.to_s(:short)).to eq "Aug W5"
-      expect(fiscal_week.to_s).to eq "Aug W5"
-      expect("#{fiscal_week}").to eq "Aug W5"
+      expect(fiscal_week.to_s(:short)).to eq "Jul W5"
+      expect(fiscal_week.to_s).to eq "Jul W5"
+      expect("#{fiscal_week}").to eq "Jul W5"
     end
 
     it ":long format" do
       expect(merch_week.to_s(:long)).to eq "2013:48 Dec W5"
-      expect(fiscal_week.to_s(:long)).to eq "2019:53 Aug W5"
+      expect(fiscal_week.to_s(:long)).to eq "2019:53 Jul W5"
 
     end
 
     it ":elasticsearch format" do
       expect(merch_week.to_s(:elasticsearch)).to eq "2013-12w05"
-      expect(fiscal_week.to_s(:elasticsearch)).to eq "2019-12w05"
+      expect(fiscal_week.to_s(:elasticsearch)).to eq "2019-07w05"
     end
   end
 

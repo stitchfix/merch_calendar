@@ -106,7 +106,6 @@ module MerchCalendar
     # @param merch_month [Fixnum] the merch month to convert
     # @return [Fixnum] the julian month
     def merch_to_julian(merch_month)
-      binding.pry
       if merch_month > 12 || merch_month <= 0
         raise ArgumentError
       end
