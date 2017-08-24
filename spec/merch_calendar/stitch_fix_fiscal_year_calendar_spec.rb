@@ -215,6 +215,20 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
     end
   end
   
+  describe "#merch_year_from_date" do
+    it "converts julian dates to its fiscal year" do
+      expect(subject.merch_year_from_date(Date.new(2018, 7, 24))).to eq 2018
+      expect(subject.merch_year_from_date(Date.new(2018, 7, 29))).to eq 2019
+      expect(subject.merch_year_from_date(Date.new(2018, 8, 1))).to eq 2019
+      expect(subject.merch_year_from_date(Date.new(2019, 8, 1))).to eq 2019
+      expect(subject.merch_year_from_date(Date.new(2019, 8, 4))).to eq 2020
+      expect(subject.merch_year_from_date(Date.new(2024, 2, 3))).to eq 2024
+      expect(subject.merch_year_from_date(Date.new(2024, 7, 30))).to eq 2024
+      expect(subject.merch_year_from_date(Date.new(2024, 8, 4))).to eq 2025
+    end
+  end
+
+  
   describe "#merch_months_in" do
     it "returns merch date for start_date if start_date is the same as end_date" do
       start_date = Date.new(2020,8,2)
@@ -292,28 +306,4 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect { subject.merch_to_julian(0) }.to raise_error ArgumentError
     end
   end
-  
-  describe "fiscal_year_from_date" do
-    it "converts julian dates to its fiscal year" do
-      expect(subject.merch_year_from_date(Date.new(2018, 8, 1))).to eq 2019
-      expect(subject.merch_year_from_date(Date.new(2018, 7, 1))).to eq 2018
-    end
-  end
-  
-  describe "#date_conversion" do
-    let(:date) { Date.new(2018,7,24) }
-    let(:date_one) { Date.new(2018,7,1) }
-    let(:date_two) { Date.new(2018,8,1) }
-    let(:date_three) { Date.new(2019,8,1) }
-    let(:date_four) { Date.new(2019,8,4) }
-    it "returns the correct fiscal year and merch month combination" do
-      expect(subject.date_conversion(date)).to eq [2018,12]
-      expect(subject.date_conversion(date_one)).to eq [2019,1]
-      expect(subject.date_conversion(date_two)).to eq [2019,1]
-      expect(subject.date_conversion(date_three)).to eq [2019,12]
-      expect(subject.date_conversion(date_four)).to eq [2020,4]
-    end
-  end
-  
-  
 end

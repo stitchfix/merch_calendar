@@ -143,7 +143,6 @@ module MerchCalendar
         return date.year + 1
       end
     end
-    ### IMPORTANT ADD MORE GOOD TESTS FOR THIS METHOD ^^^^^^
 
     # Converts a merch month to the correct julian month
     #
@@ -184,7 +183,7 @@ module MerchCalendar
       merch_months_combos = merch_month_combo_from_dates(start_date, end_date)
       merch_months_combos.map { | merch_month_combo | start_of_month(merch_month_combo[0], merch_month_combo[1]) }
     end
-    
+
     # Returns an array of Merch Weeks that pertains to the Julian Month of a Fiscal Year
     #
     # @param year [Fixnum] the fiscal year
@@ -209,17 +208,18 @@ module MerchCalendar
         })
       end
     end
+    ### IMPORTANT ADD MORE GOOD TESTS FOR THIS METHOD ^^^^^^
 
     private
 
     def merch_month_combo_from_dates(start_date, end_date)
       merch_months = []
 
-      first_of_start = Date.new(start_date.year, start_date.month, 14)
-      first_of_end = Date.new(end_date.year, end_date.month, 14)
-      date = first_of_start
+      middle_of_start_month = Date.new(start_date.year, start_date.month, 14)
+      middle_of_end_month = Date.new(end_date.year, end_date.month, 14)
+      date = middle_of_start_month
         
-      while date <= first_of_end do
+      while date <= middle_of_end_month do
         merch_months.push(date_conversion(date))
         date = date >> 1
       end
@@ -227,9 +227,9 @@ module MerchCalendar
     end
 
     # This isn't a true date conversion, only used for merch_month_combo_from_dates
-    # It wouldn't give you a true date coversion for dates that its julian month actually falls in the wrong merch year
+    # when its julian month actually falls in the wrong merch year
     # EX: The true date_conversion of July 1, 2018 => [ 2019, 1 ]
-    # BUT this method here will return [2018, 12] because July is merch_month 12 for fiscal year
+    # BUT this method here will return [2019, 12] because July is merch_month 12 for fiscal year
     def date_conversion(date)
       [ merch_year_from_date(date), julian_to_merch(date.month) ]
     end
