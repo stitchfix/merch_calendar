@@ -1,6 +1,6 @@
 module MerchCalendar
 
-  # Represents the Merch Week for a specified date.
+  # Represents the Merch Week for a specified date and calendar
   class MerchWeek
 
     MONTHS = %w(Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec).freeze
@@ -9,6 +9,11 @@ module MerchCalendar
     #
     # @!attribute [r] date
     #   @return [Date] the date for this merch week
+
+    # The Merch Calendar that is being represented, either Fiscal or Retail
+    #
+    # @!attribute [r] calendar
+    #   @return [Class] the calendar that determines the merch week
     attr_reader :date, :calendar
 
     class << self
@@ -17,8 +22,10 @@ module MerchCalendar
       #
       # @overload from_date(String)
       #   @param [String] julian_date a julian date in the format of +YYYY-MM-DD+
+      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
       # @overload from_date(Date)
       #   @param [Date] julian_date a +Date+ object
+      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
       #
       # @return [MerchWeek]
       def from_date(julian_date, options = {})
@@ -27,15 +34,18 @@ module MerchCalendar
 
       # Returns an array of merch weeks for a month, or a specific week.
       #
-      # @overload find(year, julian_month)
+      # @overload find(year, julian_month, week_number=nil, options)
       #   Returns an array of +MerchWeek+s for a given month
       #   @param year [Fixnum] the merch year to locate
       #   @param julian_month [Fixnum] the month to find merch months for
+      #   @param week_number [Nil] set week_number to nil
+      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
       #   @return [Array<MerchWeek>]
       # @overload find(year, julian_month, week_number)
       #   @param year [Fixnum] the merch year to locate
       #   @param julian_month [Fixnum] the month to find merch months for
       #   @param week_number [Fixnum] the specific week number.
+      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
       #   @return [MerchWeek] the specific merch week
       def find(year, julian_month, week_number=nil, options={})
         calendar = options.fetch(:calendar, RetailCalendar.new)
@@ -82,7 +92,9 @@ module MerchCalendar
     end
 
     # This returns the "merch month" number for a date
-    # Merch months are shifted by one. Month 1 is Feb
+    # Merch months are shifted by one. 
+    # Month 1 is Feb for the retail calendar
+    # Month 1 is August for the fiscal calendar
     #
     # @return [Fixnum]
     def merch_month
@@ -94,7 +106,7 @@ module MerchCalendar
       end
     end
 
-    # The Merch vs Fiscal year
+    # Returns the Merch year depending whether it is from the Retail or Fiscal calendar
     #
     # @return [Fixnum]
     def year
@@ -108,7 +120,7 @@ module MerchCalendar
       @month ||= calendar.merch_to_julian(merch_month)
     end
 
-    # The specific quarter this week falls in
+    # The quarter that this week falls in
     #
     # @return [Fixnum]
     def quarter
@@ -124,21 +136,21 @@ module MerchCalendar
       end
     end
 
-    # Returns the date of the start of this week
+    # Returns the start date of this week
     #
     # @return [Date]
     def start_of_week
       @start_of_week ||= (start_of_month + (7 * (week - 1)))
     end
 
-    # Returns the date of the end of this week
+    # Returns the end date of this week
     #
     # @return [Date]
     def end_of_week
       @end_of_week ||= (start_of_week + 6)
     end
 
-    # the number of the week within the given month
+    # the number of the week within the given merch month
     # will be between 1 and 5
     #
     # @return [Fixnum]
@@ -146,7 +158,7 @@ module MerchCalendar
       @week ||= (((date-start_of_month)+1)/7.0).ceil
     end
 
-    # The date of the start of the corresponding merch year
+    # The start date of the corresponding merch year
     #
     # @return [Date]
     def start_of_year
@@ -176,7 +188,7 @@ module MerchCalendar
 
     # The merch season this date falls under.
     # Returns a string of +Fall/Winter+ or +Spring/Summer+
-    #
+    # THIS MIGHT NEED TO CHANGE DEPENDING ON THE CALENDAR
     # @return [String]
     def season
       case merch_month
@@ -195,7 +207,6 @@ module MerchCalendar
     # * +:elasticsearch+ (default) "2012-12w05"
     #
     # @param format [Symbol] the format identifier to return. Default is +:short+
-    #
     # @return [Date]
     def to_s(format = :short)
       case format
@@ -207,8 +218,5 @@ module MerchCalendar
         "#{MONTHS[month - 1]} W#{week}"
       end
     end
-
-    private
-
   end
 end
