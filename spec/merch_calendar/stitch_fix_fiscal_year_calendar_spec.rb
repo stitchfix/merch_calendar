@@ -295,8 +295,8 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
   
   describe "fiscal_year_from_date" do
     it "converts julian dates to its fiscal yea" do
-      expect(subject.fiscal_year_from_date(Date.new(2018, 8, 1))).to eq 2019
-      expect(subject.fiscal_year_from_date(Date.new(2018, 7, 1))).to eq 2018
+      expect(subject.merch_year_from_date(Date.new(2018, 8, 1))).to eq 2019
+      expect(subject.merch_year_from_date(Date.new(2018, 7, 1))).to eq 2018
     end
   end
   
