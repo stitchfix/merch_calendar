@@ -317,7 +317,13 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
         weeks = subject.weeks_for_month(2019, 9)
         expect(weeks.size).to eq 5
       end
-      it "returns 5 weeks for a 4-week end month if leap year" do
+      it "returns 5 weeks during a 4-5-5 quarter" do
+        weeks = subject.weeks_for_month(2019, 5)
+        expect(weeks.size).to eq 4
+
+        weeks = subject.weeks_for_month(2019, 6)
+        expect(weeks.size).to eq 5
+        
         weeks = subject.weeks_for_month(2019, 7)
         expect(weeks.size).to eq 5
         
