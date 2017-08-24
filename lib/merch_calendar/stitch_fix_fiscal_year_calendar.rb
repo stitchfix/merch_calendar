@@ -226,6 +226,10 @@ module MerchCalendar
       merch_months
     end
 
+    # This isn't a true date conversion, only used for merch_month_combo_from_dates
+    # It wouldn't give you a true date coversion for dates that its julian month actually falls in the wrong merch year
+    # EX: The true date_conversion of July 1, 2018 => [ 2019, 1 ]
+    # BUT this method here will return [2018, 12] because July is merch_month 12 for fiscal year
     def date_conversion(date)
       [ merch_year_from_date(date), julian_to_merch(date.month) ]
     end

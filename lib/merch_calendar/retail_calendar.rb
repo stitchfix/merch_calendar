@@ -77,7 +77,6 @@ module MerchCalendar
     # @param [Fixnum] merch_week - the nth week of the merch month
     # @return [Date] the start date of the merch week
     def start_of_week(year, month, merch_week)
-    def start_of_week(year, month, merch_week)
       start_of_month(year, month) + ((merch_week - 1) * 7)
     end
 
@@ -241,5 +240,6 @@ module MerchCalendar
 
       raise ArgumentError
     end
+
   end
 end

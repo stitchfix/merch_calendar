@@ -16,7 +16,7 @@ describe MerchCalendar::MerchWeek do
       expect(mw.merch_month).to eq 12
       expect(mw.week).to eq 1
     end
-    #add another test that has the stitchfix fiscal year as well as getting the start week the same and the calendar right!ß
+    #add another test that has the stitchfix fiscal year as well as getting the start week the same and the calendar right!
   end
 
   describe ".from_date" do

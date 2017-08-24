@@ -26,15 +26,15 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect(subject.weeks_in_year(2018)).to eq 52
     end
 
-    it "returns 53 for a leap year - 2019" do
+    it "returns 53 for a year that includes the remaining days leftover from the NRF calendar - 2019" do
       expect(subject.weeks_in_year(2019)).to eq 53
     end
     
     it "returns 52 for a normal year - 2020" do
-      expect(subject.weeks_in_year(2020)).to eq 52
+      expect(subject.weeks_in_year(2023)).to eq 52
     end
     
-    it "returns 53 for a leap year - 2024" do
+    it "returns 53 for a year that includes the remaining days leftover from the NRF calendar - 2024" do
       expect(subject.weeks_in_year(2024)).to eq 53
     end
     
@@ -294,9 +294,24 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
   end
   
   describe "fiscal_year_from_date" do
-    it "converts julian dates to its fiscal yea" do
+    it "converts julian dates to its fiscal year" do
       expect(subject.merch_year_from_date(Date.new(2018, 8, 1))).to eq 2019
       expect(subject.merch_year_from_date(Date.new(2018, 7, 1))).to eq 2018
+    end
+  end
+  
+  describe "#date_conversion" do
+    let(:date) { Date.new(2018,7,24) }
+    let(:date_one) { Date.new(2018,7,1) }
+    let(:date_two) { Date.new(2018,8,1) }
+    let(:date_three) { Date.new(2019,8,1) }
+    let(:date_four) { Date.new(2019,8,4) }
+    it "returns the correct fiscal year and merch month combination" do
+      expect(subject.date_conversion(date)).to eq [2018,12]
+      expect(subject.date_conversion(date_one)).to eq [2019,1]
+      expect(subject.date_conversion(date_two)).to eq [2019,1]
+      expect(subject.date_conversion(date_three)).to eq [2019,12]
+      expect(subject.date_conversion(date_four)).to eq [2020,4]
     end
   end
   
