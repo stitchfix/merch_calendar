@@ -57,7 +57,7 @@ module MerchCalendar
 
     # The date of the first day of the merch month
     # @param [Fixnum] year - the fiscal year
-    # @param [Fixnum] merch_month - the nth month of the offset calendar
+    # @param [Fixnum] merch_month - the nth month of the fiscal calendar
     def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
       start = start_of_year(year) + ((merch_month - 1) / 3).to_i * 91
@@ -77,7 +77,7 @@ module MerchCalendar
 
     # The date of the last day of the merch month
     # @param [Fixnum] year - the fiscal year
-    # @param [Fixnum] merch_month - the nth month of the offset calendar
+    # @param [Fixnum] merch_month - the nth month of the fiscal calendar
     def end_of_month(year, merch_month)
       if merch_month == 12
         end_of_year(year)
@@ -106,6 +106,7 @@ module MerchCalendar
     # @param merch_month [Fixnum] the merch month to convert
     # @return [Fixnum] the julian month
     def merch_to_julian(merch_month)
+      binding.pry
       if merch_month > 12 || merch_month <= 0
         raise ArgumentError
       end
@@ -116,19 +117,20 @@ module MerchCalendar
       end
     end
 
-    # Given any julian date it will return what FiscalYear it belongs to
+    # Given any julian date it will return what Fiscal Year it belongs to
     #
     # @param [Date] the julian date to convert to its Fiscal Year
     # @return [Fixnum] the fiscal year that the julian date falls into
-    def fiscal_year_from_date(date)
-      fiscal_year = date.year #2018
-      if end_of_year(date.year) > date #july 29th 2018
+    def merch_year_from_date(date) #Aug 1 2018
+      #2018
+      if end_of_year(date.year) >= date #July 28 2018 >= Aug 1 2018
         return date.year
       else
         return date.year + 1
       end
     end
-    
+    ### IMPORTANT ADD MORE GOOD TESTS FOR THIS METHOD ^^^^^^
+
     # Converts a julian month to a fiscal month
     #
     # @param julian_month [Fixnum] the julian month to convert
@@ -153,6 +155,30 @@ module MerchCalendar
       merch_months_combos = merch_month_combo_from_dates(start_date, end_date)
       merch_months_combos.map { | merch_month_combo | start_of_month(merch_month_combo[0], merch_month_combo[1]) }
     end
+    
+    # Returns an array of Merch Weeks that pertains to the Julian Month of a Fiscal Year
+    #
+    # @param year [Fixnum] the fiscal year
+    # @param month_param [Fixnum] the julian month
+    # @return [Array] Array of MerchWeeks 
+    def weeks_for_month(year, month_param)
+      merch_month = julian_to_merch(month_param)
+      
+      start_date = start_of_month(year, merch_month)
+      
+      weeks = (end_of_month(year, merch_month) - start_date + 1) / 7
+      
+      (1..weeks).map do |week_num|
+        week_start = start_date + ((week_num - 1) * 7)
+        week_end = week_start + 6
+        MerchWeek.new(week_start, { 
+          start_of_week: week_start, 
+          end_of_week: week_end, 
+          week: week_num, 
+          calendar: StitchFixFiscalYearCalendar.new 
+        })
+      end
+    end
 
     private
 
@@ -171,7 +197,7 @@ module MerchCalendar
     end
 
     def date_conversion(date)
-      [ fiscal_year_from_date(date), julian_to_merch(date.month) ] #[ 2019, 12]
+      [ merch_year_from_date(date), julian_to_merch(date.month) ]
     end
   end
 end

@@ -102,7 +102,53 @@ module MerchCalendar
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
     
-    # Returns
+    
+    # Given any julian date it will return what retail Year it belongs to
+    #
+    # @param [Date] the julian date to convert to its Retail Year
+    # @return [Fixnum] the retail year that the julian date falls into
+    def merch_year_from_date(date) #Jan 22 2017
+      if date.month != 1
+        date.year
+      else
+        if start_of_year(date.year) <= date #jan 30 2017 <= #Jan 22 2017
+          date.year
+        else
+          date.year - 1
+        end
+      end
+    end
+    ### IMPORTANT COVER TESTS PLEASE!!!
+    
+    # Converts a merch month to the correct julian month
+    #
+    # @param merch_month [Fixnum] the merch month to convert
+    # @return [Fixnum] the julian month
+    def merch_to_julian(merch_month)
+      if merch_month == 12
+        1
+      else
+        merch_month + 1
+      end
+    end
+    
+    # Converts a julian month to a merch month
+    #
+    # @param julian_month [Fixnum] the julian month to convert
+    # @return [Fixnum] the merch month
+    def julian_to_merch(julian_month)
+      if julian_month == 1
+        12
+      else
+        julian_month - 1
+      end
+    end
+    
+    # Given beginning and end dates it will return an array of Retail Month's Start date
+    #
+    # @param start_date [Date] the starting date
+    # @param end_date [Date] the ending date
+    # @return [Array] Array of start dates of each Retail Month from given dates
     def merch_months_in(start_date, end_date)
       merch_months = []
       prev_date = start_date - 2
@@ -117,25 +163,28 @@ module MerchCalendar
       merch_months
     end
     
-    #this is expecting to submit a gregorian year and a gregorian month 
-    #and for it to return the merch weeks within the month
+    # Returns an array of Merch Weeks that pertains to the Julian Month of a Retail Year
+    #
+    # @param year [Fixnum] the Retail year
+    # @param month_param [Fixnum] the julian month
+    # @return [Array] Array of MerchWeeks 
     def weeks_for_month(year, month_param)
       merch_month = get_merch_month_param(month_param)
-      
-      #gets the start_date of the merch_month
+
       start_date = start_of_month(year, merch_month)
-      
-      #gets the number of weeks given start_date and given end_date and divided by 7 
+
       weeks = (end_of_month(year, merch_month) - start_date + 1) / 7
-      
-      #with each number of weeks it creates a hash that has an array of weeks and their start date and end date of each week
+
       (1..weeks).map do |week_num|
         week_start = start_date + ((week_num - 1) * 7)
         week_end = week_start + 6
+
         MerchWeek.new(week_start, { start_of_week: week_start, end_of_week: week_end, week: week_num, calendar: RetailCalendar.new })
       end
     end
     
+    private
+
     def get_merch_month_param(param)
       if param.is_a? Fixnum
         return julian_to_merch(param)

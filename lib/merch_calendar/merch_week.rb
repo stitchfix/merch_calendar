@@ -88,8 +88,11 @@ module MerchCalendar
     def merch_month
       # TODO: This is very inefficient, but less complex than strategic guessing
       # maybe switch to a binary search or something
+      binding.pry
+      
       @merch_month ||= (1..12).detect do |num|
         calendar.end_of_month(start_of_year.year, num) >= date && date >= calendar.start_of_month(start_of_year.year, num)
+        binding.pry
       end
     end
 
@@ -104,7 +107,8 @@ module MerchCalendar
     #
     # @return [Fixnum]
     def month
-      @month ||= MerchCalendar.merch_to_julian(merch_month)
+      binding.pry
+      @month ||= calendar.merch_to_julian(merch_month)
     end
 
     # The specific quarter this week falls in
