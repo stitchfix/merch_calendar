@@ -2,11 +2,13 @@ require 'spec_helper'
 
 describe MerchCalendar::MerchWeek do
   let(:fiscal_calendar_options) { { calendar: MerchCalendar::StitchFixFiscalYearCalendar.new } }
+
   describe ".find" do
     it "returns an array of weeks" do
       weeks = described_class.find(2014,1)
       expect(weeks).to be_an Array
       expect(weeks.size).to eq 4
+      expect(weeks[0].calendar.class).to eq MerchCalendar::RetailCalendar
     end
 
     it "with year, month, week" do
@@ -16,7 +18,25 @@ describe MerchCalendar::MerchWeek do
       expect(mw.merch_month).to eq 12
       expect(mw.week).to eq 1
     end
-    #add another test that has the stitchfix fiscal year as well as getting the start week the same and the calendar right!
+    context "using the Fiscal Calendar instead of the Retail Calendar" do
+      it "returns an array of weeks" do
+        weeks = described_class.find(2019, 7, nil, fiscal_calendar_options)
+        expect(weeks).to be_an Array
+        expect(weeks.size).to eq 5
+        expect(weeks[0].calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
+      end
+      
+      it "with year, month, week" do
+        mw = described_class.find(2019, 7, 5, fiscal_calendar_options)
+        expect(mw.year).to eq 2019
+        expect(mw.month).to eq 7
+        expect(mw.merch_month).to eq 12
+        expect(mw.week).to eq 5
+        expect(mw.end_of_week).to eq Date.new(2019,8,3)
+        expect(mw.start_of_week).to eq Date.new(2019,7,28)
+        expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
+      end
+    end
   end
 
   describe ".from_date" do
