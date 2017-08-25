@@ -36,6 +36,17 @@ describe MerchCalendar::MerchWeek do
         expect(mw.start_of_week).to eq Date.new(2019,7,28)
         expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
       end
+      
+      it "with year, month, week for the next year after FY19" do
+        mw = described_class.find(2020, 8, 1, fiscal_calendar_options)
+        expect(mw.year).to eq 2020
+        expect(mw.month).to eq 8
+        expect(mw.merch_month).to eq 1
+        expect(mw.week).to eq 1
+        expect(mw.end_of_week).to eq Date.new(2019,8,10)
+        expect(mw.start_of_week).to eq Date.new(2019,8,4)
+        expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
+      end
     end
   end
 
