@@ -26,7 +26,7 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect(subject.weeks_in_year(2018)).to eq 52
     end
 
-    it "returns 53 for a year that includes the remaining days leftover from the NRF calendar - 2019" do
+    it "returns 53 for a year that includes a 4-5-5 quarter - 2019" do
       expect(subject.weeks_in_year(2019)).to eq 53
     end
     
@@ -34,7 +34,7 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect(subject.weeks_in_year(2023)).to eq 52
     end
     
-    it "returns 53 for a year that includes the remaining days leftover from the NRF calendar - 2024" do
+    it "returns 53 for a year that includes a 4-5-5 quarter - 2024" do
       expect(subject.weeks_in_year(2024)).to eq 53
     end
     

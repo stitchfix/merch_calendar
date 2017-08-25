@@ -5,11 +5,14 @@ RSpec.describe MerchCalendar::RetailCalendar do
     it "returns 53 for a leap year" do
       expect(subject.weeks_in_year(2012)).to eq 53
       expect(subject.weeks_in_year(2017)).to eq 53
+      expect(subject.weeks_in_year(2023)).to eq 53
     end
 
     it "returns 52 for a normal year" do
       expect(subject.weeks_in_year(2013)).to eq 52
       expect(subject.weeks_in_year(2018)).to eq 52
+      expect(subject.weeks_in_year(2019)).to eq 52
+      expect(subject.weeks_in_year(2020)).to eq 52      
     end
   end
 
@@ -122,18 +125,24 @@ RSpec.describe MerchCalendar::RetailCalendar do
   end
   
   describe "#merch_year_from_date" do
-    let(:date) { Date.new(2014,2,1) }
-    let(:date_one) { Date.new(2014, 2, 2) }
-    let(:date_two) { Date.new(2014, 1, 31) }
-    let(:date_three) { Date.new(2013, 12, 2) }
-
     it "returns the correct merch calendar year" do
-      expect(subject.merch_year_from_date(date)).to eq 2013
-      expect(subject.merch_year_from_date(date_one)).to eq 2014
-      expect(subject.merch_year_from_date(date_two)).to eq 2013
-      expect(subject.merch_year_from_date(date_three)).to eq 2013
-
+      expect(subject.merch_year_from_date(Date.new(2018, 1, 24))).to eq 2017
+      expect(subject.merch_year_from_date(Date.new(2018, 2, 3))).to eq 2017
+      expect(subject.merch_year_from_date(Date.new(2018, 2, 4))).to eq 2018
+      expect(subject.merch_year_from_date(Date.new(2019, 2, 2))).to eq 2018
+      expect(subject.merch_year_from_date(Date.new(2019, 2, 3))).to eq 2019
     end
   end
-
+  
+  describe "#merch_to_julian" do
+    
+  end
+  
+  describe "#julian_to_merch" do
+    
+  end
+  
+  describe "#weeks_for_month" do
+    
+  end
 end
