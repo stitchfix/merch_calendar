@@ -178,7 +178,7 @@ describe MerchCalendar::MerchWeek do
   end
 
   describe "#season" do
-    context "Fall/Winter" do
+    context "when it comes from the Retail calendar" do
       it { expect(described_class.from_date("2011-08-06").season).to eq "Fall/Winter" }
       it { expect(described_class.from_date("2011-09-06").season).to eq "Fall/Winter" }
       it { expect(described_class.from_date("2011-10-06").season).to eq "Fall/Winter" }
@@ -186,21 +186,21 @@ describe MerchCalendar::MerchWeek do
       it { expect(described_class.from_date("2011-12-06").season).to eq "Fall/Winter" }
       it { expect(described_class.from_date("2012-01-06").season).to eq "Fall/Winter" }
       
-      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
-      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
-      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
-      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
-      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
-      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
-    end
-
-    context "Spring/Summer" do
       it { expect(described_class.from_date("2011-02-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-03-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-04-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-05-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-06-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-07-06").season).to eq "Spring/Summer" }
+    end
+
+    context "when it comes from the Stitch Fix Fiscal Calendar" do
+      it { expect(described_class.from_date("2012-08-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-09-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-10-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-11-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-12-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
       
       it { expect(described_class.from_date("2011-02-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-03-06", fiscal_calendar_options).season).to eq "Spring/Summer" }

@@ -60,6 +60,26 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.end_of_quarter(2019, 4)).to eq Date.new(2020, 2, 1)
     end
   end
+  
+  describe "#season" do
+    context "returns Spring/Summer from its merch_month" do
+      it { expect(subject.season(1)).to eq "Spring/Summer" }
+      it { expect(subject.season(2)).to eq "Spring/Summer" }
+      it { expect(subject.season(3)).to eq "Spring/Summer" }
+      it { expect(subject.season(4)).to eq "Spring/Summer" }
+      it { expect(subject.season(5)).to eq "Spring/Summer" }
+      it { expect(subject.season(6)).to eq "Spring/Summer" }
+    end
+
+    context "returns Fall/Winter from its merch_month" do
+      it { expect(subject.season(7)).to eq "Fall/Winter" }
+      it { expect(subject.season(8)).to eq "Fall/Winter" }
+      it { expect(subject.season(9)).to eq "Fall/Winter" }
+      it { expect(subject.season(10)).to eq "Fall/Winter" }
+      it { expect(subject.season(11)).to eq "Fall/Winter" }
+      it { expect(subject.season(12)).to eq "Fall/Winter" }
+    end
+  end
 
   describe "#start_of_year" do
     it "returns the correct date" do
