@@ -36,17 +36,6 @@ describe MerchCalendar::MerchWeek do
         expect(mw.start_of_week).to eq Date.new(2019,7,28)
         expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
       end
-      
-      it "with year, month, week for the next year after FY19" do
-        mw = described_class.find(2020, 8, 1, fiscal_calendar_options)
-        expect(mw.year).to eq 2020
-        expect(mw.month).to eq 8
-        expect(mw.merch_month).to eq 1
-        expect(mw.week).to eq 1
-        expect(mw.end_of_week).to eq Date.new(2019,8,10)
-        expect(mw.start_of_week).to eq Date.new(2019,8,4)
-        expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
-      end
     end
   end
 
@@ -55,9 +44,10 @@ describe MerchCalendar::MerchWeek do
     context "parameters" do
       context "allows valid date types" do
         it "allows a date string" do
-          mw = described_class.from_date("1990-10-01")
-          expect(mw.date.to_s).to eq "1990-10-01"
+          mw = described_class.from_date("2018-10-01")
+          expect(mw.date.to_s).to eq "2018-10-01"
           expect(mw.date.month).to eq 10
+          expect(mw.merch_month).to eq 8
         end
       end
 
@@ -75,9 +65,11 @@ describe MerchCalendar::MerchWeek do
       
       context "wants to know a date in a Fiscal Calendar" do
         it "allows calendar to be passed and translate date to what it looks like in a FY year" do
-          mw = described_class.from_date( "2019-07-28", fiscal_calendar_options )
-          expect(mw.date.to_s).to eq "2019-07-28"
-          expect(mw.date.month).to eq 7
+          mw = described_class.from_date( "2019-08-04", fiscal_calendar_options )
+          expect(mw.date.to_s).to eq "2019-08-04"
+          expect(mw.date.month).to eq 8
+          expect(mw.merch_month).to eq 1
+          expect(mw.year).to eq 2020
           expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
         end
       end
