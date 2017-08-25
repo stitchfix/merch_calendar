@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe MerchCalendar::MerchWeek do
-  let(:fiscal_calendar_options) { { calendar: MerchCalendar::StitchFixFiscalYearCalendar.new } }
+  let!(:fiscal_calendar_options) { { calendar: MerchCalendar::StitchFixFiscalYearCalendar.new } }
 
   describe ".find" do
     it "returns an array of weeks" do
@@ -80,6 +80,15 @@ describe MerchCalendar::MerchWeek do
     it "returns a merch week based on today's date" do
       mw = described_class.today
       expect(mw.date.to_s).to eq Date.today.to_s
+      expect(mw.calendar.class).to eq MerchCalendar::RetailCalendar
+    end
+    
+    context "passing in the Fiscal Calendar into options" do
+      it "returns a merch week based on today's date" do
+        mw = described_class.today(fiscal_calendar_options)
+        expect(mw.date.to_s).to eq Date.today.to_s
+        expect(mw.calendar.class).to eq MerchCalendar::StitchFixFiscalYearCalendar
+      end
     end
   end
 
@@ -100,7 +109,6 @@ describe MerchCalendar::MerchWeek do
     it ":long format" do
       expect(merch_week.to_s(:long)).to eq "2013:48 Dec W5"
       expect(fiscal_week.to_s(:long)).to eq "2019:53 Jul W5"
-
     end
 
     it ":elasticsearch format" do
@@ -109,11 +117,17 @@ describe MerchCalendar::MerchWeek do
     end
   end
 
-  it "#end_of_week" do
-    mw = described_class.find(2014,1,1)
-    expect(mw.end_of_week).to eq (mw.start_of_week + 6)
-  end
+  describe "#end_of_week" do
+    it "returns the end of the week based on the Retail Calendar" do
+      mw = described_class.find(2014,1,1)
+      expect(mw.end_of_week).to eq (mw.start_of_week + 6)
+    end
 
+    it "returns the end of the week based on the Retail Calendar" do
+      mw = described_class.find(2019,1,1, fiscal_calendar_options)
+      expect(mw.end_of_week).to eq (mw.start_of_week + 6)
+    end
+  end
 
   describe "#end_of_month" do
     it "for a 4 week month" do

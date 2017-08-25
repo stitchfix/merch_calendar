@@ -59,8 +59,8 @@ module MerchCalendar
       # Returns the +MerchWeek+ for today's date
       #
       # @return [MerchWeek]
-      def today
-        MerchWeek.from_date Date.today
+      def today(options={})
+        MerchWeek.from_date(Date.today, options)
       end
     end
 
