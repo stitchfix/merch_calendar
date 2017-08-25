@@ -191,12 +191,7 @@ module MerchCalendar
     # THIS MIGHT NEED TO CHANGE DEPENDING ON THE CALENDAR
     # @return [String]
     def season
-      case merch_month
-      when 1,2,3,4,5,6
-        "Spring/Summer"
-      when 7,8,9,10,11,12
-        "Fall/Winter"
-      end
+      @season ||= calendar.season(merch_month)
     end
 
     # Outputs a text representation of this merch week

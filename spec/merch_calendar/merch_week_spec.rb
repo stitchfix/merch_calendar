@@ -130,22 +130,50 @@ describe MerchCalendar::MerchWeek do
   end
 
   describe "#end_of_month" do
-    it "for a 4 week month" do
-      mw = described_class.find(2014, 2, 1)
-      expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
+    context "using the Retail Calendar" do
+      it "for a 4 week month" do
+        mw = described_class.find(2017, 2, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
+      end
+
+      it "for a 5 week month" do
+        mw = described_class.find(2017, 3, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+      end
+
+      it "for a 4-5-5 quarter" do
+        mw = described_class.find(2017, 11, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
+
+        mw = described_class.find(2017, 12, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+
+        mw = described_class.find(2017, 1, 1)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+      end
     end
+    
+    context "using the Stitch Fix Fiscal Calendar" do
+      it "for a 4 week month" do
+        mw = described_class.find(2017, 2, 1, fiscal_calendar_options)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
+      end
 
-    it "for a 5 week month" do
-      mw = described_class.find(2014, 3, 1)
-      expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
-    end
+      it "for a 5 week month" do
+        mw = described_class.find(2017, 3, 1, fiscal_calendar_options)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+      end
 
-    it "for a 4 to 5 week month in a leap year" do
-      mw = described_class.find(2011, 1, 1)
-      expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
+      it "for a 4-5-5 quarter" do
+        mw = described_class.find(2019, 5, 1, fiscal_calendar_options)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (4*7)
 
-      mw = described_class.find(2012, 1, 1)
-      expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+        mw = described_class.find(2019, 6, 1, fiscal_calendar_options)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+
+        mw = described_class.find(2019, 7, 1, fiscal_calendar_options)
+        expect(mw.end_of_month - mw.start_of_month + 1).to eq (5*7)
+      end
     end
   end
 
@@ -157,6 +185,13 @@ describe MerchCalendar::MerchWeek do
       it { expect(described_class.from_date("2011-11-06").season).to eq "Fall/Winter" }
       it { expect(described_class.from_date("2011-12-06").season).to eq "Fall/Winter" }
       it { expect(described_class.from_date("2012-01-06").season).to eq "Fall/Winter" }
+      
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
+      it { expect(described_class.from_date("2012-01-06", fiscal_calendar_options).season).to eq "Fall/Winter" }
     end
 
     context "Spring/Summer" do
@@ -166,6 +201,13 @@ describe MerchCalendar::MerchWeek do
       it { expect(described_class.from_date("2011-05-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-06-06").season).to eq "Spring/Summer" }
       it { expect(described_class.from_date("2011-07-06").season).to eq "Spring/Summer" }
+      
+      it { expect(described_class.from_date("2011-02-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
+      it { expect(described_class.from_date("2011-03-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
+      it { expect(described_class.from_date("2011-04-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
+      it { expect(described_class.from_date("2011-05-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
+      it { expect(described_class.from_date("2011-06-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
+      it { expect(described_class.from_date("2011-07-06", fiscal_calendar_options).season).to eq "Spring/Summer" }
     end
   end
 

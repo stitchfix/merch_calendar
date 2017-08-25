@@ -69,6 +69,19 @@ module MerchCalendar
       end
     end
 
+    #Returns the season given for the merch_month
+    #
+    # @param [Fixnum]  merch_month - the nth month of the retail calendar
+    # @return [String] the season that the merch_month falls under
+    def season(merch_month)
+      case merch_month
+      when 1,2,3,4,5,6
+        "Fall/Winter"
+      when 7,8,9,10,11,12
+        "Spring/Summer"
+      end
+    end
+
     # The starting date of the given merch month
     #
     # @param [Fixnum] year - the fiscal year
