@@ -214,10 +214,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
         expect(weeks.size).to eq 5
       end
       it "returns 5 weeks during a 4-5-5 quarter" do
-        weeks = subject.weeks_for_month(2017, 11)
+        weeks = subject.weeks_for_month(2017, julian_month: 11)
         expect(weeks.size).to eq 4
 
-        weeks = subject.weeks_for_month(2017, 12)
+        weeks = subject.weeks_for_month(2017, merch_month: 11)
         expect(weeks.size).to eq 5
         
         weeks = subject.weeks_for_month(2017, 1)
@@ -225,6 +225,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
         
         weeks = subject.weeks_for_month(2018, 2)
         expect(weeks.size).to eq 4
+      end
+      it "raises an ArgumentError if the param is not a hash with a key we care about or Fixnum" do
+        expect { subject.weeks_for_month(2018, "3") }.to raise_error ArgumentError
+        expect { subject.weeks_for_month(2018, some_month: 4) }.to raise_error ArgumentError
       end
     end
   end
