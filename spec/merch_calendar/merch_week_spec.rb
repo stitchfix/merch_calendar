@@ -215,28 +215,28 @@ describe MerchCalendar::MerchWeek do
   context "logic for Retail Calendar" do
     [
       OpenStruct.new(date: "2011-05-01", year: 2011, month: 5,  week: 1, quarter: 2, year_week: 14, start_date: "2011-01-30"),
-      
+
       OpenStruct.new(date: "2014-08-31", year: 2014, month: 9,  week: 1, quarter: 3, year_week: 31, start_date: "2014-02-02"),
-      OpenStruct.new(date: "2014-01-01", year: 2013, month: 12, week: 5, quarter: , year_week: 48, start_date: "2013-02-03"),
-      OpenStruct.new(date: "2014-01-04", year: 2013, month: 12, week: 5, quarter: 2, year_week: 48, start_date: "2013-02-03"),
-      OpenStruct.new(date: "2014-01-05", year: 2013, month: 1,  week: 1, quarter: 2, year_week: 49, start_date: "2013-02-03"),
-      OpenStruct.new(date: "2014-01-12", year: 2013, month: 1,  week: 2, quarter: 2, year_week: 50, start_date: "2013-02-03"),
-      OpenStruct.new(date: "2014-01-19", year: 2013, month: 1,  week: 3, quarter: 2, year_week: 51, start_date: "2013-02-03"),
-      OpenStruct.new(date: "2014-01-26", year: 2013, month: 1,  week: 4, quarter: 2, year_week: 52, start_date: "2013-02-03"),
-      
+      OpenStruct.new(date: "2014-01-01", year: 2013, month: 12, week: 5, quarter: 4, year_week: 48, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-01-04", year: 2013, month: 12, week: 5, quarter: 4, year_week: 48, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-01-05", year: 2013, month: 1,  week: 1, quarter: 4, year_week: 49, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-01-12", year: 2013, month: 1,  week: 2, quarter: 4, year_week: 50, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-01-19", year: 2013, month: 1,  week: 3, quarter: 4, year_week: 51, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-01-26", year: 2013, month: 1,  week: 4, quarter: 4, year_week: 52, start_date: "2013-02-03"),
+
       # 2013
-      OpenStruct.new(date: "2013-02-03", year: 2013, month: 2,  week: 1, quarter: 3, year_week: 1,  start_date: "2013-02-03"),
+      OpenStruct.new(date: "2013-02-03", year: 2013, month: 2,  week: 1, quarter: 1, year_week: 1,  start_date: "2013-02-03"),
 
       #2014
-      OpenStruct.new(date: "2014-02-02", year: 2014, month: 2,  week: 1, quarter: 3, year_week: 1,  start_date: "2014-02-02"),
-      OpenStruct.new(date: "2015-01-31", year: 2014, month: 1,  week: 4, quarter: 2, year_week: 52, start_date: "2014-02-02"),
-      
-      OpenStruct.new(date: "2014-02-01", year: 2013, month: 1,  week: 4, quarter: 2, year_week: 52, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-02-02", year: 2014, month: 2,  week: 1, quarter: 1, year_week: 1,  start_date: "2014-02-02"),
+      OpenStruct.new(date: "2014-02-01", year: 2013, month: 1,  week: 4, quarter: 4, year_week: 52, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2015-01-31", year: 2014, month: 1,  week: 4, quarter: 4, year_week: 52, start_date: "2014-02-02"),
+  
       #2015
-      OpenStruct.new(date: "2015-02-01", year: 2015, month: 2,  week: 1, quarter: 3, year_week: 1, start_date: "2015-02-01"),
+      OpenStruct.new(date: "2015-02-01", year: 2015, month: 2,  week: 1, quarter: 1, year_week: 1, start_date: "2015-02-01"),
       
       #2017
-      OpenStruct.new(date: "2017-12-30", year: 2017, month: 12, week: 5, quarter: 2, year_week: 48, start_date: "2017-01-29")
+      OpenStruct.new(date: "2017-12-30", year: 2017, month: 12, week: 5, quarter: 4, year_week: 48, start_date: "2017-01-29")
     ].each do |date_check|
 
       context "using date '#{date_check.date}'" do

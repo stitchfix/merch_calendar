@@ -166,7 +166,16 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect(subject.end_of_quarter(2020, 4)).to eq Date.new(2020, 8, 1)
     end
   end
-  
+
+  describe "#quarter" do
+    it "returns the correct date" do
+      expect(subject.quarter(5)).to eq 2
+      expect(subject.quarter(7)).to eq 3
+      expect(subject.quarter(2)).to eq 1
+      expect(subject.quarter(11)).to eq 4
+    end
+  end
+
   describe "#season" do
     context "returns Fall/Winter from its merch_month" do
       it { expect(subject.season(1)).to eq "Fall/Winter" }

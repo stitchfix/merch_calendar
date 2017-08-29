@@ -51,17 +51,20 @@ module MerchCalendar
       end
     end
     
-    #Return the quarter that the merch_month lands on
-    def quarter
+    # Returns the quarter that the merch month falls in
+    #
+    # @param [Fixnum] merch month
+    # @return [Date] the quarter that the merch_month falls in
+    def quarter(merch_month)
       case merch_month
-      when 7,8,9
-        return 1
-      when 10,11,12
-        return 2
       when 1,2,3
-        return 3
+        return QUARTER_1
+      when 4,5,6
+        return QUARTER_2
+      when 7,8,9
+        return QUARTER_3
       else
-        return 4
+        return QUARTER_4
       end
     end
 
