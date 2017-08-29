@@ -155,6 +155,8 @@ RSpec.describe MerchCalendar::RetailCalendar do
   
   describe "#merch_year_from_date" do
     it "returns the correct merch calendar year" do
+      expect(subject.merch_year_from_date(Date.new(2012, 1, 28))).to eq 2011
+      expect(subject.merch_year_from_date(Date.new(2012, 1, 29))).to eq 2012
       expect(subject.merch_year_from_date(Date.new(2018, 1, 24))).to eq 2017
       expect(subject.merch_year_from_date(Date.new(2018, 2, 3))).to eq 2017
       expect(subject.merch_year_from_date(Date.new(2018, 2, 4))).to eq 2018
