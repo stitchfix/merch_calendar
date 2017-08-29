@@ -16,7 +16,7 @@ module MerchCalendar
     # @param [Fixnum] year - the retail year
     # @return [Date] the first date of the retail year
     def end_of_year(year)
-      year_end = Date.new((year + 1), 1, -1)
+      year_end = Date.new((year + 1), 1, -1) # Jan 31st
       wday = (year_end.wday + 1) % 7 
 
       if wday > 3
@@ -138,7 +138,7 @@ module MerchCalendar
         return QUARTER_2
       when 7,8,9
         return QUARTER_3
-      else
+      when 10,11,12
         return QUARTER_4
       end
     end
@@ -187,6 +187,7 @@ module MerchCalendar
       if merch_month > 12 || merch_month <= 0
         raise ArgumentError
       end
+
       if merch_month == 12
         1
       else
@@ -202,6 +203,7 @@ module MerchCalendar
       if julian_month > 12 || julian_month <= 0
         raise ArgumentError
       end
+
       if julian_month == 1
         12
       else

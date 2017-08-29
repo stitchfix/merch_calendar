@@ -9,59 +9,60 @@ module MerchCalendar
     #
     # @!attribute [r] date
     #   @return [Date] the date for this merch week
-
+    attr_reader :date
+    
     # The Merch Calendar that is being represented, either Fiscal or Retail
     #
     # @!attribute [r] calendar
     #   @return [Class] the calendar that determines the merch week
-    attr_reader :date, :calendar
+    attr_reader :calendar
 
-    class << self
+    # Locates the +MerchWeek+ for a given Julian date.
+    #
+    # @overload from_date(String)
+    #   @param [String] julian_date a julian date in the format of +YYYY-MM-DD+
+    #   @param [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
+    #   # @option opts [Class] :calendar The Calendar Class
+    # @overload from_date(Date)
+    #   @param [Date] julian_date a +Date+ object
+    #   @param [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
+    #   # @option opts [Class] :calendar The Calendar Class
+    # @return [MerchWeek]
+    def self.from_date(julian_date, options = {})
+      MerchWeek.new(Date.parse("#{julian_date}"), options)
+    end
 
-      # Locates the +MerchWeek+ for a given Julian date.
-      #
-      # @overload from_date(String)
-      #   @param [String] julian_date a julian date in the format of +YYYY-MM-DD+
-      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
-      # @overload from_date(Date)
-      #   @param [Date] julian_date a +Date+ object
-      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
-      #
-      # @return [MerchWeek]
-      def from_date(julian_date, options = {})
-        MerchWeek.new(Date.parse("#{julian_date}"), options)
+    # Returns an array of merch weeks for a month, or a specific week.
+    #
+    # @overload find(year, julian_month, week_number=nil, options)
+    #   Returns an array of +MerchWeek+s for a given month
+    #   @param year [Fixnum] the merch year to locate
+    #   @param julian_month [Fixnum] the month to find merch months for
+    #   @param week_number [Nil] set week_number to nil
+    #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
+    #   @return [Array<MerchWeek>]
+    # @overload find(year, julian_month, week_number)
+    #   @param year [Fixnum] the merch year to locate
+    #   @param julian_month [Fixnum] the month to find merch months for
+    #   @param week_number [Fixnum] the specific week number.
+    #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
+    #   @return [MerchWeek] the specific merch week
+    def self.find(year, julian_month, week_number=nil, options={})
+      calendar = options.fetch(:calendar, RetailCalendar.new)
+      if week_number.nil?
+        calendar.weeks_for_month(year, julian_month)
+      else
+        calendar.weeks_for_month(year, julian_month)[week_number-1]
       end
+    end
 
-      # Returns an array of merch weeks for a month, or a specific week.
-      #
-      # @overload find(year, julian_month, week_number=nil, options)
-      #   Returns an array of +MerchWeek+s for a given month
-      #   @param year [Fixnum] the merch year to locate
-      #   @param julian_month [Fixnum] the month to find merch months for
-      #   @param week_number [Nil] set week_number to nil
-      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
-      #   @return [Array<MerchWeek>]
-      # @overload find(year, julian_month, week_number)
-      #   @param year [Fixnum] the merch year to locate
-      #   @param julian_month [Fixnum] the month to find merch months for
-      #   @param week_number [Fixnum] the specific week number.
-      #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
-      #   @return [MerchWeek] the specific merch week
-      def find(year, julian_month, week_number=nil, options={})
-        calendar = options.fetch(:calendar, RetailCalendar.new)
-        if week_number.nil?
-          calendar.weeks_for_month(year, julian_month)
-        else
-          calendar.weeks_for_month(year, julian_month)[week_number-1]
-        end
-      end
-
-      # Returns the +MerchWeek+ for today's date
-      #
-      # @return [MerchWeek]
-      def today(options={})
-        MerchWeek.from_date(Date.today, options)
-      end
+    # Returns the +MerchWeek+ for today's date
+    #
+    #   @param [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
+    #   # @option opts [Class] :calendar The Calendar Class
+    # @return [MerchWeek]
+    def self.today(options={})
+      MerchWeek.from_date(Date.today, options)
     end
 
     # Pass in a date, make sure it is a valid date object
@@ -92,7 +93,6 @@ module MerchCalendar
     end
 
     # This returns the "merch month" number for a date
-    # Merch months are shifted by one. 
     # Month 1 is Feb for the retail calendar
     # Month 1 is August for the fiscal calendar
     #
@@ -113,14 +113,14 @@ module MerchCalendar
       @year ||= calendar.merch_year_from_date(date)
     end
 
-    # The julian month that this merch week falls in
+    # Returns julian month where the merch week falls
     #
     # @return [Fixnum]
     def month
       @month ||= calendar.merch_to_julian(merch_month)
     end
 
-    # The quarter that this week falls in
+    # Returns the quarter that this merch week falls
     #
     # @return [Fixnum]
     def quarter
@@ -141,7 +141,7 @@ module MerchCalendar
       @end_of_week ||= (start_of_week + 6)
     end
 
-    # the number of the week within the given merch month
+    # The number of the week within the given merch month
     # will be between 1 and 5
     #
     # @return [Fixnum]

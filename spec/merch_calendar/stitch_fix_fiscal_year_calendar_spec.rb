@@ -168,7 +168,7 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
   end
 
   describe "#quarter" do
-    it "returns the correct date" do
+    it "returns the correct quarter number" do
       expect(subject.quarter(5)).to eq 2
       expect(subject.quarter(7)).to eq 3
       expect(subject.quarter(2)).to eq 1

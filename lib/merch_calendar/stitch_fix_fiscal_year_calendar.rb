@@ -63,7 +63,7 @@ module MerchCalendar
         return QUARTER_2
       when 7,8,9
         return QUARTER_3
-      else
+      when 10,11,12
         return QUARTER_4
       end
     end
@@ -182,6 +182,7 @@ module MerchCalendar
       if merch_month > 12 || merch_month <= 0
         raise ArgumentError
       end
+
       if merch_month <= 5
         merch_month + 7
       else
@@ -197,6 +198,7 @@ module MerchCalendar
       if julian_month > 12 || julian_month <= 0
         raise ArgumentError
       end
+
       if julian_month <= 7
         julian_month + 5
       else
@@ -209,8 +211,8 @@ module MerchCalendar
     # @param start_date [Date] the starting date
     # @param end_date [Date] the ending date
     # @return [Array] Array of start dates of each Fiscal Month from given dates
-    def merch_months_in(start_date, end_date)
-      merch_months_combos = merch_month_combo_from_dates(start_date, end_date)
+    def merch_months_in(start_date, end_date) 
+      merch_months_combos = merch_year_and_month_from_dates(start_date, end_date)
       merch_months_combos.map { | merch_month_combo | start_of_month(merch_month_combo[0], merch_month_combo[1]) }
     end
 
@@ -240,8 +242,12 @@ module MerchCalendar
     end
 
     private
-
-    def merch_month_combo_from_dates(start_date, end_date)
+    
+    # Returns an array of merch_months and year combination that falls in and between the start and end date
+    # 
+    # Ex: if start_date = August 1, 2018 and end_date = October 1, 2018
+    # it returns [[2019, 1], [ 2019, 2], [2019, 3]] 
+    def merch_year_and_month_from_dates(start_date, end_date)
       merch_months = []
 
       middle_of_start_month = Date.new(start_date.year, start_date.month, 14)
@@ -254,8 +260,8 @@ module MerchCalendar
       end
       merch_months
     end
-
-    # This isn't a true date conversion, only used for merch_month_combo_from_dates
+ 
+    # This isn't a true date conversion, only used for merch_year_and_month_from_dates
     # when its julian month actually falls in the wrong merch year
     # EX: The true date_conversion of July 1, 2018 => [ 2019, 1 ]
     # BUT this method here will return [2019, 12] because July is merch_month 12 for fiscal year

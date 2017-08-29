@@ -65,7 +65,7 @@ describe MerchCalendar::MerchWeek do
       
       context "wants to know a date in a Fiscal Calendar" do
         it "allows calendar to be passed and translate date to what it looks like in a FY year" do
-          mw = described_class.from_date( "2019-08-04", fiscal_calendar_options )
+          mw = described_class.from_date("2019-08-04", fiscal_calendar_options)
           expect(mw.date.to_s).to eq "2019-08-04"
           expect(mw.date.month).to eq 8
           expect(mw.merch_month).to eq 1
@@ -103,7 +103,6 @@ describe MerchCalendar::MerchWeek do
       
       expect(fiscal_week.to_s(:short)).to eq "Jul W5"
       expect(fiscal_week.to_s).to eq "Jul W5"
-      expect("#{fiscal_week}").to eq "Jul W5"
     end
 
     it ":long format" do

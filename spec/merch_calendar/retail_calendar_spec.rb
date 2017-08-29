@@ -62,7 +62,7 @@ RSpec.describe MerchCalendar::RetailCalendar do
   end
   
   describe "#quarter" do
-    it "returns the correct date" do
+    it "returns the correct quarter number" do
       expect(subject.quarter(5)).to eq 2
       expect(subject.quarter(7)).to eq 3
       expect(subject.quarter(2)).to eq 1
@@ -71,7 +71,7 @@ RSpec.describe MerchCalendar::RetailCalendar do
   end
   
   describe "#season" do
-    context "returns Spring/Summer from its merch_month" do
+    context "for merch_months in the Spring and Summer Season" do
       it { expect(subject.season(1)).to eq "Spring/Summer" }
       it { expect(subject.season(2)).to eq "Spring/Summer" }
       it { expect(subject.season(3)).to eq "Spring/Summer" }
@@ -80,7 +80,7 @@ RSpec.describe MerchCalendar::RetailCalendar do
       it { expect(subject.season(6)).to eq "Spring/Summer" }
     end
 
-    context "returns Fall/Winter from its merch_month" do
+    context "for merch_months in the Fall and Winter Season" do
       it { expect(subject.season(7)).to eq "Fall/Winter" }
       it { expect(subject.season(8)).to eq "Fall/Winter" }
       it { expect(subject.season(9)).to eq "Fall/Winter" }
@@ -179,6 +179,9 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.merch_to_julian(10)).to eq 11
       expect(subject.merch_to_julian(11)).to eq 12
       expect(subject.merch_to_julian(12)).to eq 1
+    end
+
+    it "raises an error for invalid merch months" do
       expect { subject.merch_to_julian(13) }.to raise_error ArgumentError
       expect { subject.merch_to_julian(0) }.to raise_error ArgumentError
     end
@@ -198,38 +201,42 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.julian_to_merch(11)).to eq 10
       expect(subject.julian_to_merch(12)).to eq 11
       expect(subject.julian_to_merch(1)).to eq 12
+    end
+
+    it "raises an error for invalid merch months" do
       expect { subject.julian_to_merch(13) }.to raise_error ArgumentError
       expect { subject.julian_to_merch(0) }.to raise_error ArgumentError
     end
   end
   
   describe "#weeks_for_month" do
-    context "correct number of weeks given julian month and fiscal year" do
-      it "returns 4 weeks for a 4-week month Fiscal Year 2019 for Aug" do
-        weeks = subject.weeks_for_month(2018, 2)
-        expect(weeks.size).to eq 4
-      end
-      it "returns 5 weeks for a 5-week month Fiscal Year 2019 for Sept" do
-        weeks = subject.weeks_for_month(2018, 3)
-        expect(weeks.size).to eq 5
-      end
-      it "returns 5 weeks during a 4-5-5 quarter" do
-        weeks = subject.weeks_for_month(2017, julian_month: 11)
-        expect(weeks.size).to eq 4
+    it "returns 4 weeks for a 4-week month Fiscal Year 2019 for Aug" do
+      weeks = subject.weeks_for_month(2018, 2)
+      expect(weeks.size).to eq 4
+    end
 
-        weeks = subject.weeks_for_month(2017, merch_month: 11)
-        expect(weeks.size).to eq 5
-        
-        weeks = subject.weeks_for_month(2017, 1)
-        expect(weeks.size).to eq 5
-        
-        weeks = subject.weeks_for_month(2018, 2)
-        expect(weeks.size).to eq 4
-      end
-      it "raises an ArgumentError if the param is not a hash with a key we care about or Fixnum" do
-        expect { subject.weeks_for_month(2018, "3") }.to raise_error ArgumentError
-        expect { subject.weeks_for_month(2018, some_month: 4) }.to raise_error ArgumentError
-      end
+    it "returns 5 weeks for a 5-week month Fiscal Year 2019 for Sept" do
+      weeks = subject.weeks_for_month(2018, 3)
+      expect(weeks.size).to eq 5
+    end
+
+    it "returns 5 weeks during a 4-5-5 quarter" do
+      weeks = subject.weeks_for_month(2017, julian_month: 11)
+      expect(weeks.size).to eq 4
+
+      weeks = subject.weeks_for_month(2017, merch_month: 11)
+      expect(weeks.size).to eq 5
+      
+      weeks = subject.weeks_for_month(2017, 1)
+      expect(weeks.size).to eq 5
+      
+      weeks = subject.weeks_for_month(2018, 2)
+      expect(weeks.size).to eq 4
+    end
+
+    it "raises an ArgumentError if the param is not a hash with a key we care about or Fixnum" do
+      expect { subject.weeks_for_month(2018, "3") }.to raise_error ArgumentError
+      expect { subject.weeks_for_month(2018, some_month: 4) }.to raise_error ArgumentError
     end
   end
 end
