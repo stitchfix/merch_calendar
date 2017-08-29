@@ -211,7 +211,7 @@ describe MerchCalendar::MerchWeek do
   end
 
 
-  context "logic for Retail Calendar" do
+  describe "logic for Retail Calendar" do
     [
       OpenStruct.new(date: "2011-05-01", year: 2011, month: 5,  week: 1, quarter: 2, year_week: 14, start_date: "2011-01-30"),
 
@@ -241,34 +241,34 @@ describe MerchCalendar::MerchWeek do
       context "using date '#{date_check.date}'" do
         let(:merch_week) { described_class.from_date(date_check.date) }
 
-        it "#year_week" do
-          expect(merch_week.year_week).to eq date_check.year_week
+        describe "#year_week" do
+          it { expect(merch_week.year_week).to eq date_check.year_week }
         end
 
-        it "#month" do
-          expect(merch_week.month).to eq date_check.month
+        describe "#month" do
+          it { expect(merch_week.month).to eq date_check.month }
         end
 
-        it "#quarter" do
-          expect(merch_week.quarter).to eq date_check.quarter
+        describe "#quarter" do
+          it { expect(merch_week.quarter).to eq date_check.quarter }
         end
 
-        it "#week" do
-          expect(merch_week.week).to eq date_check.week
+        describe "#week" do
+          it { expect(merch_week.week).to eq date_check.week }
         end
 
-        it "#start_of_year" do
-          expect(merch_week.start_of_year.to_s).to eq date_check.start_date
+        describe "#start_of_year" do
+          it { expect(merch_week.start_of_year.to_s).to eq date_check.start_date }
         end
 
-        it "#year" do
-          expect(merch_week.year).to eq date_check.year
+        describe "#year" do
+          it { expect(merch_week.year).to eq date_check.year }
         end
       end
     end
   end
 
-  context "logic for Stitch Fix Fiscal Calendar" do
+  describe "logic for Stitch Fix Fiscal Calendar" do
     [
       #2018
       OpenStruct.new(date: "2018-07-26", year: 2018, month: 7,  week: 4, quarter: 4, year_week: 52, start_date: "2017-07-30"),
@@ -298,28 +298,28 @@ describe MerchCalendar::MerchWeek do
       context "using date '#{date_check.date}'" do
         let(:merch_week) { described_class.from_date(date_check.date, fiscal_calendar_options) }
 
-        it "#year_week" do
-          expect(merch_week.year_week).to eq date_check.year_week
+        describe "#year_week" do
+          it { expect(merch_week.year_week).to eq date_check.year_week }
         end
 
-        it "#month" do
-          expect(merch_week.month).to eq date_check.month
+        describe "#month" do
+          it { expect(merch_week.month).to eq date_check.month }
         end
 
-        it "#quarter" do
-          expect(merch_week.quarter).to eq date_check.quarter
+        describe "#quarter" do
+          it { expect(merch_week.quarter).to eq date_check.quarter }
         end
 
-        it "#week" do
-          expect(merch_week.week).to eq date_check.week
+        describe "#week" do
+          it { expect(merch_week.week).to eq date_check.week }
         end
 
-        it "#start_of_year" do
-          expect(merch_week.start_of_year.to_s).to eq date_check.start_date
+        describe "#start_of_year" do
+          it { expect(merch_week.start_of_year.to_s).to eq date_check.start_date }
         end
 
-        it "#year" do
-          expect(merch_week.year).to eq date_check.year
+        describe "#year" do
+          it { expect(merch_week.year).to eq date_check.year }
         end
       end
     end
