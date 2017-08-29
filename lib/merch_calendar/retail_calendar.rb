@@ -126,6 +126,23 @@ module MerchCalendar
       end
     end
     
+    # Returns the quarter that the merch month falls in
+    #
+    # @param [Fixnum] merch month
+    # @return [Date] the quarter that the merch_month falls in
+    def quarter(merch_month)
+      case merch_month
+      when 1,2,3
+        return QUARTER_1
+      when 4,5,6
+        return QUARTER_2
+      when 7,8,9
+        return QUARTER_3
+      else
+        return QUARTER_4
+      end
+    end
+    
     #Returns the season given for the merch_month
     #
     # @param [Fixnum]  merch_month - the nth month of the retail calendar

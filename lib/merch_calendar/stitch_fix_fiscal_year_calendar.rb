@@ -50,6 +50,20 @@ module MerchCalendar
         start_of_month(year, 10)
       end
     end
+    
+    #Return the quarter that the merch_month lands on
+    def quarter
+      case merch_month
+      when 7,8,9
+        return 1
+      when 10,11,12
+        return 2
+      when 1,2,3
+        return 3
+      else
+        return 4
+      end
+    end
 
     # Return the ending date for a particular quarter
     #

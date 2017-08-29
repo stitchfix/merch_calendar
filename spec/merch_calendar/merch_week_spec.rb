@@ -212,13 +212,12 @@ describe MerchCalendar::MerchWeek do
   end
 
 
-  context "logic" do
+  context "logic for Retail Calendar" do
     [
-      OpenStruct.new(date: "2011-05-01", year: 2011, month: 5,  week: 1, quarter: 4, year_week: 14, start_date: "2011-01-30"),
+      OpenStruct.new(date: "2011-05-01", year: 2011, month: 5,  week: 1, quarter: 2, year_week: 14, start_date: "2011-01-30"),
       
-      OpenStruct.new(date: "2014-08-31", year: 2014, month: 9,  week: 1, quarter: 1, year_week: 31, start_date: "2014-02-02"),
-      OpenStruct.new(date: "2017-12-30", year: 2017, month: 12, week: 5, quarter: 2, year_week: 48, start_date: "2017-01-29"),
-      OpenStruct.new(date: "2014-01-01", year: 2013, month: 12, week: 5, quarter: 2, year_week: 48, start_date: "2013-02-03"),
+      OpenStruct.new(date: "2014-08-31", year: 2014, month: 9,  week: 1, quarter: 3, year_week: 31, start_date: "2014-02-02"),
+      OpenStruct.new(date: "2014-01-01", year: 2013, month: 12, week: 5, quarter: , year_week: 48, start_date: "2013-02-03"),
       OpenStruct.new(date: "2014-01-04", year: 2013, month: 12, week: 5, quarter: 2, year_week: 48, start_date: "2013-02-03"),
       OpenStruct.new(date: "2014-01-05", year: 2013, month: 1,  week: 1, quarter: 2, year_week: 49, start_date: "2013-02-03"),
       OpenStruct.new(date: "2014-01-12", year: 2013, month: 1,  week: 2, quarter: 2, year_week: 50, start_date: "2013-02-03"),
@@ -235,7 +234,9 @@ describe MerchCalendar::MerchWeek do
       OpenStruct.new(date: "2014-02-01", year: 2013, month: 1,  week: 4, quarter: 2, year_week: 52, start_date: "2013-02-03"),
       #2015
       OpenStruct.new(date: "2015-02-01", year: 2015, month: 2,  week: 1, quarter: 3, year_week: 1, start_date: "2015-02-01"),
-
+      
+      #2017
+      OpenStruct.new(date: "2017-12-30", year: 2017, month: 12, week: 5, quarter: 2, year_week: 48, start_date: "2017-01-29")
     ].each do |date_check|
 
       context "using date '#{date_check.date}'" do
@@ -268,4 +269,60 @@ describe MerchCalendar::MerchWeek do
     end
   end
 
+  context "logic for Stitch Fix Fiscal Calendar" do
+    [
+      #2018
+      OpenStruct.new(date: "2018-07-26", year: 2018, month: 7,  week: 4, quarter: 4, year_week: 52, start_date: "2017-07-30"),
+
+      #2019
+      OpenStruct.new(date: "2018-07-31", year: 2019, month: 8,  week: 1, quarter: 1, year_week: 1, start_date: "2018-07-29"),
+      OpenStruct.new(date: "2019-02-01", year: 2019, month: 2, week: 1, quarter: 3, year_week: 27, start_date: "2018-07-29"),
+      OpenStruct.new(date: "2019-08-02", year: 2019, month: 7, week: 5, quarter: 4, year_week: 53, start_date: "2018-07-29"),
+      
+      # 2020
+      OpenStruct.new(date: "2019-08-08", year: 2020, month: 8,  week: 1, quarter: 1, year_week: 1,  start_date: "2019-08-04"),
+      OpenStruct.new(date: "2020-05-05", year: 2020, month: 5,  week: 1, quarter: 4, year_week: 40, start_date: "2019-08-04"),
+      OpenStruct.new(date: "2020-08-01", year: 2020, month: 7,  week: 4, quarter: 4, year_week: 52, start_date: "2019-08-04"),
+
+      #2023
+      OpenStruct.new(date: "2022-07-31", year: 2023, month: 8,  week: 1, quarter: 1, year_week: 1,  start_date: "2022-07-31"),
+      OpenStruct.new(date: "2023-04-22", year: 2023, month: 4,  week: 3, quarter: 3, year_week: 38, start_date: "2022-07-31"),
+      OpenStruct.new(date: "2023-07-25", year: 2023, month: 7,  week: 4, quarter: 4, year_week: 52, start_date: "2022-07-31"),
+
+      #2024
+      OpenStruct.new(date: "2023-08-01", year: 2024, month: 8,  week: 1, quarter: 1, year_week: 1, start_date: "2023-07-30"),
+      OpenStruct.new(date: "2023-11-08", year: 2024, month: 11, week: 2, quarter: 2, year_week: 15, start_date: "2023-07-30"),
+      OpenStruct.new(date: "2024-07-29", year: 2024, month: 7,  week: 5, quarter: 4, year_week: 53, start_date: "2023-07-30"),
+      
+    ].each do |date_check|
+
+      context "using date '#{date_check.date}'" do
+        let(:merch_week) { described_class.from_date(date_check.date, fiscal_calendar_options) }
+
+        it "#year_week" do
+          expect(merch_week.year_week).to eq date_check.year_week
+        end
+
+        it "#month" do
+          expect(merch_week.month).to eq date_check.month
+        end
+
+        it "#quarter" do
+          expect(merch_week.quarter).to eq date_check.quarter
+        end
+
+        it "#week" do
+          expect(merch_week.week).to eq date_check.week
+        end
+
+        it "#start_of_year" do
+          expect(merch_week.start_of_year.to_s).to eq date_check.start_date
+        end
+
+        it "#year" do
+          expect(merch_week.year).to eq date_check.year
+        end
+      end
+    end
+  end
 end
