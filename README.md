@@ -21,15 +21,16 @@ gem "merch_calendar"
 
 ## Usage
 
-For converting a date into a `MerchWeek` object.
+For converting a date into a `MerchWeek` object.  `MerchWeek` object can take a date can translate to what merch week the date falls into. 
+
 
 ```ruby
-merch_week = MerchCalendar::MerchWeek.from_date("2014-01-01")
+merch_week = MerchCalendar::MerchWeek.from_date("2014-01-01", calendar: MerchCalendar::RetailCalendar.new)
 
 merch_week.year                 # 2013 (the merch year associated with this date)
 merch_week.month                # 12 (the julian month that the date falls in)
 merch_week.week                 # 5 (the week number within the month)
-merch_week.year_week            # 48 (the week number within the year)
+merch_week.year_week            # 48 (the week number within the retail calendar year)
 merch_week.quarter              # 2
 
 merch_week.start_of_week        # <Date: 2013-12-29>
@@ -41,6 +42,9 @@ merch_week.end_of_month         # <Date: 2014-01-04>
 merch_week.start_of_year        # <Date: 2013-02-03>
 merch_week.end_of_year          # <Date: 2014-02-01>
 
+merch_week.calendar             # <MerchCalendar::RetailCalendar> (the calendar we're using)
+                                # if you don't initialize a calendar, it defaults to RetailCalendar
+
 # Formatting
 merch_week.to_s                 # "Dec W5"
 merch_week.to_s(:short)         # "Dec W5"
@@ -51,7 +55,7 @@ merch_week.to_s(:elasticsearch) # "2013-12w05"
 
 ### Merch retail calendar
 
-Merch calendars have their first month in February, and the last (12th) month is in January of the
+Retail calendars have their first month in February, and the last (12th) month is in January of the
 following year.
 
 ```ruby
@@ -122,6 +126,39 @@ fiscal_calendar.start_of_week(2017, 1, 1)
 # get the end date of a given merch week
 fiscal_calendar.end_of_week(2017, 4, 1)
 #=> #<Date: 2017-05-06 ((2457880j,0s,0n),+0s,2299161j)>
+```
+
+#### Stitch Fix Fiscal Year Calendar in Relation to MerchWeek object
+You can set MerchWeek object respond to the Stitch Fix Fiscal Calendar, by passing in `StitchFixFiscalYearCalendar.new` in the calendar parameter:
+
+```ruby
+merch_week = MerchCalendar::MerchWeek.from_date("2018-07-02", calendar: MerchCalendar::StitchFixFiscalYearCalendar.new)
+
+merch_week.year                 # 2018 (the merch year associated with this date)
+merch_week.month                # 7 (the julian month that the date falls in)
+merch_week.merch_month          # 12 (this fiscal month the date falls in)
+merch_week.week                 # 1 (the week number within the month)
+merch_week.year_week            # 49 (the week number within the retail calendar year)
+merch_week.quarter              # 4
+
+merch_week.start_of_week        # <Date: 2018-07-01>
+merch_week.end_of_week          # <Date: 2018-07-07>
+
+merch_week.start_of_month       # <Date: 2018-07-01>
+merch_week.end_of_month         # <Date: 2018-07-28>
+
+merch_week.start_of_year        # <Date: 2017-07-30>
+merch_week.end_of_year          # <Date: 2018-07-28>
+
+merch_week.calendar             # <MerchCalendar::StitchFixFiscalYearCalendar> (the calendar
+                                # we're using)
+                                # if you don't initialize a calendar, it defaults to RetailCalendar
+
+# Formatting
+merch_week.to_s                 # "Jul W1"
+merch_week.to_s(:short)         # "Jul W1"
+merch_week.to_s(:long)          # "2018:49 Jul W1"
+merch_week.to_s(:elasticsearch) # "2018-07w01"
 ```
 
 ## Documentation
