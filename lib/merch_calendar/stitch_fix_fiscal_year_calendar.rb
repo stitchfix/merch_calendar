@@ -22,7 +22,7 @@ module MerchCalendar
     # @param [Fixnum] year - the fiscal year
     # @return [Date] the last date of the fiscal year
     def end_of_year(year)
-      year_end = Date.new((year), 7, -1)
+      year_end = Date.new((year), 7, -1) # Jul 31st
       wday = (year_end.wday + 1) % 7
 
       if wday > 3
