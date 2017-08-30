@@ -5,11 +5,14 @@ RSpec.describe MerchCalendar::RetailCalendar do
     it "returns 53 for a leap year" do
       expect(subject.weeks_in_year(2012)).to eq 53
       expect(subject.weeks_in_year(2017)).to eq 53
+      expect(subject.weeks_in_year(2023)).to eq 53
     end
 
     it "returns 52 for a normal year" do
       expect(subject.weeks_in_year(2013)).to eq 52
       expect(subject.weeks_in_year(2018)).to eq 52
+      expect(subject.weeks_in_year(2019)).to eq 52
+      expect(subject.weeks_in_year(2020)).to eq 52      
     end
   end
 
@@ -46,6 +49,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.start_of_quarter(2019, 3)).to eq Date.new(2019, 8, 4)
       expect(subject.start_of_quarter(2019, 4)).to eq Date.new(2019, 11, 3)
     end
+
+    it "raises an error when there is an invalid quarter" do
+      expect { subject.start_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+    end
   end
 
   describe "#end_of_quarter" do
@@ -55,6 +62,47 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.end_of_quarter(2019, 2)).to eq Date.new(2019, 8, 3)
       expect(subject.end_of_quarter(2019, 3)).to eq Date.new(2019, 11, 2)
       expect(subject.end_of_quarter(2019, 4)).to eq Date.new(2020, 2, 1)
+    end
+
+    it "raises an error when there is an invalid quarter" do
+      expect { subject.end_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+    end
+  end
+  
+  describe "#quarter" do
+    it "returns the correct quarter number" do
+      expect(subject.quarter(5)).to eq 2
+      expect(subject.quarter(7)).to eq 3
+      expect(subject.quarter(2)).to eq 1
+      expect(subject.quarter(11)).to eq 4
+    end
+
+    it "raises an error when there is an invalid merch month" do
+      expect { subject.quarter(13) }.to raise_error "invalid merch month"
+    end
+  end
+  
+  describe "#season" do
+    context "for merch_months in the Spring and Summer Season" do
+      it { expect(subject.season(1)).to eq "Spring/Summer" }
+      it { expect(subject.season(2)).to eq "Spring/Summer" }
+      it { expect(subject.season(3)).to eq "Spring/Summer" }
+      it { expect(subject.season(4)).to eq "Spring/Summer" }
+      it { expect(subject.season(5)).to eq "Spring/Summer" }
+      it { expect(subject.season(6)).to eq "Spring/Summer" }
+    end
+
+    context "for merch_months in the Fall and Winter Season" do
+      it { expect(subject.season(7)).to eq "Fall/Winter" }
+      it { expect(subject.season(8)).to eq "Fall/Winter" }
+      it { expect(subject.season(9)).to eq "Fall/Winter" }
+      it { expect(subject.season(10)).to eq "Fall/Winter" }
+      it { expect(subject.season(11)).to eq "Fall/Winter" }
+      it { expect(subject.season(12)).to eq "Fall/Winter" }
+    end
+    
+    it "raises an error when there is an invalid merch month" do
+      expect { subject.season(13) }.to raise_error "invalid merch month"
     end
   end
 
@@ -103,7 +151,6 @@ RSpec.describe MerchCalendar::RetailCalendar do
 
       merch_months = subject.merch_months_in(start_date, end_date)
       expect(merch_months.count).to be 11
-
       merch_months.each do |merch_month|
         expect(merch_month.year).to be 2014
       end
@@ -121,5 +168,91 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(merch_months[10].strftime('%Y-%m-%d')).to eq '2014-11-30'
     end
   end
+  
+  describe "#merch_year_from_date" do
+    it "returns the correct merch calendar year" do
+      expect(subject.merch_year_from_date(Date.new(2012, 1, 28))).to eq 2011
+      expect(subject.merch_year_from_date(Date.new(2012, 1, 29))).to eq 2012
+      expect(subject.merch_year_from_date(Date.new(2018, 1, 24))).to eq 2017
+      expect(subject.merch_year_from_date(Date.new(2018, 2, 3))).to eq 2017
+      expect(subject.merch_year_from_date(Date.new(2018, 2, 4))).to eq 2018
+      expect(subject.merch_year_from_date(Date.new(2019, 2, 2))).to eq 2018
+      expect(subject.merch_year_from_date(Date.new(2019, 2, 3))).to eq 2019
+    end
+  end
+  
+  describe "#merch_to_julian" do
+    it "converts merch months to julian months" do
+      expect(subject.merch_to_julian(1)).to eq 2
+      expect(subject.merch_to_julian(2)).to eq 3
+      expect(subject.merch_to_julian(3)).to eq 4
+      expect(subject.merch_to_julian(4)).to eq 5
+      expect(subject.merch_to_julian(5)).to eq 6
+      expect(subject.merch_to_julian(6)).to eq 7
+      expect(subject.merch_to_julian(7)).to eq 8
+      expect(subject.merch_to_julian(8)).to eq 9
+      expect(subject.merch_to_julian(9)).to eq 10
+      expect(subject.merch_to_julian(10)).to eq 11
+      expect(subject.merch_to_julian(11)).to eq 12
+      expect(subject.merch_to_julian(12)).to eq 1
+    end
 
+    it "raises an error for invalid merch months" do
+      expect { subject.merch_to_julian(13) }.to raise_error ArgumentError
+      expect { subject.merch_to_julian(0) }.to raise_error ArgumentError
+    end
+  end
+  
+  describe "#julian_to_merch" do
+    it "converts julian months to merch months" do
+      expect(subject.julian_to_merch(2)).to eq 1
+      expect(subject.julian_to_merch(3)).to eq 2
+      expect(subject.julian_to_merch(4)).to eq 3
+      expect(subject.julian_to_merch(5)).to eq 4
+      expect(subject.julian_to_merch(6)).to eq 5
+      expect(subject.julian_to_merch(7)).to eq 6
+      expect(subject.julian_to_merch(8)).to eq 7
+      expect(subject.julian_to_merch(9)).to eq 8
+      expect(subject.julian_to_merch(10)).to eq 9
+      expect(subject.julian_to_merch(11)).to eq 10
+      expect(subject.julian_to_merch(12)).to eq 11
+      expect(subject.julian_to_merch(1)).to eq 12
+    end
+
+    it "raises an error for invalid merch months" do
+      expect { subject.julian_to_merch(13) }.to raise_error ArgumentError
+      expect { subject.julian_to_merch(0) }.to raise_error ArgumentError
+    end
+  end
+  
+  describe "#weeks_for_month" do
+    it "returns 4 weeks for a 4-week month Retail Year 2019 for Aug" do
+      weeks = subject.weeks_for_month(2018, 2)
+      expect(weeks.size).to eq 4
+    end
+
+    it "returns 5 weeks for a 5-week month Retail Year 2019 for Sept" do
+      weeks = subject.weeks_for_month(2018, 3)
+      expect(weeks.size).to eq 5
+    end
+
+    it "returns 5 weeks during a 4-5-5 quarter" do
+      weeks = subject.weeks_for_month(2017, julian_month: 11)
+      expect(weeks.size).to eq 4
+
+      weeks = subject.weeks_for_month(2017, merch_month: 11)
+      expect(weeks.size).to eq 5
+      
+      weeks = subject.weeks_for_month(2017, 1)
+      expect(weeks.size).to eq 5
+      
+      weeks = subject.weeks_for_month(2018, 2)
+      expect(weeks.size).to eq 4
+    end
+
+    it "raises an ArgumentError if the param is not a hash with a key we care about or Fixnum" do
+      expect { subject.weeks_for_month(2018, "3") }.to raise_error ArgumentError
+      expect { subject.weeks_for_month(2018, some_month: 4) }.to raise_error ArgumentError
+    end
+  end
 end
