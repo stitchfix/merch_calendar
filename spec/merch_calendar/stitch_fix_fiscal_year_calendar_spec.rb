@@ -139,6 +139,10 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
     it "returns the correct date for 2020-Q4" do
       expect(subject.start_of_quarter(2020, 4)).to eq Date.new(2020, 5, 3)
     end
+    
+    it "raises an error when there is an invalid quarter" do
+      expect { subject.start_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+    end
   end
 
   describe "#end_of_quarter" do
@@ -165,6 +169,10 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
     it "returns the correct date for 2020-Q4" do
       expect(subject.end_of_quarter(2020, 4)).to eq Date.new(2020, 8, 1)
     end
+    
+    it "raises an error when there is an invalid quarter" do
+      expect { subject.end_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+    end
   end
 
   describe "#quarter" do
@@ -173,6 +181,10 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       expect(subject.quarter(7)).to eq 3
       expect(subject.quarter(2)).to eq 1
       expect(subject.quarter(11)).to eq 4
+    end
+
+    it "raises an error when there is an invalid merch month" do
+      expect { subject.quarter(13) }.to raise_error "invalid merch month"
     end
   end
 
@@ -193,6 +205,10 @@ RSpec.describe MerchCalendar::StitchFixFiscalYearCalendar do
       it { expect(subject.season(10)).to eq "Spring/Summer" }
       it { expect(subject.season(11)).to eq "Spring/Summer" }
       it { expect(subject.season(12)).to eq "Spring/Summer" }
+    end
+
+    it "raises an error when there is an invalid merch month" do
+      expect { subject.season(13) }.to raise_error "invalid merch month"
     end
   end
 

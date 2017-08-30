@@ -65,7 +65,7 @@ RSpec.describe MerchCalendar::RetailCalendar do
     end
 
     it "raises an error when there is an invalid quarter" do
-      expect { subject.start_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+      expect { subject.end_of_quarter(2019, 5) }.to raise_error "invalid quarter"
     end
   end
   
