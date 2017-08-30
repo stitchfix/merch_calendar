@@ -20,12 +20,12 @@ module MerchCalendar
     # Locates the +MerchWeek+ for a given Julian date.
     #
     # @overload from_date(String)
-    #   @param [String] julian_date a julian date in the format of +YYYY-MM-DD+
-    #   @param [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
+    #   @param julian_date [String] a julian date in the format of +YYYY-MM-DD+
+    #   @param options [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
     #   # @option opts [Class] :calendar The Calendar Class
     # @overload from_date(Date)
-    #   @param [Date] julian_date a +Date+ object
-    #   @param [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
+    #   @param julian_date [Date] julian_date a +Date+ object
+    #   @param options [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
     #   # @option opts [Class] :calendar The Calendar Class
     # @return [MerchWeek]
     def self.from_date(julian_date, options = {})
@@ -46,7 +46,7 @@ module MerchCalendar
     #   @param julian_month [Fixnum] the month to find merch months for
     #   @param week_number [Fixnum] the specific week number.
     #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
-    #   @return [MerchWeek] the specific merch week
+    #   @return [MerchWeek] the specific merch week based on the week number
     def self.find(year, julian_month, week_number=nil, options={})
       calendar = options.fetch(:calendar, RetailCalendar.new)
       if week_number.nil?
@@ -58,7 +58,7 @@ module MerchCalendar
 
     # Returns the +MerchWeek+ for today's date
     #
-    #   @param [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
+    #   @param options [Hash] opts the options to set your calendar, if none it will default to RetailCalendar
     #   # @option opts [Class] :calendar The Calendar Class
     # @return [MerchWeek]
     def self.today(options={})
