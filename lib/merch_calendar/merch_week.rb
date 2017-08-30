@@ -179,7 +179,7 @@ module MerchCalendar
 
     # The merch season this date falls under.
     # Returns a string of +Fall/Winter+ or +Spring/Summer+
-    # THIS MIGHT NEED TO CHANGE DEPENDING ON THE CALENDAR
+    #
     # @return [String]
     def season
       @season ||= calendar.season(merch_month)

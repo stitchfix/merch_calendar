@@ -21,7 +21,7 @@ gem "merch_calendar"
 
 ## Usage
 
-For converting a date into a `MerchWeek` object.  `MerchWeek` object can take a date can translate to what merch week the date falls into. 
+For converting a date into a `MerchWeek` object.
 
 
 ```ruby
@@ -31,7 +31,7 @@ merch_week.year                 # 2013 (the merch year associated with this date
 merch_week.month                # 12 (the julian month that the date falls in)
 merch_week.week                 # 5 (the week number within the month)
 merch_week.year_week            # 48 (the week number within the retail calendar year)
-merch_week.quarter              # 2
+merch_week.quarter              # 4
 
 merch_week.start_of_week        # <Date: 2013-12-29>
 merch_week.end_of_week          # <Date: 2014-01-04>

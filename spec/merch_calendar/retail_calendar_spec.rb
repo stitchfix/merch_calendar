@@ -210,12 +210,12 @@ RSpec.describe MerchCalendar::RetailCalendar do
   end
   
   describe "#weeks_for_month" do
-    it "returns 4 weeks for a 4-week month Fiscal Year 2019 for Aug" do
+    it "returns 4 weeks for a 4-week month Retail Year 2019 for Aug" do
       weeks = subject.weeks_for_month(2018, 2)
       expect(weeks.size).to eq 4
     end
 
-    it "returns 5 weeks for a 5-week month Fiscal Year 2019 for Sept" do
+    it "returns 5 weeks for a 5-week month Retail Year 2019 for Sept" do
       weeks = subject.weeks_for_month(2018, 3)
       expect(weeks.size).to eq 5
     end
