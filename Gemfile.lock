@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    merch_calendar (0.1.0)
+    merch_calendar (0.2.0)
 
 GEM
   remote: https://www.rubygems.org/
@@ -58,4 +58,4 @@ DEPENDENCIES
   simplecov
 
 BUNDLED WITH
-   1.15.1
+   1.15.3

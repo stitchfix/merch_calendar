@@ -23,7 +23,6 @@ gem "merch_calendar"
 
 For converting a date into a `MerchWeek` object.
 
-
 ```ruby
 merch_week = MerchCalendar::MerchWeek.from_date("2014-01-01", calendar: MerchCalendar::RetailCalendar.new)
 

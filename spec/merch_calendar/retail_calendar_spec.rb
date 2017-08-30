@@ -49,6 +49,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.start_of_quarter(2019, 3)).to eq Date.new(2019, 8, 4)
       expect(subject.start_of_quarter(2019, 4)).to eq Date.new(2019, 11, 3)
     end
+
+    it "raises an error when there is an invalid quarter" do
+      expect { subject.start_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+    end
   end
 
   describe "#end_of_quarter" do
@@ -59,6 +63,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.end_of_quarter(2019, 3)).to eq Date.new(2019, 11, 2)
       expect(subject.end_of_quarter(2019, 4)).to eq Date.new(2020, 2, 1)
     end
+
+    it "raises an error when there is an invalid quarter" do
+      expect { subject.start_of_quarter(2019, 5) }.to raise_error "invalid quarter"
+    end
   end
   
   describe "#quarter" do
@@ -67,6 +75,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(subject.quarter(7)).to eq 3
       expect(subject.quarter(2)).to eq 1
       expect(subject.quarter(11)).to eq 4
+    end
+
+    it "raises an error when there is an invalid merch month" do
+      expect { subject.quarter(13) }.to raise_error "invalid merch month"
     end
   end
   
@@ -87,6 +99,10 @@ RSpec.describe MerchCalendar::RetailCalendar do
       it { expect(subject.season(10)).to eq "Fall/Winter" }
       it { expect(subject.season(11)).to eq "Fall/Winter" }
       it { expect(subject.season(12)).to eq "Fall/Winter" }
+    end
+    
+    it "raises an error when there is an invalid merch month" do
+      expect { subject.season(13) }.to raise_error "invalid merch month"
     end
   end
 
