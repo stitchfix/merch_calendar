@@ -5,6 +5,7 @@ rvm:
   - 2.2.7
   - 2.3.5
   - 2.4.1
+  - ruby-head
 notifications:
   email: false
   
