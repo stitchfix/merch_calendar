@@ -19,6 +19,16 @@ Add the following line to your `Gemfile`:
 gem "merch_calendar"
 ```
 
+## Ruby Version Compatibility
+This gem has been tested against Ruby 2.0 - 2.4.
+
+Support for Ruby 1.9.3 was discontinued as of version 0.3.0 of this gem.  If you're on Ruby 1.9.3, you'll want to 
+install the gem like so:
+
+```ruby
+gem "merch_calendar", "0.3.0"
+```
+
 ## Usage
 
 For converting a date into a `MerchWeek` object.

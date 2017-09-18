@@ -36,15 +36,15 @@ module MerchCalendar
     #
     # @overload find(year, julian_month, week_number=nil, options)
     #   Returns an array of +MerchWeek+s for a given month
-    #   @param year [Fixnum] the merch year to locate
-    #   @param julian_month [Fixnum] the month to find merch months for
+    #   @param year [Integer] the merch year to locate
+    #   @param julian_month [Integer] the month to find merch months for
     #   @param week_number [Nil] set week_number to nil
     #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
     #   @return [Array<MerchWeek>]
     # @overload find(year, julian_month, week_number)
-    #   @param year [Fixnum] the merch year to locate
-    #   @param julian_month [Fixnum] the month to find merch months for
-    #   @param week_number [Fixnum] the specific week number.
+    #   @param year [Integer] the merch year to locate
+    #   @param julian_month [Integer] the month to find merch months for
+    #   @param week_number [Integer] the specific week number.
     #   @param options [Hash] options to set your calendar, if none it will default to RetailCalendar
     #   @return [MerchWeek] the specific merch week based on the week number
     def self.find(year, julian_month, week_number=nil, options={})
@@ -87,7 +87,7 @@ module MerchCalendar
 
     # What week it is within the year from 1-53
     #
-    # @return [Fixnum] The week number of the year, from 1-53
+    # @return [Integer] The week number of the year, from 1-53
     def year_week
       @year_week ||= (((date-start_of_year)+1)/7.0).ceil
     end
@@ -96,7 +96,7 @@ module MerchCalendar
     # Month 1 is Feb for the retail calendar
     # Month 1 is August for the fiscal calendar
     #
-    # @return [Fixnum]
+    # @return [Integer]
     def merch_month
       # TODO: This is very inefficient, but less complex than strategic guessing
       # maybe switch to a binary search or something
@@ -108,21 +108,21 @@ module MerchCalendar
 
     # Returns the Merch year depending whether it is from the Retail or Fiscal calendar
     #
-    # @return [Fixnum]
+    # @return [Integer]
     def year
       @year ||= calendar.merch_year_from_date(date)
     end
 
     # Returns julian month where the merch week falls
     #
-    # @return [Fixnum]
+    # @return [Integer]
     def month
       @month ||= calendar.merch_to_julian(merch_month)
     end
 
     # Returns the quarter that this merch week falls
     #
-    # @return [Fixnum]
+    # @return [Integer]
     def quarter
       @quarter ||= calendar.quarter(merch_month)
     end
@@ -144,7 +144,7 @@ module MerchCalendar
     # The number of the week within the given merch month
     # will be between 1 and 5
     #
-    # @return [Fixnum]
+    # @return [Integer]
     def week
       @week ||= (((date-start_of_month)+1)/7.0).ceil
     end

@@ -8,9 +8,9 @@ module MerchCalendar
 
     # The start date of the week
     #
-    # @param year [Fixnum] the merch year
-    # @param month [Fixnum] an integer specifying the julian month.
-    # @param week [Fixnum] an integer specifying the merch week.
+    # @param year [Integer] the merch year
+    # @param month [Integer] an integer specifying the julian month.
+    # @param week [Integer] an integer specifying the merch week.
     #
     # @return [Date] the starting date of the specified week
     def start_of_week(year, month, week)
@@ -19,9 +19,9 @@ module MerchCalendar
 
     # The end date of the week
     #
-    # @param year [Fixnum] the merch year
-    # @param month [Fixnum] an integer specifying the julian month.
-    # @param week [Fixnum] an integer specifying the merch week.
+    # @param year [Integer] the merch year
+    # @param month [Integer] an integer specifying the julian month.
+    # @param week [Integer] an integer specifying the merch week.
     #
     # @return [Date] the ending date of the specified week
     def end_of_week(year, month, week)
@@ -37,11 +37,11 @@ module MerchCalendar
     #  MerchCalendar.start_of_month(2015, julian_month: 5)
     #  MerchCalendar.start_of_month(2015, merch_month: 4)
     #
-    # @param year [Fixnum] the merch year
-    # @param month_param [Fixnum,Hash] an integer specifying the julian month. This can also be a named hash
-    # @option month_param [Fixnum] :month the julian month
-    # @option month_param [Fixnum] :julian_month the julian month
-    # @option month_param [Fixnum] :merch_month the MERCH month
+    # @param year [Integer] the merch year
+    # @param month_param [Integer,Hash] an integer specifying the julian month. This can also be a named hash
+    # @option month_param [Integer] :month the julian month
+    # @option month_param [Integer] :julian_month the julian month
+    # @option month_param [Integer] :merch_month the MERCH month
     #
     # @return [Date] the starting date of the specified month
     def start_of_month(year, month_param)
@@ -51,7 +51,7 @@ module MerchCalendar
 
     # The end date of the month
     #
-    # @param year [Fixnum] the merch year
+    # @param year [Integer] the merch year
     # @param month_param [Hash] month hash
     #
     # @see #start_of_month The start_of_month method for examples using month_param
@@ -64,7 +64,7 @@ module MerchCalendar
 
     # The start date of the year
     #
-    # @param year [Fixnum] the merch year
+    # @param year [Integer] the merch year
     #
     # @return [Date] the starting date of the specified year
     def start_of_year(year)
@@ -73,7 +73,7 @@ module MerchCalendar
 
     # The end date of the year
     #
-    # @param year [Fixnum] the merch year
+    # @param year [Integer] the merch year
     #
     # @return [Date] the ending date of the specified year
     def end_of_year(year)
@@ -83,8 +83,8 @@ module MerchCalendar
 
     # The start date of the quarter
     #
-    # @param year [Fixnum] the merch year
-    # @param quarter [Fixnum] the quarter
+    # @param year [Integer] the merch year
+    # @param quarter [Integer] the quarter
     #
     # @return [Date] the starting date of the specified quarter
     def start_of_quarter(year, quarter)
@@ -93,8 +93,8 @@ module MerchCalendar
 
     # The end date of the quarter
     #
-    # @param year [Fixnum] the merch year
-    # @param quarter [Fixnum] the quarter
+    # @param year [Integer] the merch year
+    # @param quarter [Integer] the quarter
     #
     # @return [Date] the ending date of the specified quarter
     def end_of_quarter(year, quarter)
@@ -104,9 +104,9 @@ module MerchCalendar
 
     # Returns the number of weeks in a given merch year
     #
-    # @param year [Fixnum] the merch year
+    # @param year [Integer] the merch year
     #
-    # @return [Fixnum] number of weeks
+    # @return [Integer] number of weeks
     def weeks_in_year(year)
       retail_calendar.weeks_in_year(year)
     end
@@ -125,8 +125,8 @@ module MerchCalendar
 
     # Converts a merch month to the correct julian month
     #
-    # @param merch_month [Fixnum] the merch month to convert
-    # @return [Fixnum] the julian month
+    # @param merch_month [Integer] the merch month to convert
+    # @return [Integer] the julian month
     def merch_to_julian(merch_month)
       if merch_month == 12
         1
@@ -138,8 +138,8 @@ module MerchCalendar
 
     # Converts a julian month to a merch month
     #
-    # @param julian_month [Fixnum] the julian month to convert
-    # @return [Fixnum] the merch month
+    # @param julian_month [Integer] the julian month to convert
+    # @return [Integer] the merch month
     def julian_to_merch(julian_month)
       if julian_month == 1
         12
@@ -151,7 +151,7 @@ module MerchCalendar
 
     # An array of merch weeks in a given month
     #
-    # @param year [Fixnum] the merch year
+    # @param year [Integer] the merch year
     # @param month_param [Hash] month hash
     #
     # @see #start_of_month The start_of_month method for examples using month_param
@@ -185,7 +185,7 @@ module MerchCalendar
     # Reads the provided parameter and converts the value
     # to a MERCH MONTH
     def get_merch_month_param(param)
-      if param.is_a? Fixnum
+      if param.is_a?(Integer)
         return julian_to_merch(param)
       elsif param.is_a? Hash
         julian_month = param.delete(:julian_month) || param.delete(:month)
