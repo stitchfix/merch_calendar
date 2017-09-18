@@ -250,7 +250,7 @@ RSpec.describe MerchCalendar::RetailCalendar do
       expect(weeks.size).to eq 4
     end
 
-    it "raises an ArgumentError if the param is not a hash with a key we care about or Fixnum" do
+    it "raises an ArgumentError if the param is not a hash with a key we care about or Integer" do
       expect { subject.weeks_for_month(2018, "3") }.to raise_error ArgumentError
       expect { subject.weeks_for_month(2018, some_month: 4) }.to raise_error ArgumentError
     end

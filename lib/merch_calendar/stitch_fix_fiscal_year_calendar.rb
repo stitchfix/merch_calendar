@@ -11,7 +11,7 @@ module MerchCalendar
 
     # The date of the first day of the fiscal year
     #
-    # @param year [Fixnum] the fiscal year
+    # @param year [Integer] the fiscal year
     # @return [Date] the first date of the fiscal year
     def start_of_year(year)
       end_of_year(year - 1) + 1
@@ -19,7 +19,7 @@ module MerchCalendar
 
     # The date of the last day of the fiscal year
     #
-    # @param year [Fixnum] the fiscal year
+    # @param year [Integer] the fiscal year
     # @return [Date] the last date of the fiscal year
     def end_of_year(year)
       year_end = Date.new((year), 7, -1) # Jul 31st
@@ -35,8 +35,8 @@ module MerchCalendar
 
     # Return the starting date for a particular quarter
     #
-    # @param year [Fixnum] the fiscal year
-    # @param quarter [Fixnum] the quarter of the year, a number from 1 - 4
+    # @param year [Integer] the fiscal year
+    # @param quarter [Integer] the quarter of the year, a number from 1 - 4
     # @return [Date] the start date of the quarter
     def start_of_quarter(year, quarter)
       case quarter
@@ -55,7 +55,7 @@ module MerchCalendar
     
     # Returns the quarter that the merch month falls in
     #
-    # @param merch_month [Fixnum] merch month
+    # @param merch_month [Integer] merch month
     # @return [Date] the quarter that the merch_month falls in
     def quarter(merch_month)
       case merch_month
@@ -74,8 +74,8 @@ module MerchCalendar
 
     # Return the ending date for a particular quarter
     #
-    # @param year [Fixnum] the fiscal year
-    # @param quarter [Fixnum] the quarter of the year, a number from 1 - 4
+    # @param year [Integer] the fiscal year
+    # @param quarter [Integer] the quarter of the year, a number from 1 - 4
     # @return [Date] the end date of the quarter
     def end_of_quarter(year, quarter)
       case quarter
@@ -94,7 +94,7 @@ module MerchCalendar
 
     #Returns the season given for the merch_month
     #
-    # @param  merch_month [Fixnum] the nth merch month of the retail calendar
+    # @param  merch_month [Integer] the nth merch month of the retail calendar
     # @return [String] the season that the merch month falls under
     def season(merch_month)
       case merch_month
@@ -109,8 +109,8 @@ module MerchCalendar
 
     # The starting date of the given merch month
     #
-    # @param year [Fixnum] the fiscal year
-    # @param merch_month [Fixnum] the nth merch month of the fiscal calendar
+    # @param year [Integer] the fiscal year
+    # @param merch_month [Integer] the nth merch month of the fiscal calendar
     # @return [Date] the start date of the merch month
     def start_of_month(year, merch_month)
       # 91 = number of days in a single 4-5-4 set 
@@ -131,8 +131,8 @@ module MerchCalendar
 
     # The ending date of the given merch month
     #
-    # @param year [Fixnum] the fiscal year
-    # @param merch_month [Fixnum] the nth merch month of the fiscal calendar
+    # @param year [Integer] the fiscal year
+    # @param merch_month [Integer] the nth merch month of the fiscal calendar
     # @return [Date] the end date of the merch month
     def end_of_month(year, merch_month)
       if merch_month == 12
@@ -144,9 +144,9 @@ module MerchCalendar
 
     # Returns the date that corresponds to the first day in the merch week
     #
-    # @param year [Fixnum] the fiscal year
-    # @param merch_month [Fixnum] the nth month of the fiscal calendar
-    # @param merch_week [Fixnum] the nth week of the merch month
+    # @param year [Integer] the fiscal year
+    # @param merch_month [Integer] the nth month of the fiscal calendar
+    # @param merch_week [Integer] the nth week of the merch month
     # @return [Date] the start date of the merch week
     def start_of_week(year, month, merch_week)
       start_of_month(year, month) + ((merch_week - 1) * 7)
@@ -154,9 +154,9 @@ module MerchCalendar
 
     # Returns the date that corresponds to the last day in the merch week
     #
-    # @param  year [Fixnum] the fiscal year
-    # @param  merch_month [Fixnum] the nth merch month of the fiscal calendar
-    # @param  merch_week [Fixnum] the nth week of the merch month
+    # @param  year [Integer] the fiscal year
+    # @param  merch_month [Integer] the nth merch month of the fiscal calendar
+    # @param  merch_week [Integer] the nth week of the merch month
     # @return [Date] the end date of the merch week
     def end_of_week(year, month, merch_week)
       start_of_month(year, month) + (6 + ((merch_week - 1) * 7))
@@ -164,8 +164,8 @@ module MerchCalendar
 
     # Returns the number of weeks in the fiscal year
     #
-    # @param year [Fixnum] the fiscal year
-    # @return [Fixnum] the number of weeks within the fiscal year
+    # @param year [Integer] the fiscal year
+    # @return [Integer] the number of weeks within the fiscal year
     def weeks_in_year(year)
       ((start_of_year(year + 1) - start_of_year(year)) / 7).to_i
     end
@@ -173,7 +173,7 @@ module MerchCalendar
     # Given any julian date it will return what Fiscal Year it belongs to
     #
     # @param date [Date] the julian date to convert to its Fiscal Year
-    # @return [Fixnum] the fiscal year that the julian date falls into
+    # @return [Integer] the fiscal year that the julian date falls into
     def merch_year_from_date(date)
       if end_of_year(date.year) >= date
         return date.year
@@ -184,8 +184,8 @@ module MerchCalendar
 
     # Converts a merch month to the correct julian month
     #
-    # @param merch_month [Fixnum] the merch month to convert
-    # @return [Fixnum] the julian month
+    # @param merch_month [Integer] the merch month to convert
+    # @return [Integer] the julian month
     def merch_to_julian(merch_month)
       if merch_month > 12 || merch_month <= 0
         raise ArgumentError
@@ -200,8 +200,8 @@ module MerchCalendar
 
     # Converts a julian month to a fiscal month
     #
-    # @param julian_month [Fixnum] the julian month to convert
-    # @return [Fixnum] the merch month
+    # @param julian_month [Integer] the julian month to convert
+    # @return [Integer] the merch month
     def julian_to_merch(julian_month)
       if julian_month > 12 || julian_month <= 0
         raise ArgumentError
@@ -226,8 +226,8 @@ module MerchCalendar
 
     # Returns an array of Merch Weeks that pertains to the Julian Month of a Fiscal Year
     #
-    # @param year [Fixnum] the fiscal year
-    # @param month_param [Fixnum] the julian month
+    # @param year [Integer] the fiscal year
+    # @param month_param [Integer] the julian month
     # @return [Array] Array of MerchWeeks that falls within that julian month
     def weeks_for_month(year, month_param)
       merch_month = julian_to_merch(month_param)
