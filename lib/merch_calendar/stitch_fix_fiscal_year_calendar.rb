@@ -1,5 +1,7 @@
 module MerchCalendar
   class StitchFixFiscalYearCalendar
+    LAST_MONTH_OF_THE_YEAR = "July"
+    LAST_DAY_OF_THE_YEAR = 31
 
     QUARTER_1 = 1
     QUARTER_2 = 2
@@ -22,7 +24,7 @@ module MerchCalendar
     # @param year [Integer] the fiscal year
     # @return [Date] the last date of the fiscal year
     def end_of_year(year)
-      year_end = Date.new((year), 7, -1) # Jul 31st
+      year_end = Date.new((year), Date::MONTHNAMES.index(LAST_MONTH_OF_THE_YEAR), LAST_DAY_OF_THE_YEAR) # Jul 31st
       wday = (year_end.wday + 1) % 7
 
       if wday > 3
