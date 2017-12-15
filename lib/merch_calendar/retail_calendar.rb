@@ -2,7 +2,9 @@ require "date"
 
 module MerchCalendar
   class RetailCalendar
-  
+    LAST_MONTH_OF_THE_YEAR = "January"
+    LAST_DAY_OF_THE_YEAR = 31
+
     QUARTER_1 = 1
     QUARTER_2 = 2
     QUARTER_3 = 3
@@ -16,7 +18,7 @@ module MerchCalendar
     # @param year [Integer] the retail year
     # @return [Date] the first date of the retail year
     def end_of_year(year)
-      year_end = Date.new((year + 1), 1, -1) # Jan 31st
+      year_end = Date.new((year + 1), Date::MONTHNAMES.index(LAST_MONTH_OF_THE_YEAR), LAST_DAY_OF_THE_YEAR) # Jan 31st
       wday = (year_end.wday + 1) % 7 
 
       if wday > 3
