@@ -8,3 +8,4 @@ tags
 
 # vim
 *.swp
+Gemfile.lock
